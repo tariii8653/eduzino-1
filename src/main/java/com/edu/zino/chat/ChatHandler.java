@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -42,14 +43,16 @@ public class ChatHandler extends TextWebSocketHandler {
 		String msg=message.getPayload();
 		logger.info("클라이언트가 보낸 메시지 "+msg);
 		
-		String[] strs = msg.split(",");
-		if(strs != null && strs.length == 3) {
-			String roomNum = strs[0];
-			String sendId = strs[1]; //추후 누가 member_idx를 넘기자
-			String resiveId = strs[1]; //추후 누구에게 member_idx를 넘기자
-			String content = strs[2];
+		if(!StringUtils.isEmpty(msg)) {
+			String[] strs = msg.split(",");
+			if(strs != null && strs.length == 4) {
+				String roomNum = strs[0];
+				String sendId = strs[1]; //추후 누가 member_idx를 넘기자
+				String resiveId = strs[2]; //추후 누구에게 member_idx를 넘기자
+				String content = strs[3];
+			}
+			
 		}
-		
 		TextMessage data = new TextMessage(message.getPayload());
 		
 		//접속한 모든 사용자에게 메시지 보내기 (브로드 케스팅)

@@ -156,11 +156,11 @@
 
   //웹소켓을 이용한 서버에 접속
   function connect(){
-  	ws=new WebSocket("ws://localhost:8888/chat");
+  	ws=new WebSocket("ws://localhost:7777/chat");
   	
   	ws.onopen=function(){
   		console.log("서버에 접속됨 onopen");
-  		ws.send("1" + "," + "me" + "," + "ENTER");
+  		//ws.send(ws_chat.chat_idx + "," + ws_chat.teacher_member.member_idx + "," + ws_chat.member.member_idx + "," + msg); //보내는 내용
   	}
   	
   	ws.onmessage=function(e){
@@ -171,9 +171,10 @@
   		
   		let sm = e.data;
   		let sl = sm.split(',');
-  		let sendId = sl[0]; //추후 member_idx가 넘어올 예정
-		let content = sl[1];
-  		if(sendId != "me"){
+		let sendId = sl[1]; //추후 누가 member_idx
+		let resiveId = sl[2]; //추후 누구에게 member_idx
+		let content = sl[3];
+  		if(sendId != chat.teacher_member.member_idx){
 			showMessageLeftCard();  		
   		}
   	}
@@ -205,12 +206,12 @@
   	}
   	
   	//내가보낸메세지_이미지
-  	function showMessageRightCard(msg){
+  	function showMessageRightCard(chat, msg){
   		//현재 시간구하기
   		let time = new Date().getHours() + ":" + new Date().getMinutes();
   		
   		//profile, name, time, content
-  		let messageRightCard = new MessageRightCard("https://bootdey.com/img/Content/avatar/avatar3.png","신지환",time, msg);
+  		let messageRightCard = new MessageRightCard("https://bootdey.com/img/Content/avatar/avatar3.png",chat.teacher_member.member_nickname,time, msg);
   		$("#chatArea").append(messageRightCard.getBox());	
   	}
   	
@@ -225,13 +226,15 @@
   	}
   	
   	
-  	function sendMsg(){
+  	function sendMsg(chat){
   		let msg = $("#t_content").val();
+  		
+  		console.log("sendMsg", chat);
 		
 		//protocol: RoomNum, 보내는id, 내용 
-		ws.send("1," + "me" + "," + msg);
+		ws.send(chat.chat_idx + "," + chat.member_teacher.member_idx + "," + chat.member.member_idx + "," + msg);
   		
-		showMessageRightCard(msg);
+		showMessageRightCard(chat, msg);
   		$("#t_content").val("");
   	}
   	
@@ -239,30 +242,9 @@
   		채팅방들어가기
   	----------------------------------------------------------------------------------------------*/
   	let app_chatHeader; //채팅방 헤더(프로필, 이름, 삭제)
-  	let app_currentHeader; //현재 선택된 채팅방 헤더
+  	let app_currentHeader; //현재 선택된 채팅방 헤더(정보갱신을 위해)
   	let app_chatFooter; //채팅방 푸터(메세지 전송Area)
-  	
-  	/*
-		헤더				
-  		<div class="d-flex align-items-center py-1 chat-item-align-left">
-			<div class="position-relative">
-				<img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
-			</div>
-			<div class="flex-grow-0 pl-3">
-				<strong>신지환</strong>
-			</div>
-		</div>
-		<div class="close-item-box-bg">
-			<div class="chat-icon mdi mdi-close btn-close-item"></div>
-		</div>
-  		
-		푸터
-		<div class="chat-textarea">
-			<textarea class="form-control" rows="6"; cols="30" placeholder="메세지를 입력하세요..." id="t_content"></textarea>
-			<button class="btn btn-primary" style="float:right;" id="bt_send">전송</button>											
-		</div>
-  	
-  	*/
+  	let app_currentFooter; //현재 선택된 채팅방 헤더(정보갱신을 위해)
   	
   	const chat_header={
   			template:`
@@ -307,16 +289,25 @@
   			template:`
 	  			<div class="chat-textarea">
 	  				<textarea class="form-control"  cols="30" placeholder="메세지를 입력하세요..." id="t_content"></textarea>
-	  				<button class="btn btn-primary" style="float:right;" id="bt_send">전송</button>											
+	  				<button class="btn btn-primary" style="float:right;" id="bt_send" @click="clickSend(chat)">전송</button>											
 	  			</div>
   			`,
   			props:["obj"],
   			data(){
   				return{
   					chat:this.obj
-  					
   				};
-  			}
+  			},
+	  		created:function(){
+	  			app_currentFooter = this;
+	  		},
+  			methods:{
+  	  			clickSend:function(chat){
+  	  				//채팅방 클릭시 채팅내용 출력
+  	  				console.log("seneMsg 호출", chat);
+  	  				sendMsg(chat);
+  	  			}
+  	  		}
   	};
   	
   	app_chatFooter = new Vue({
@@ -335,16 +326,20 @@
   		console.log("채팅방 클릭시", chat);
   		app_chatHeader.chat = chat;
   		app_chatHeader.flag = true;
-  	
   		if(app_currentHeader != undefined){
 	  		app_currentHeader.chat=chat;
   		}
   		
   		app_chatFooter.chat = chat;
   		app_chatFooter.flag = true;
-  		console.log("확인",chat.member.member_idx);
+  		if(app_currentFooter != undefined){
+  			app_currentFooter.chat=chat;
+  		}
+  		
+  		
+  		//console.log("확인",chat.member.member_idx);
   	}
-  	
+ 
   	
   	
   	/*------------------------------------------------------------------------------------------
@@ -352,19 +347,6 @@
   	---------------------------------------------------------------------------------------------*/
     //비동기방식관련
     let app_chatRooms; //채팅목록
-  	
-  	/*
-  	<a href="#" class="list-group-item list-group-item-action border-0">
-	<div class="badge bg-success float-right">5</div>
-		<div class="d-flex align-items-start">
-				<img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
-			<div class="chatname flex-grow-1 ml-3">
-								신지환
-				<div class="chatmessage">안녕하세요</div>
-			</div>
-		</div>
-	</a>
-  	*/
   	
   	const row={
   			template:`
@@ -476,14 +458,10 @@
   	
 	$(function(){
 		selectShowHide(flag); //기본 : 채팅방검색
-		//connect();
+		connect();
 		getChatRooms(); //채팅방리스트 조회
 		
 		
-		//메세지전송
-		$("#bt_send").click(function(){
-			sendMsg();	
-		});
 		
 		//메세지플러스 아이콘 눌렀을 때 수강생selectbox와 검색창
 		$("#addChat").click(function(){
