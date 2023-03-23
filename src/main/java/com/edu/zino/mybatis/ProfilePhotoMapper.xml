@@ -4,38 +4,29 @@
 
 <!--전체 가져오기 -->
 	<select id="selectAll" resultType="ProfilePhoto">
-		select * from profile_photo order by profile_photo_idx asc
+		select * from profilePhoto
 	</select>
 
-	<!--멤버idx로 가져오기 -->	
-	<select id="selectByMember" parameterType="int" resultType="Member">
-		select * from profile_photo 
-		where member_idx=#{member_idx}
-	</select>
-
-	<!--전체 가져오기 -->	
-	<select id="select" parameterType="int" resultType="ProfilePhoto">
-	 	select * from profile_photo where profile_photo_idx=#{profile_photo_idx}	
+	<!--한 멤버에 딸린 이미지 가져오기 : 멤버idx를 통해 -->	
+	<select id="selectByMember" parameterType="int" resultType="ProfilePhoto">
+		select * from profilePhoto where member_idx=#{member_idx}
 	</select>
 	
-	<!--한 건 넣기 -->
+	<!--한 건 넣기-->
 	<insert id="insert" parameterType="ProfilePhoto">
-		insert into profile_photo(profile_photo_idx, profile_photo) 
-		values(seq_profile_photo.nextval, #{profile_photo_idx}, #{profile_photo})
+		insert into profilePhoto(member_idx, profilephoto) 
+		values(#{member.member_idx}, #{profilephoto})
 	</insert>
 	
 	<!--한 건 수정하기 -->
 	<update id="update" parameterType="ProfilePhoto">
-		update profile_photo set profile_photo=#{profile_photo}
-		where profile_photo_idx=#{profile_photo_idx}
+		update profilePhoto set profilephoto=#{profilephoto}
+		where profilePhoto_idx=#{profilePhoto_idx}
 	</update>
 	
 	<!--한 건 삭제하기 -->
 	<delete id="delete" parameterType="int">
-		delete from profile_photo where profile_photo_idx=#{profile_photo_idx} 
+		delete from profilePhoto where profilePhoto_idx=#{profilePhoto_idx} 
 	</delete>
-
-
-
 
 </mapper>

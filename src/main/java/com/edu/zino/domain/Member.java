@@ -1,7 +1,5 @@
 package com.edu.zino.domain;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
@@ -11,9 +9,11 @@ public class Member {
 	private String member_regdate; //가입일
 	private String member_id; //id
 	
-	private SnsName sns_name; //로그인 방식
-	private Birthday birthday; //생년월일
-	private ProfilePhoto profile_photo; //프로필사진
+	private SnsName snsName; //로그인 방식fk
+	
+	//이미 멤버가 가지고 있게 되어 만들었음 has a 관계 
+	private Birthday birthday; //생년월일 
+	private ProfilePhoto profilePhoto; //프로필사진
 	private Email email; //이메일
 	
 	private Blacklist blacklist; //블랙리스트

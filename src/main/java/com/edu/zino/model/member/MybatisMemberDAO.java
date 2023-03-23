@@ -25,6 +25,7 @@ public class MybatisMemberDAO implements MemberDAO{
 		return sqlSessionTemplate.selectOne("Member.select", member_idx);
 	}
 
+	//회원 한 명 가입시키기
 	@Override
 	public void insert(Member member) throws MemberException{
 		int result=sqlSessionTemplate.insert("Member.insert", member);
@@ -43,8 +44,8 @@ public class MybatisMemberDAO implements MemberDAO{
 	}
 
 	@Override
-	public void delete(Member member) throws MemberException{
-		int result=sqlSessionTemplate.delete("Member.delete", member);
+	public void delete(int member_idx) throws MemberException{
+		int result=sqlSessionTemplate.delete("Member.delete", member_idx);
 		if(result<1) {
 			throw new MemberException("회원정보 삭제 실패");
 		}		

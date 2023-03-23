@@ -8,7 +8,7 @@
 	</select>
 
 	<!--멤버idx로 가져오기 -->	
-	<select id="selectByMember" parameterType="int" resultType="Member">
+	<select id="selectByMember" parameterType="int" resultType="Birthday">
 		select * from birthday 
 		where member_idx=#{member_idx}
 	</select>
