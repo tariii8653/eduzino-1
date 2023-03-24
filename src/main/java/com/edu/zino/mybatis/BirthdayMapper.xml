@@ -20,13 +20,13 @@
 	
 	<!--한 건 넣기 -->
 	<insert id="insert" parameterType="Birthday">
-		insert into birthday(birthday_idx, birthday) 
-		values(seq_birthday.nextval, #{birthday_idx}, #{birthday})
+		insert into birthday(birthday_idx, age) 
+		values(seq_birthday.nextval, #{age})
 	</insert>
 	
 	<!--한 건 수정하기 -->
 	<update id="update" parameterType="Birthday">
-		update birthday set birthday=#{birthday}
+		update birthday set age =#{age}
 		where birthday_idx=#{birthday_idx}
 	</update>
 	

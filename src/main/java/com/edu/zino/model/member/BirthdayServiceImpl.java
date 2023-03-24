@@ -26,14 +26,13 @@ public class BirthdayServiceImpl implements BirthdayService{
 	
 	
 	@Override
-	public void update(Birthday birthday) {
-		
+	public void update(Birthday birthday) throws BirthdayException{
+		birthdayDAO.update(birthday);
 	}
 
 	@Override
-	public void delete(int birthday_idx) {
-		// TODO Auto-generated method stub
-		
+	public void delete(int birthday_idx) throws BirthdayException{
+		birthdayDAO.delete(birthday_idx);
 	}
 
 }

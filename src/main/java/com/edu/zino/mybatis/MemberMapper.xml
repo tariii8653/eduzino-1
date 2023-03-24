@@ -24,17 +24,16 @@
 	<resultMap type="Member" id="membermap"> 
 		<id 	column="member_idx"		property="member_idx"/>
 		<result column="member_nickname"	property="member_nickname"/>
-		<result column="member_id"	property="member_id"/>
-		<result column="member_regdate" property="member_regdate"/>
+		<result column="member_id"		property="member_id"/>
+		<result column="member_regdate" 	property="member_regdate"/>
 	
 	
 	<!-- 부모) SNS 로그인 방식 -->
 	<association
-		column="snsName_idx"
-		property="snsName"
-		javaType="SnsName"
-		select="SnsName.selectByMember"
-		/>
+		column="sns_idx"
+		property="sns"
+		javaType="Sns"
+		select="Sns.selectByIdx"/>
 	
 	<!-- 자식) Birthday -->
 	<collection 
@@ -42,8 +41,7 @@
 		property="birthday"
 		javaType="String"
 		ofType="Birthday"
-		select="Birthday.selectByMember"
-		/>
+		select="Birthday.selectByMember"/>
 		
 	<!-- 자식) Email -->	
 	<collection  
@@ -51,8 +49,7 @@
 		property="email"
 		javaType="String"
 		ofType="Email"
-		select="Email.selectByMember"
-		/>
+		select="Email.selectByMember"/>
 		
 	<!-- 자식) ProfilePhoto -->	
 	<collection  
@@ -60,8 +57,7 @@
 		property="profilePhoto"
 		javaType="String"
 		ofType="ProfilePhoto"
-		select="ProfilePhoto.selectByMember"
-		/>
+		select="ProfilePhoto.selectByMember"/>
 
 	<!-- 자식) 선생님 -->
 	<collection
@@ -69,8 +65,7 @@
 		property="teacher"
 		javaType="teacher"
 		ofType="Teacher"
-		select="Teacher.selectByTeacher"
-		/>
+		select="Teacher.selectByTeacher"/>
 		
 	<!-- 자식) 블랙리스트 -->
 	<collection
@@ -78,8 +73,7 @@
 		property="blacklist"
 		javaType="blacklist"
 		ofType="Blacklist"
-		select="Blacklist.selectByMember"
-		/>
+		select="Blacklist.selectByMember"/>
 	
 </resultMap>
 
@@ -103,20 +97,20 @@
 		
 	<!-- 회원가입 등록 -->
 	<insert id="insert" parameterType="Member">
-		insert into member(member_idx, member_id, snsName_idx, member_nickname)
-		values (#{member_idx}, #{member_id}, #{sns.snsName_idx}, #{member_nickname})
-	
+		insert into member(member_idx, member_id, sns_idx, member_nickname) 
+		values (seq_member.nextval, #{member_id}, #{sns.sns_idx}, #{member_nickname})
+		
+	<!-- insert하자마자 방금 넣은 그 값 좀 줄래? 출생신고하자마자 서류뽑기 / 또 증가 시키기 위함이 아니라서 currval-->
 		<selectKey
 			keyColumn="member_idx"
 			keyProperty="member_idx"
 			order="AFTER"
 			resultType="int">
-			select last_insert_id() as member_idx
+			select seq_member.currval as member_idx from dual
 		</selectKey> 
 	</insert>
 	
-	
-	<!-- 수정하기. 수정하기 위해선 각각 테이블이 할 일을 하고 Dao에서 처리하면 됨; 실패시 rollback(트랜잭션을 위해) -->
+	<!-- 수정하기-->
 	<update id="update" parameterType="Member">
 		update member set 
 		, member_nickname=#{member_nickname}
@@ -128,6 +122,4 @@
 	<delete id="delete" parameterType="int">
 		delete from member where member_id=#{member_id}
 	</delete>
-	
-
 </mapper>

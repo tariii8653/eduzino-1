@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,7 +24,7 @@ import com.edu.zino.domain.Birthday;
 import com.edu.zino.domain.Email;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.ProfilePhoto;
-import com.edu.zino.domain.SnsName;
+import com.edu.zino.domain.Sns;
 import com.edu.zino.model.member.MemberService;
 import com.edu.zino.model.member.SnsService;
 import com.edu.zino.snslogin.GoogleLogin;
@@ -160,7 +159,7 @@ public class MemberController {
 				e.printStackTrace();
 			}
 
-//----------내가 알고 싶어하는 정보 미리 받아두기  : id, nickname, email, profilePhoto ------------
+//------------내가 알고 싶어하는 정보 미리 받아두기  : id, nickname, email, profilePhoto ------------
 			String id=(String)userMap.get("id");	
 			String nickname=(String)userMap.get("name");
 			String picture=(String)userMap.get("picture");
@@ -171,10 +170,10 @@ public class MemberController {
 			//logger.info("email : "+ email);				//email : asy118@hanmail.net
 			
 			
+//------------------------------db에 들어가는 타이밍------------------------------------------------------------			
 			//member에 대한 고유 id 조희 : 회원인지 아닌지 따져보기 위해서 
 			Member member = memberService.selectById(id);
 			
-//------------------------------db에 들어가는 타이밍------------------------------------------------------------			
 			if(member==null) {
 			//회원여부를 판단. 이미 db에 이 회원의 식별 고유 id가 존재할 경우 회원가입을 처리해주자 (서비스의 insert) 세션에 담자 
 				
@@ -184,14 +183,18 @@ public class MemberController {
 				
 				//---여기서 넣어주려고 객체를 가지고 왔음---- 
 				Email email = new Email();
-				email.setEmail((String)userMap.get("email"));	//메일 가져오기
+				email.setEmail_addr((String)userMap.get("email"));	//메일 가져오기
+				
 				
 				ProfilePhoto profilePhoto = new ProfilePhoto();
-				profilePhoto.setProfilephoto(picture);		//프사 picture로 가져오기 
+				profilePhoto.setProfile_photo(picture);		//프사 picture로 가져오기 
 				
-				SnsName sns = snsService.selectByType("google");
-				member.setSnsName(sns);		//sns유형 담기
 				
+				Sns sns = snsService.selectByIdx(1);
+				member.setSns(sns);		//sns유형 담기
+				member.setEmail(email);
+				member.setProfilePhoto(profilePhoto);
+				 
 				//정보 출력해보기
 				logger.info("넣을 고유 id : " + id);
 				logger.info("넣을 nickname : " + nickname);
@@ -353,16 +356,19 @@ public class MemberController {
 				member.setMember_nickname(nickname);	//닉네임 가져오기 
 				
 				Email email = new Email();
-				email.setEmail((String)kakao_account.get("email"));	//메일 가져오기
+				email.setEmail_addr((String)kakao_account.get("email"));	//메일 가져오기
 				
 				ProfilePhoto profilePhoto = new ProfilePhoto();
-				profilePhoto.setProfilephoto(profile_image);		//프사 picture로 가져오기 
+				profilePhoto.setProfile_photo(profile_image);		//프사 picture로 가져오기 
 				
 				Birthday birthday = new Birthday();
-				birthday.setBirthday(age_range);			//연령대 (생일)가져오기
+				birthday.setAge(age_range);			//연령대 (생일)가져오기
 				
-				SnsName sns = snsService.selectByType("kakao");
-				member.setSnsName(sns);		//sns유형 담기
+				Sns sns = snsService.selectByIdx(2);
+				member.setSns(sns);		//sns유형 담기
+				member.setEmail(email);
+				member.setProfilePhoto(profilePhoto);
+				member.setBirthday(birthday);
 				
 				//정보 출력해보기
 				logger.info("넣을 고유 id : " + id);
@@ -374,6 +380,7 @@ public class MemberController {
 				
 				//다 채워졌으면 이제 서비스에게 일을 시킴 -> 여길 지나면 member_idx가 생성됨
 				memberService.insert(member);
+				
 			}
 			
 			//세션에 담기 (로그인 할 수 있게)
@@ -517,16 +524,19 @@ public class MemberController {
 				member.setMember_nickname(nickname);	//닉네임 가져오기 
 				
 				Email email = new Email();
-				email.setEmail((String)response.get("email"));	//메일 가져오기
+				email.setEmail_addr((String)response.get("email"));	//메일 가져오기
 				
 				ProfilePhoto profilePhoto = new ProfilePhoto();
-				profilePhoto.setProfilephoto(profile_image);		//프사 picture로 가져오기 
+				profilePhoto.setProfile_photo(profile_image);		//프사 picture로 가져오기 
 				
 				Birthday birthday = new Birthday();
-				birthday.setBirthday(age);			//연령대 (생일)가져오기
+				birthday.setAge(age);			//연령대 (생일)가져오기
 				
-				SnsName sns = snsService.selectByType("naver");
-				member.setSnsName(sns);		//sns유형 담기
+				Sns sns = snsService.selectByIdx(3);
+				member.setSns(sns);		//sns유형 담기
+				member.setEmail(email);
+				member.setProfilePhoto(profilePhoto);
+				member.setBirthday(birthday);
 				
 				//정보 출력해보기
 				logger.info("넣을 고유 id : " + id);
@@ -547,8 +557,3 @@ public class MemberController {
 			return mav;
 		}
 }
-
-
-
-
-

@@ -52,9 +52,9 @@ public class MybatisMemberDAO implements MemberDAO{
 	}
 
 	@Override
-	public Member selectById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Member selectById(String id) throws MemberException{
+		Member result=sqlSessionTemplate.selectOne("Member.selectById", id);
+		return result;
 	}
 	
 }

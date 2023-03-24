@@ -47,5 +47,4 @@
 		adminboard_idx=#{adminboard_idx}
 	</delete>
 
-
 </mapper>

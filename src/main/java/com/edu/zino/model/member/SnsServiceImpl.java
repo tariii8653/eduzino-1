@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.edu.zino.domain.SnsName;
+import com.edu.zino.domain.Sns;
 
 @Service
 public class SnsServiceImpl implements SnsService{
@@ -13,24 +13,19 @@ public class SnsServiceImpl implements SnsService{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private SnsNameDAO snsNameDAO;
+	private SnsDAO snsDAO;
 
 	
-	@Override
-	public String selectAll(SnsName snsName) {
-		return snsNameDAO.selectAll(snsName);
-	}
 
 	@Override
-	public SnsName selectByMember(int snsName) {
+	public Sns selectByIdx(int sns_idx) {
 		// TODO Auto-generated method stub
-		return snsNameDAO.selectByMember(snsName);
+		return snsDAO.selectByIdx(sns_idx);
 	}
 
 	@Override
-	public SnsName selectByType(String sns_type) {
-		SnsName sns = snsNameDAO.selectByType(sns_type);
+	public Sns selectByType(String sns_type) {
+		Sns sns = snsDAO.selectByType(sns_type);
 		return sns;
 	}
-
 }

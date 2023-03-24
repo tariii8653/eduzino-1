@@ -19,13 +19,13 @@
 	
 	<!--한 건 넣기 -->
 	<insert id="insert" parameterType="Email">
-		insert into email(email_idx, email) 
-		values(seq_email.nextval, #{email_idx}, #{email})
+		insert into email(email_idx, email_addr) 
+		values(seq_email.nextval, #{email_addr})
 	</insert>
 	
 	<!--한 건 수정하기 -->
 	<update id="update" parameterType="Email">
-		update email set email=#{email}
+		update email set email_addr =#{email_addr}
 		where email_idx=#{email_idx}
 	</update>
 	

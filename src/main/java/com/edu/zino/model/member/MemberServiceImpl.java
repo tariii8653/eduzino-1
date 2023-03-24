@@ -50,9 +50,9 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Member selectById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberDAO.selectById(id);
 	}
+	
 	//------------------------------------------------------------
 	//가입시키기
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -60,30 +60,32 @@ public class MemberServiceImpl implements MemberService{
 		memberDAO.insert(member);		//selectKey가 실행돼서 idx가 채워져서 오면... 
 		
 		member.getEmail().setMember(member); //서로에게 심어줘야 했음 
-		member.getBirthday().setMember(member);
 		member.getProfilePhoto().setMember(member);
 		
 		//채워진 idx를 갖고 메일도 넣고 
 		//Email email = new Email(); 이미 있는 컨트롤러에서 땡겨와야함. 이전 단계는 컨트롤러! 
 		
-		if(member.getSnsName().getSnsType().equals("google")) {
+		if(member.getSns().getSns_type().equals("google")) {
 			emailDAO.insert(member.getEmail());
 			profilePhotoDAO.insert(member.getProfilePhoto());  //사진 넣고
 			
-		}else if(member.getSnsName().getSnsType().equals("kakao")) {
+		}else if(member.getSns().getSns_type().equals("kakao")) {
+			member.getBirthday().setMember(member);
+			
 			emailDAO.insert(member.getEmail());
 			profilePhotoDAO.insert(member.getProfilePhoto());  //사진 넣고
 			birthdayDAO.insert(member.getBirthday());  //생일 넣고 
 			
-		}else if(member.getSnsName().getSnsType().equals("naver")) {
+		}else if(member.getSns().getSns_type().equals("naver")) {
+			member.getBirthday().setMember(member);
+			
 			emailDAO.insert(member.getEmail());
 			profilePhotoDAO.insert(member.getProfilePhoto());  //사진 넣고
 			birthdayDAO.insert(member.getBirthday());  //생일 넣고 
 		}
 		
-		
-		
 	}
+	
 	//------------------------------------------------------------
 	@Override
 	public void update(Member member) {
