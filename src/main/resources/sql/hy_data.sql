@@ -36,6 +36,14 @@ insert into  order_summary(order_summary_idx, member_idx, payment_idx, paystate_
 insert into order_detail(order_detail_idx, order_summary_idx, subject_idx)
  values(2, 2, 1);
  
+ insert into  order_summary(order_summary_idx, member_idx, payment_idx, paystate_idx, total_buy, total_pay)
+ values(5, 2, 5, 5, 2, 75000);
+  
+insert into order_detail(order_detail_idx, order_summary_idx, subject_idx)
+ values(6, 5, 3);
+ 
+insert into order_detail(order_detail_idx, order_summary_idx, subject_idx)
+ values(7, 5, 4);
  
  
 insert into member(member_idx,member_nickname, member_id, sns_name_idx)
@@ -61,6 +69,17 @@ insert into order_detail(order_detail_idx, order_summary_idx, subject_idx)
 insert into order_detail(order_detail_idx, order_summary_idx, subject_idx)
  values(5, 4, 2);
  
- haeyoung
+ 
+ insert into member(member_idx,member_nickname, member_id, sns_name_idx)
+ values(5,'zifil','zifil@naver', 1);
+ 
+ insert into teacher(teacher_idx, member_idx)
+ values(2,5);
+
+insert into subject(subject_idx,subject_title,subject_subTitle,subject_price,subject_detail,teacher_idx,sub_category_idx)
+ values(3, 'sql','jhonjam',35000,'gggg',2,1);
+ 
+insert into subject(subject_idx,subject_title,subject_subTitle,subject_price,subject_detail,teacher_idx,sub_category_idx)
+ values(4, 'js','jsss',40000,'eeee',2,1);
  
  

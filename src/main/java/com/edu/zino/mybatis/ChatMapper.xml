@@ -15,13 +15,18 @@
 
 	<!-- 강사 -->
 	<association 
-	column="member_idx"
+	column="member_teacher_idx"
 	property="member_teacher"
 	javaType="Member"
 	select="Member.select" />
 	
 	<!-- messageMapper에서 채팅내용 가져오기 -->
-
+	<collection 
+	column="message_idx"
+	property="messageList"
+	javaType="java.util.ArrayList"
+	ofType="Message"
+	select="Message.selectChat" />
 	
 	</resultMap>
 	
@@ -30,16 +35,23 @@
 	</select>
 	
 	<!-- 수강생과 강사 하나의 채팅방 idx조회 -->
-	<select id="select" parameterType="Chat" resultType="Chat">
-		select chat_idx from chat
+	<select id="select" parameterType="Chat" resultMap="chatMap">
+		select * from chat
 		where member_idx=#{member.member_idx}
 		and member_teacher_idx=#{member_teacher.member_idx}
 	</select>
+	
+	<!-- 채팅방 idx로 조회하기-->
+	<select id="selectChatidx" parameterType="int" resultType="Chat">
+		select * from chat where chat_idx=#{chat_idx}
+	</select>
+
 	
 	<!-- 수강생한명 채팅방전체 조회하기 -->
 	<select id="selectByStudent" parameterType="int" resultMap="chatMap">
 		select * from chat where member_idx=#{member.member_idx}
 	</select>
+	
 
 	<!-- 강사한명 채팅방전체 조회하기 -->
 	<select id="selectByTeacher" parameterType="int" resultMap="chatMap">

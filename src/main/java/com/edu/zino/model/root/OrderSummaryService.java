@@ -16,4 +16,7 @@ public interface OrderSummaryService {
 	
 	//회원별 주문내역 가져오기
 	public List selectAllByMember(Member member);
+	
+	//회원별 강사내역 가져오기
+	public List selectAllByMemberTeacher(int member_idx);
 }

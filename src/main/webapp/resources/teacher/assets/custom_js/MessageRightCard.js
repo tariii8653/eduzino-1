@@ -14,7 +14,7 @@
 
  */
 class MessageRightCard {
-	constructor(profile, name, time, content) {
+	constructor(time, content) {
 		
 		/*큰 div*/
 		this.div = document.createElement("div");
@@ -22,12 +22,15 @@ class MessageRightCard {
 		
 		/*이미지, 전송받은 시간감싸는 div*/
 		this.divSide = document.createElement("div");
+		
+		/*
 		this.img = document.createElement("img");
 		this.img.src = profile;
 		this.img.className = "rounded-circle mr-1";
 		this.img.alt = name;
 		this.img.style.width="40px";
 		this.img.style.height="40px";
+		*/
 		this.divTime = document.createElement("div");
 		this.divTime.className = "text-muted small text-nowrap mt-2";
 		this.divTime.innerHTML = time;
@@ -35,9 +38,11 @@ class MessageRightCard {
 		/*전송한사람이름,내용받는 div*/
 		this.divContent = document.createElement("div");
 		this.divContent.className = "flex-shrink-1 bg-light rounded py-2 px-3 ml-3";
+		/*
 		this.divName = document.createElement("div");
 		this.divName.className = "font-weight-bold mb-1";
 		this.divName.innerHTML = name;
+		*/
 		this.spen = document.createElement("spen");
 		this.spen.innerHTML = content;
 		
@@ -45,10 +50,10 @@ class MessageRightCard {
 		this.div.appendChild(this.divSide);
 		this.div.appendChild(this.divContent);
 		
-		this.divSide.appendChild(this.img);
+		//this.divSide.appendChild(this.img);
 		this.divSide.appendChild(this.divTime);
 		
-		this.divContent.appendChild(this.divName);
+		//this.divContent.appendChild(this.divName);
 		this.divContent.appendChild(this.spen);
 
 	}

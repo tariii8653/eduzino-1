@@ -4,8 +4,10 @@
 	
 	<resultMap type="OrderDetail" id="orderDetailMap">
 		<id column="order_detail_idx" property="order_detail_idx"/>
+		
 		<association column="subject_idx" property="subject"
 							javaType="Subject" select="Subject.select" />
+							
 	</resultMap>
 
 	

@@ -4,6 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
 	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -154,28 +155,30 @@
 	let flag = true; //수강생조회하는 폼 보이거나 숨길 때 사용
 
 
-  //웹소켓을 이용한 서버에 접속
-  function connect(){
+  //웹소켓을 이용한 서버에 접속(채팅입장시 호출)
+  function connect(chat){
   	ws=new WebSocket("ws://localhost:7777/chat");
   	
   	ws.onopen=function(){
+  		//웹소켓 연결됐을 때 호출될 함수
   		console.log("서버에 접속됨 onopen");
-  		//ws.send(ws_chat.chat_idx + "," + ws_chat.teacher_member.member_idx + "," + ws_chat.member.member_idx + "," + msg); //보내는 내용
+	  	ws.send(chat.chat_idx + "," + chat.member_teacher.member_idx + "," + chat.member.member_idx + "," + "ENTER-CHAT"); //보내는 내용  			
   	}
   	
   	ws.onmessage=function(e){
-  		console.log("서버가 보낸 데이터", e.data);
+  		console.log("서버가 보낸 데이터/선생님이 받은 데이터", e.data);
   		
   		//서버가 보낸 메시지를 area에 누적 
   		//$("#t_receive").append(e.data+"\n");
   		
   		let sm = e.data;
   		let sl = sm.split(',');
+  		let roomNum = sl[0];
 		let sendId = sl[1]; //추후 누가 member_idx
 		let resiveId = sl[2]; //추후 누구에게 member_idx
 		let content = sl[3];
-  		if(sendId != chat.teacher_member.member_idx){
-			showMessageLeftCard();  		
+  		if(roomNum == chat.chat_idx && sendId != chat.member_teacher.member_idx && content != "ENTER-CHAT"){
+			showMessageLeftCard(chat, content);
   		}
   	}
   	
@@ -191,51 +194,38 @@
   }
   
   
-  	function getList(){
-  		//비동기로 서버에서 불러왔다는 전제하에...
-  		let messageList=[];
-  		
-  		for(let i=0;i<10;i++){
-	  		let json={
-	  			title:"해영씨"+i	
-	  		};
-	  		messageList.push(json);
-  		}
-  		console.log(messageList);
-  		
-  	}
+
   	
   	//내가보낸메세지_이미지
-  	function showMessageRightCard(chat, msg){
+  	function showMessageRightCard(msg){
   		//현재 시간구하기
   		let time = new Date().getHours() + ":" + new Date().getMinutes();
   		
-  		//profile, name, time, content
-  		let messageRightCard = new MessageRightCard("https://bootdey.com/img/Content/avatar/avatar3.png",chat.teacher_member.member_nickname,time, msg);
+  		//time, content
+  		let messageRightCard = new MessageRightCard(time, msg);
   		$("#chatArea").append(messageRightCard.getBox());	
+  		
   	}
   	
   	//내가받은메세지_이미지
-  	function showMessageLeftCard(msg){
+  	function showMessageLeftCard(chat, msg){
   		//현재 시간구하기
   		let time = new Date().getHours() + ":" + new Date().getMinutes();
   		
   		//profile, name, time, content
-  		let messageLeftCard = new MessageLeftCard("https://bootdey.com/img/Content/avatar/avatar5.png", "김나연", time, msg);
-  		
+  		let messageLeftCard = new MessageLeftCard("https://bootdey.com/img/Content/avatar/avatar5.png", chat.member.member_nickname, time, msg);
+  		$("#chatArea").append(messageLeftCard.getBox());	
   	}
   	
   	
-  	function sendMsg(chat){
-  		let msg = $("#t_content").val();
+  	function sendMsg(chat, msg){
   		
-  		console.log("sendMsg", chat);
+  		console.log("sendMsg() chat", chat);
 		
 		//protocol: RoomNum, 보내는id, 내용 
 		ws.send(chat.chat_idx + "," + chat.member_teacher.member_idx + "," + chat.member.member_idx + "," + msg);
   		
-		showMessageRightCard(chat, msg);
-  		$("#t_content").val("");
+		showMessageRightCard(msg);
   	}
   	
   	/*-------------------------------------------------------------------------------------------
@@ -268,7 +258,7 @@
   				};
   			},
   			created:function(){
-  				console.log("obj : ",this.chat);
+  				console.log("header obj : ",this.chat);
   				app_currentHeader = this;
   			}
   	};
@@ -288,7 +278,7 @@
 	const chat_footer={
   			template:`
 	  			<div class="chat-textarea">
-	  				<textarea class="form-control"  cols="30" placeholder="메세지를 입력하세요..." id="t_content"></textarea>
+	  				<textarea class="form-control"  cols="30" placeholder="메세지를 입력하세요..." id="t_content" @keyup="clickEnter($event, chat)"></textarea>
 	  				<button class="btn btn-primary" style="float:right;" id="bt_send" @click="clickSend(chat)">전송</button>											
 	  			</div>
   			`,
@@ -304,8 +294,19 @@
   			methods:{
   	  			clickSend:function(chat){
   	  				//채팅방 클릭시 채팅내용 출력
-  	  				console.log("seneMsg 호출", chat);
-  	  				sendMsg(chat);
+  	  				//console.log("seneMsg 호출", chat);
+	  					let msg = $("#t_content").val();
+	  	  				sendMsg(chat, msg);
+	  	  				$("#t_content").val("");
+  	  			},
+  	  			clickEnter:function(e, chat){
+  	  				//console.log("keyup", chat);
+  	  				if(e.keyCode == 13 && !e.shiftKey){
+  	  					e.preventDefault(); // 엔터키가 입력되는 것을 막아준다.
+  	  					let msg = $("#t_content").val();
+	  	  				sendMsg(chat, msg);
+	  	  				$("#t_content").val("");
+  	  				}
   	  			}
   	  		}
   	};
@@ -321,9 +322,32 @@
   		}
   	});
   	
+  	//chatArea에 메세지 목록 불러오기
+  	function chatAreaMesseges(chat){
+  	  
+  		$("#chatArea").empty(); //div내용지우기
+  		
+  		$.ajax({
+            url:"/rest/chat/chatMessage",
+            type:"post",
+			contentType:"application/json;charset=utf-8",
+            data:{
+               chat_idx:chat.chat_idx
+            },
+            processData:false, /*query string화 여부*/
+            success:function(result, status, xhr){
+               console.log("선생님이 조회한 메세지 목록", result);
+           }
+       });
+  		
+  	}
+  	
   	function getChatHeadFoot(chat){
   		//채팅방 이름,프로필 위에 뜨는거, 밑에 메세지 전송창 불러오기(채팅방 클릭시 해당 채팅방 헤더 및 메세지전송창)
   		console.log("채팅방 클릭시", chat);
+  		
+  		$("#chatArea").empty(); //div내용지우기
+  		
   		app_chatHeader.chat = chat;
   		app_chatHeader.flag = true;
   		if(app_currentHeader != undefined){
@@ -336,7 +360,9 @@
   			app_currentFooter.chat=chat;
   		}
   		
+  		chatAreaMesseges(chat); //채팅방 메세지 목록 불러오기
   		
+  		connect(chat); //웹소켓 연결
   		//console.log("확인",chat.member.member_idx);
   	}
  
@@ -397,17 +423,17 @@
   		obj['member']=json;
   		
   		//조회할때는 member.member_idx에 "0"이 넘어감
-  		//console.log("채팅목록",obj);
+  		console.log("채팅목록",obj);
   		
 		$.ajax({
-			url:"/rest/teacher/chat/message",
+			url:"/rest/teacher/chat/message/selectAll",
 			type:"post",
 			contentType:"application/json;charset=utf-8",
 			data:JSON.stringify(obj),
 			processData:false, /*query string화 여부*/
 			success:function(result, status, xhr){
 				app_chatRooms.chatList = result;
-				//console.log(result);
+				console.log(result);
 			}
 		});
   	}
@@ -428,7 +454,7 @@
   		json['member_idx']=parseInt($("#chatMember option:checked").val()); //수강생 member_idx);
   		obj['member']=json;
 		
-		console.log("생성/이동",obj);
+		console.log("생성/이동 json",obj);
 		
 		$.ajax({
 			url:"/rest/teacher/chat/message",
@@ -437,8 +463,9 @@
 			data:JSON.stringify(obj),
 			processData:false, /*query string화 여부*/
 			success:function(result, status, xhr){
+				console.log("생성/이동 result", result);
 				getChatRooms(); //채팅방조회
-  				getChatHeadFoot(); //채팅방 헤더푸터
+  				getChatHeadFoot(result); //채팅방 헤더푸터
 			}
 		});
   	}
@@ -458,9 +485,15 @@
   	
 	$(function(){
 		selectShowHide(flag); //기본 : 채팅방검색
-		connect();
+		//connect();
 		getChatRooms(); //채팅방리스트 조회
 		
+		/*
+		//2초에 한번씩 채팅목록 불러오기(채팅 알림전용)
+		setInterval(function(){
+			
+		},2000);
+		*/
 		
 		
 		//메세지플러스 아이콘 눌렀을 때 수강생selectbox와 검색창

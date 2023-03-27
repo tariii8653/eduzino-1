@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Message">
+	
+	<resultMap type="Message" id="messageMap">
+	<id column="message_idx" property="message_idx"/>
+	<result column="message_content" property="message_content" />
+	<result column="message_regdate" property="message_regdate" />
+	<result column="message_check" property="message_check" />
+	<result column="me" property="me" />
+	<result column="you" property="you" />
+	
+	<association 
+	column="chat_idx"
+	property="chat"
+	javaType="Chat"
+	select="Chat.selectAll" />
+	
+	</resultMap>
+	
 
+	<!-- 한 채팅방의 메세지 조회하기 -->
+	<select id="selectChat" parameterType="int" resultMap="messageMap">
+		select * from message where chat_idx=#{chat.chat_idx}
+	</select>
+
+	<!-- 메세지 저장하기 -->
+	<insert id="insert" parameterType="Message">
+		insert into message(message_idx, chat_idx, me, you, message_content)
+		values(seq_message.nextval, #{chat.chat_idx}, #{me}, #{you}, #{message_content})
+	</insert>
 
 
 </mapper>

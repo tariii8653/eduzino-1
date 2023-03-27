@@ -33,6 +33,12 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO {
 		return sqlSessionTemplate.selectList("OrderSummary.selectAllByMember",member);
 	}
 
+	@Override
+	//회원별 강사내역 가져오기
+	public List selectAllByMemberTeacher(int member_idx) {
+		return sqlSessionTemplate.selectList("OrderSummary.selectAllByMemberTeacher", member_idx);
+	}
+
 	
 
 

@@ -9,6 +9,7 @@
 		<id column="order_summary_idx" property="order_summary_idx"/>
 			<result column="order_summary_regdate" property="order_summary_regdate" />
 			
+			
 		<association 
 			column="member_idx"
 			property="member"
@@ -43,17 +44,35 @@
 		select * from order_summary
 	</select>
 	
+	
 	<!-- 회원 한 명의 주문 가져오기 -->
 	 <select id="selectAllByMember" resultMap="orderSummaryMap" parameterType="Member">
 	 	select * from order_summary where member_idx=#{member_idx}
 	 </select>
+	 
+	 
 	 
 	<!-- 주문 한건 가져오기 -->
 	<select id="select" parameterType="int" resultType="OrderSummary">
 		select * from order_summary
 		where order_summary_idx = #{order_summary_idx}
 	</select>
- 
+	
+	<!-- 학생 주문정보를 통해 강사 접근하기 -->
+	<select id="selectAllByMemberTeacher" parameterType="int" resultMap="orderSummaryMap">
+		select DISTINCT s.order_summary_idx as order_summary_idx, m.member_idx as member_idx
+		from order_summary s, order_detail d, teacher t , member m
+		where s.member_idx = #{member_idx}
+		and s.order_summary_idx = d.order_summary_idx
+		and m.member_idx in (
+			select member_idx from teacher
+			where teacher_idx in (
+			select teacher_idx from subject where subject_idx = d.subject_idx
+		) )
+	</select>
+	
+	
+ 	
 
 	<!-- 강사에 딸린 주문 정보 가져오기 -->
 	<select id="selectAllByTeacher" parameterType="int" resultMap="orderSummaryMap">

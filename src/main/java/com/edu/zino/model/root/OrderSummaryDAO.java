@@ -13,4 +13,6 @@ public interface OrderSummaryDAO {
 	public List selectAllBySubjectTitleMemberNickname(Map<String, Object> searchMap);
 	
 	public List selectAllByMember(Member member);
+	
+	public List selectAllByMemberTeacher(int member_idx); //회원별 강사내역 가져오기
 }

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +28,20 @@
             
             
             
-            
-            
+			<div class="card">
+            	<div class="card-body">
+            		<div class="chartjs-size-monitor">
+            			<div class="chartjs-size-monitor-expand">
+            				<div class=""></div>
+            			</div>
+            			<div class="chartjs-size-monitor-shrink">
+            				<div class=""></div>
+            			</div>
+            		</div>
+                    <h4 class="card-title">Bar chart</h4>
+                    <canvas id="barChart" style="height: 138px; display: block; width: 277px;" width="346" height="172" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
             
             
             
@@ -50,5 +63,8 @@
     <!-- plugins:js end -->
     <!-- End custom js for this page -->
   </body>
+  <script type="text/javascript">
+
+  </script>
 
 </html>

@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.edu.zino.chat.model.ChatService;
 import com.edu.zino.chat.model.MessageService;
 import com.edu.zino.domain.Chat;
 import com.edu.zino.domain.Member;
+import com.edu.zino.domain.Message;
 import com.edu.zino.util.MessageUtil;
 
 
@@ -27,54 +29,129 @@ public class RestMessageController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
+	private ChatService chatService;
+	
+	@Autowired
 	private MessageService messageService;
 	
 	
-	
-	//채팅방조회 & 생성
-	@PostMapping("/{teacher_user}/chat/message")
-	public List<Chat> insertOrSelectAll(HttpServletRequest request, @PathVariable String teacher_user, @RequestBody Chat chat){
-		
-		
-		
-		List<Chat> chatList = null;
-		
+	//강사가 채팅방 조회
+	@PostMapping("/teacher/chat/message/selectAll")
+	public List<Chat> selectAllTeacher(HttpServletRequest request, @RequestBody Chat chat){
 		logger.info("chat is "+chat);
-		
-		
 		
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
 		Member member = new Member();
-		if(chat.getMember_teacher() == null) {
+		logger.info("선생님이 방 요청시 chat.getMember_teacher() is "+chat.getMember_teacher());
 			//선생님이 방 생성 요청 시
 			int member_teacher_idx = 1;
 			member.setMember_idx(member_teacher_idx);
 			chat.setMember_teacher(member);
-			
-		}else {
-			//수강생이 방 생성 요청 시
-			int member_idx = 1;
-			member.setMember_idx(member_idx);
-			chat.setMember(member);
-			
-		}
-		logger.info("chat2 is "+chat);
+	
+		logger.info("선생님이 방 요청시  chat2 is "+chat);
 		
-		chatList = messageService.selectAll(chat); //채팅방 전체 조회하기
+		List<Chat> chatList = chatService.selectByTeacher(chat); //채팅방 전체 조회하기
 		
-		Chat chatRoom= messageService.select(chat); //채팅방이 있는지 없는 지 판단하기
-		logger.info("채팅방이 있나요? "+chatRoom);
+		return chatList;
+	}
+	
+	//강사가 채팅방 생성
+	@PostMapping("/teacher/chat/message")
+	public Chat insertTeacher(HttpServletRequest request, @RequestBody Chat chat){
+		
+		logger.info("chat is "+chat);
+		
+		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
+		Member member = new Member();
+		logger.info("선생님이 방 요청시 chat.getMember_teacher() is "+chat.getMember_teacher());
+			//선생님이 방 생성 요청 시
+			int member_teacher_idx = 1;
+			member.setMember_idx(member_teacher_idx);
+			chat.setMember_teacher(member);
+	
+		logger.info("선생님이 방 요청시  chat2 is "+chat);
+		
+		
+		Chat chatRoom= chatService.select(chat); //채팅방이 있는지 없는 지 판단하기
+		logger.info("선생님의 채팅방이 있나요? "+chatRoom);
 		
 		//3단계
 		if(chatRoom == null && chat.getMember().getMember_idx() !=0 && chat.getMember_teacher().getMember_idx() != 0) {
-			messageService.insert(chat); //채팅방 생성하기			
+			chatService.insert(chat); //채팅방 생성하기			
 		}
+		
+		return chatRoom;
+	}
+	
+	//유저가 채팅방 조회
+	@PostMapping("/user/chat/message/selectAll")
+	public List<Chat>selectAllMember(HttpServletRequest request, @RequestBody Chat chat){
+	
+		
+		logger.info("유저가 선택한 chat is "+chat);
+		
+		
+		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
+		Member member = new Member();
+		logger.info("유저가 선택한 chat.getMember() is "+chat.getMember());
+
+			//수강생이 방 생성 요청 시
+			int member_idx = 2;
+			member.setMember_idx(member_idx);
+			chat.setMember(member);
+			
+			logger.info("유저가 선택한  is "+chat);
+		
+			List<Chat> chatList = chatService.selectByStudent(chat); //채팅방 전체 조회하기
 		
 		return chatList;
 	}
 	
 	
 	
+	//유저가 채팅방 생성
+	@PostMapping("/user/chat/message")
+	public Chat insertMember(HttpServletRequest request, @RequestBody Chat chat){
+	
+		
+		logger.info("유저가 선택한 chat is "+chat);
+		
+		
+		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
+		Member member = new Member();
+		logger.info("유저가 선택한 chat.getMember() is "+chat.getMember());
+
+			//수강생이 방 생성 요청 시
+			int member_idx = 2;
+			member.setMember_idx(member_idx);
+			chat.setMember(member);
+			
+			logger.info("유저가 선택한  is "+chat);
+		
+		
+		
+		Chat chatRoom= chatService.select(chat); //채팅방이 있는지 없는 지 판단하기
+		logger.info("유저의 채팅방이 있나요? "+chatRoom);
+		
+		//3단계
+		if(chatRoom == null && chat.getMember().getMember_idx() !=0 && chat.getMember_teacher().getMember_idx() != 0) {
+			chatService.insert(chat); //채팅방 생성하기			
+		}
+		
+		
+		return chatRoom;
+	}
+	
+	//메세지 조회
+	@PostMapping("/chat/chatMessage")
+	public List<Message> selectChatMessages(HttpServletRequest request, Chat chat){
+		
+		logger.info("메세지목록 "+chat);
+		
+		List<Message> messageList = messageService.selectChat(chat.getChat_idx());
+		
+		return messageList;
+	}
 	
 
 }
