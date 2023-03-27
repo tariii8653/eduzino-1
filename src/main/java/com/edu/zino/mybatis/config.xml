@@ -11,8 +11,9 @@
 		<!-- 회원 -->
 		<typeAlias type="com.edu.zino.domain.Member" alias="Member"/>
 		<typeAlias type="com.edu.zino.domain.Teacher" alias="Teacher"/>
+		<typeAlias type="com.edu.zino.domain.MemberStatus" alias="MemberStatus"/>
 		
-		<typeAlias type="com.edu.zino.domain.SnsName" alias="SnsName"/>
+		<typeAlias type="com.edu.zino.domain.Sns" alias="Sns"/>
 		<typeAlias type="com.edu.zino.domain.Birthday" alias="Birthday"/>
 		<typeAlias type="com.edu.zino.domain.ProfilePhoto" alias="ProfilePhoto"/>
 		<typeAlias type="com.edu.zino.domain.Email" alias="Email"/>
@@ -60,11 +61,13 @@
 		<!-- 회원 -->
 		<mapper resource="com/edu/zino/mybatis/TeacherMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/MemberMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/MemberStatusMapper.xml"/>
+		
 		<mapper resource="com/edu/zino/mybatis/BirthdayMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/EmailMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/ProfilePhotoMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/SnsMapper.xml"/>
 		
-		<mapper resource="com/edu/zino/mybatis/SnsNameMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/BlacklistMapper.xml"/>
 		
 		<!-- 강의 -->

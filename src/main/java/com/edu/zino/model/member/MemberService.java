@@ -8,7 +8,7 @@ public interface MemberService {
 	public List selectAll();
 	public Member select(int member_idx);
 	public Member selectById(String id);
-	public void regist(Member member);		//암호화, 이메일, db
+	public void insert(Member member);		//암호화, 이메일, db
 	public void update(Member member);
-	public void delete(Member member);		//이메일 
+	public void delete(int member_idx);		
 }

@@ -17,12 +17,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.edu.zino.domain.Birthday;
+import com.edu.zino.domain.Email;
 import com.edu.zino.domain.Member;
+import com.edu.zino.domain.ProfilePhoto;
+import com.edu.zino.domain.Sns;
 import com.edu.zino.model.member.MemberService;
+import com.edu.zino.model.member.SnsService;
 import com.edu.zino.snslogin.GoogleLogin;
 import com.edu.zino.snslogin.GoogleOAuthToken;
 import com.edu.zino.snslogin.KaKaoLogin;
@@ -39,10 +43,13 @@ public class MemberController {
 	private Logger logger=LoggerFactory.getLogger(this.getClass());
 	
 	//@Autowired
-	//private SnsService snsService;
+	//private SnsSer -vice snsService;
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private SnsService snsService;
 	
 	@Autowired
 	private GoogleLogin googleLogin;
@@ -60,7 +67,9 @@ public class MemberController {
 		return new ModelAndView("user/member/loginform");
 	}
 	
-	//구글 로그인 콜백
+	/*-----------------------
+	 *     구글 로그인 콜백 
+	--------------------------*/
 		@GetMapping("/sns/google/callback")
 		public ModelAndView googleCallback(HttpServletRequest request, HttpSession session) {
 			String code = request.getParameter("code");
@@ -69,7 +78,6 @@ public class MemberController {
 			//구글이 넘겨준 code와 내 계정이 보유한 client_id 및 client_secret을 조합하여 구글 서버측에 token 발급을 요청해야한다
 			//이때 우리 스프링 서버는 상대적으로 클라이언트가 된다
 			//token은 회원정보에 접근할 수 잇는 증명서 같은 개념임.. 
-			
 			/*--------------------------------------------------------------
 			 * 1) 토큰 취득을 위한 POST 헤더와 바디 구성하기
 			 ----------------------------------------------------------------*/
@@ -129,8 +137,7 @@ public class MemberController {
 			ResponseEntity <String> userEntity = restTemplate2.exchange(userinfo_url, HttpMethod.GET, entity, String.class);
 			
 			String userBody = userEntity.getBody();
-			logger.info(userBody);
-			
+			logger.info("구글에서 넘겨받은 회원정보" + userBody);
 			/*{
 				  "id": "103950560430611753976",     --------------db 설계시 저장해둬야 함 -> 중복된 id인지 판단 할 수 있어야 함 
 				  "email": "dokyy1226@gmail.com",
@@ -151,46 +158,66 @@ public class MemberController {
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
-			
-			String id=(String)userMap.get("id");	//내가 알고 싶어하는 정보
-			String email=(String)userMap.get("email");
-			boolean verified_email=(Boolean)userMap.get("verified_email");
+
+//------------내가 알고 싶어하는 정보 미리 받아두기  : id, nickname, email, profilePhoto ------------
+			String id=(String)userMap.get("id");	
 			String nickname=(String)userMap.get("name");
+			String picture=(String)userMap.get("picture");
 			
-			logger.info("id : " + id);
-			logger.info("email : " + email);
-			logger.info("verified_email : " + verified_email);
-			logger.info("nickname : " + nickname);
+			logger.info("id : " + id);						//id : 100448809265993600221
+			logger.info("nickname : "+ nickname);			//nickname : Do A	
+			logger.info("picture : "+ picture);				//picture : https://lh3.googleusercontent.com/a/AGNmyxYvutj-Jj1vA2C8YHcEVWdOKiPJh3N7fv-14MhY=s96-c
+			//logger.info("email : "+ email);				//email : asy118@hanmail.net
 			
-			//member에 대한 고유 id 조희
+			
+//------------------------------db에 들어가는 타이밍------------------------------------------------------------			
+			//member에 대한 고유 id 조희 : 회원인지 아닌지 따져보기 위해서 
 			Member member = memberService.selectById(id);
 			
-			if(member==null) {//회원여부를 판단하세요
-			//이미 db에 이 회원의 식별 고유 id가 존재할 경우
-			//회원가입을 처리해주자 (서비스의 regist) 세션에 담자 
-				//Sns_name sns = snsService.selectByType("google");
-				//logger.info("sns_idx는 "+sns);
+			if(member==null) {
+			//회원여부를 판단. 이미 db에 이 회원의 식별 고유 id가 존재할 경우 회원가입을 처리해주자 (서비스의 insert) 세션에 담자 
 				
 				member = new Member();
-				//member.setSns_name(sns);
-				member.setMember_id(id);
-				member.setMember_nickname(nickname);
+				member.setMember_id(id);		//고유id 가져오기 
+				member.setMember_nickname(nickname);	//닉네임 가져오기 
 				
-				//다 채워졌으면 이제 서비스에게 일을 시킴 
-				memberService.regist(member);
+				//---여기서 넣어주려고 객체를 가지고 왔음---- 
+				Email email = new Email();
+				email.setEmail_addr((String)userMap.get("email"));	//메일 가져오기
+				
+				
+				ProfilePhoto profilePhoto = new ProfilePhoto();
+				profilePhoto.setProfile_photo(picture);		//프사 picture로 가져오기 
+				
+				
+				Sns sns = snsService.selectByIdx(1);
+				member.setSns(sns);		//sns유형 담기
+				member.setEmail(email);
+				member.setProfilePhoto(profilePhoto);
+				 
+				//정보 출력해보기
+				logger.info("넣을 고유 id : " + id);
+				logger.info("넣을 nickname : " + nickname);
+				logger.info("넣을 메일주소 : " + email);
+				logger.info("넣을 프로필사진 : " + profilePhoto);
+				logger.info("넣을 sns_idx : "+sns);
+				
+				//다 채워졌으면 이제 서비스에게 일을 시킴 -> 여길 지나면 member_idx가 생성됨
+				memberService.insert(member);
 			}
 			
-			//세션에 담기 (로그인 할 수 있게)
+			//세션에 담기 (자동 로그인 할 수 있게)
 			session.setAttribute("member", member);
 		
 			//완료하면 메인으로 돌아가기 
 			ModelAndView mav = new ModelAndView("redirect:/");
 			
-			
 			return mav;
 		}
 
-		//카카오 로그인 콜백
+		/*-----------------------
+		 *     카카오 로그인 콜백 
+		--------------------------*/
 		@GetMapping("/sns/kakao/callback")
 		public ModelAndView kakaoCallback(HttpServletRequest request, HttpSession session) {
 			String code = request.getParameter("code");
@@ -264,7 +291,7 @@ public class MemberController {
 			ResponseEntity <String> userEntity = restTemplate2.exchange(userinfo_url, HttpMethod.GET, entity, String.class);
 			
 			String userBody = userEntity.getBody();
-			logger.info(userBody);
+			logger.info("카카오에서 넘겨받은 회원정보" + userBody);
 			/*
 			 * {"id":2704115905,
 				"connected_at":"2023-03-13T05:15:12Z",
@@ -300,33 +327,60 @@ public class MemberController {
 				e.printStackTrace();
 			}
 			
-			
-			String id=String.valueOf(userMap.get("id"));	//내가 알고 싶어하는 정보
-			//String id = (String)userMap.get("id");
-			//String connected_at = (String)userMap.get("connectected_at");
+//----------내가 알고 싶어하는 정보 미리 받아두기  : id, nickname, email, profilePhoto, birthday ------------------
+			String id = String.valueOf(userMap.get("id"));	
 			Map properties = (Map) userMap.get("properties");		//내부의 json은 맵으로 처리 
 			String nickname = (String)properties.get("nickname");
+			//메일은 아래에서 받을 것
+			String profile_image = (String)properties.get("profile_image");
+			Map kakao_account = (Map) userMap.get("kakao_account");
+			//String email = (String)kakao_account.get("email");
+			String age_range =(String)kakao_account.get("age_range");
 			
-			logger.info("id : " + id);
-			logger.info("id is "+ userMap.get("id"));
-			logger.info("nickname is "+ nickname);
-		
+			logger.info("id : " + id);						//id : 2704115905
+			logger.info("nickname : "+ nickname);			//nickname : 景
+			logger.info("profile_image : "+ profile_image);	//profile_image : http://k.kakaocdn.net/dn/hd5rM/btrQsGbRPNK/8TCCdKlr5eJR3q9Bv3nJyK/img_640x640.jpg
+			//logger.info("email : "+ email);					//email : asy118@hanmail.net
+			logger.info("age_range : "+ age_range);			//age_range : 30~39
+			
 			//member에 대한 고유 id 조희
 			Member member = memberService.selectById(id);
 			
-			if(member==null) {//회원여부를 판단하세요
-			//이미 db에 이 회원의 식별 고유 id가 존재할 경우
-			//회원가입을 처리해주자 (서비스의 regist) 세션에 담자 
-				//Sns_name sns = snsService.selectByType("kakao");
-				//logger.info("sns_idx는 "+sns);
+//------------------------------db에 들어가는 타이밍------------------------------------------------------------
+		
+			if(member==null) {
+				//회원여부를 판단. 이미 db에 이 회원의 식별 고유 id가 존재할 경우 회원가입을 처리해주자 (서비스의 insert) 세션에 담자 
 				
 				member = new Member();
-				//member.setSns_name(sns);
-				member.setMember_id(id);
-				member.setMember_nickname(nickname);
+				member.setMember_id(id);		//고유id 가져오기 
+				member.setMember_nickname(nickname);	//닉네임 가져오기 
 				
-				//다 채워졌으면 이제 서비스에게 일을 시킴 
-				memberService.regist(member);
+				Email email = new Email();
+				email.setEmail_addr((String)kakao_account.get("email"));	//메일 가져오기
+				
+				ProfilePhoto profilePhoto = new ProfilePhoto();
+				profilePhoto.setProfile_photo(profile_image);		//프사 picture로 가져오기 
+				
+				Birthday birthday = new Birthday();
+				birthday.setAge(age_range);			//연령대 (생일)가져오기
+				
+				Sns sns = snsService.selectByIdx(2);
+				member.setSns(sns);		//sns유형 담기
+				member.setEmail(email);
+				member.setProfilePhoto(profilePhoto);
+				member.setBirthday(birthday);
+				
+				//정보 출력해보기
+				logger.info("넣을 고유 id : " + id);
+				logger.info("넣을 nickname : " + nickname);
+				logger.info("넣을 메일주소 : " + email);
+				logger.info("넣을 프로필사진 : " + profilePhoto);
+				logger.info("넣을 연령대 : " + birthday);
+				logger.info("넣을 snsType: " + sns);
+				
+				//다 채워졌으면 이제 서비스에게 일을 시킴 -> 여길 지나면 member_idx가 생성됨
+				memberService.insert(member);
+				
 			}
 			
 			//세션에 담기 (로그인 할 수 있게)
@@ -337,8 +391,9 @@ public class MemberController {
 			return mav;
 		}
 		
-		
-//네이버 로그인 콜백
+		/*-----------------------
+		 *     네이버 로그인 콜백 
+		--------------------------*/
 		@GetMapping("/sns/naver/callback")
 		public ModelAndView naverCallback(HttpServletRequest request, HttpSession session) {
 			String code = request.getParameter("code");
@@ -442,44 +497,58 @@ public class MemberController {
 				e.printStackTrace();
 			}
 			
-			//String id=String.valueOf(userMap.get("id"));	//내가 알고 싶어하는 정보
-			//String id = (String)userMap.get("id");
-			//String connected_at = (String)userMap.get("connectected_at");
+//----------내가 알고 싶어하는 정보 미리 받아두기  : id, nickname, email, profilePhoto, birthday ------------------
 			Map response = (Map) userMap.get("response");		//내부의 json은 맵으로 처리 
 			String id = (String)response.get("id");
 			String nickname = (String)response.get("nickname");
-			String email = (String)response.get("email");
+			String profile_image = (String)response.get("profile_image");
+			//String email = (String)response.get("email");
 			String age = (String)response.get("age");
 			
-			logger.info("id : " + id);
-			logger.info("nickname is "+ nickname);
-			logger.info("email is "+ email);
-			logger.info("age is "+ age);
+			logger.info("id : " + id);						//id : DgPdf0zXS5lz3Hm-Kgx6-EtXpx4MPZFithX40KQawLg
+			logger.info("nickname : "+ nickname);			//nickname : 당근시러
+			logger.info("profile_image : "+ profile_image);	//profile_image : https://phinf.pstatic.net/contact/20210427_157/1619532053625FKw67_JPEG/DSC01453.JPG
+			//logger.info("email : "+ email);					//email : asy118@hanmail.net
+			logger.info("age : "+ age);						//age : 30-39
 			
-			/*nickname is 당근시러
-			email is asy118@hanmail.net
-			age is 30-39*/
-		
 			//member에 대한 고유 id 조희
 			Member member = memberService.selectById(id);
 			
-			if(member==null) {//회원여부를 판단하세요
-			//이미 db에 이 회원의 식별 고유 id가 존재할 경우
-			//회원가입을 처리해주자 (서비스의 regist) 세션에 담자 
-				//Sns_name sns = snsService.selectByType("naver");
-				//logger.info("sns_idx는 "+sns);
+//------------------------------db에 들어가는 타이밍------------------------------------------------------------
+			
+			if(member==null) {
+				//회원여부를 판단. 이미 db에 이 회원의 식별 고유 id가 존재할 경우 회원가입을 처리해주자 (서비스의 insert) 세션에 담자 
 				
 				member = new Member();
-				//member.setSns_name(sns);
-				member.setMember_id(id);
-				member.setMember_nickname(nickname);
+				member.setMember_id(id);		//고유id 가져오기 
+				member.setMember_nickname(nickname);	//닉네임 가져오기 
 				
-				//다 채워졌으면 이제 서비스에게 일을 시킴 
-				memberService.regist(member);
+				Email email = new Email();
+				email.setEmail_addr((String)response.get("email"));	//메일 가져오기
 				
+				ProfilePhoto profilePhoto = new ProfilePhoto();
+				profilePhoto.setProfile_photo(profile_image);		//프사 picture로 가져오기 
 				
+				Birthday birthday = new Birthday();
+				birthday.setAge(age);			//연령대 (생일)가져오기
+				
+				Sns sns = snsService.selectByIdx(3);
+				member.setSns(sns);		//sns유형 담기
+				member.setEmail(email);
+				member.setProfilePhoto(profilePhoto);
+				member.setBirthday(birthday);
+				
+				//정보 출력해보기
+				logger.info("넣을 고유 id : " + id);
+				logger.info("넣을 nickname : " + nickname);
+				logger.info("넣을 메일주소 : " + email);
+				logger.info("넣을 프로필사진 : " + profilePhoto);
+				logger.info("넣을 연령대 : " + birthday);
+				logger.info("넣을 snsType: " + sns);
+				
+				//다 채워졌으면 이제 서비스에게 일을 시킴 -> 여길 지나면 member_idx가 생성됨
+				memberService.insert(member);
 			}
-			
 			//세션에 담기 (로그인 할 수 있게)
 			session.setAttribute("member", member);
 			
@@ -487,12 +556,4 @@ public class MemberController {
 			
 			return mav;
 		}
-
-		
-		
 }
-
-
-
-
-
