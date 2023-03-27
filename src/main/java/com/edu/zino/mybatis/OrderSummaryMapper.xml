@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderSummary">
 
-	
-
 	<resultMap type="OrderSummary" id="orderSummaryMap">
 		
 		<id column="order_summary_idx" property="order_summary_idx"/>
@@ -95,4 +93,17 @@
 		</if>
 		
 		 -->
+		 
+		 <insert id="insert" parameterType="OrderSummary">
+		 insert into order_summary(order_summary_idx,order_id,total_buy,total_pay,member_idx,payment_idx,payState_idx)
+		 values (seq_order_summary.nextval,#{order_id},#{total_buy}, #{total_pay}, #{member.member_idx}, #{payment.payment_idx},#{paystate.paystate_idx}) 
+			<selectKey 
+				keyColumn="order_summary_idx"
+				keyProperty="order_summary_idx"
+				order="AFTER"
+				resultType="int">
+				select seq_order_summary.currval from dual
+			</selectKey>
+		
+		 </insert>
 </mapper>

@@ -25,5 +25,18 @@
 	<delete id="delete" parameterType="int"> 
 		delete from wish where wish_idx=#{wish_idx} 
 	</delete>
+	
+	<!-- 위시리스트 등록 -->
+	<insert id="insert" parameterType="Wish">
+		insert into wish(wish_idx,member_idx,subject_idx)
+		values(seq_wish.nextval,#{member.member_idx},#{subject.subject_idx})
+	</insert>
+	
+	 <!-- 강의 중복검사 -->
+	<select id="selectCount" parameterType="Wish" resultType="int">
+		select count(*) from wish where subject_idx=#{subject.subject_idx}
+		and member_idx=#{member.memeber_idx}
+	</select>
+	
 
 </mapper>

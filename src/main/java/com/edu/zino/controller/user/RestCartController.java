@@ -28,6 +28,7 @@ import com.edu.zino.exception.CartException;
 import com.edu.zino.exception.WishException;
 import com.edu.zino.model.user.CartService;
 import com.edu.zino.model.user.WishService;
+import com.edu.zino.util.FileManager;
 import com.edu.zino.util.MessageUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -45,6 +46,9 @@ public class RestCartController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@Autowired
+	private FileManager fileManager;
+	
 	//카트목록 비동기로 가져오기
 	@GetMapping("/cart/list")
 	public List<Cart> getCartList(){
@@ -55,20 +59,40 @@ public class RestCartController {
 	
 	
 	//기본 장바구니 추가
- 
-		
-	//장바구니 삭제
-	@DeleteMapping("/cart/list/{cart_idx}")
-	public ResponseEntity<MessageUtil> delCart(HttpServletRequest request, @PathVariable int cart_idx){
+	@PostMapping("/cart/regist_cart")
+	public ResponseEntity<MessageUtil> registCart(HttpServletRequest request,  Cart[] cartList){	
 		//3단계
-		logger.info("삭제할 cart_idx"+cart_idx);
-		cartService.delCart(cart_idx);
-		
+		cartService.regist(cartList);
+			
 		//4단계
 		MessageUtil msg = new MessageUtil();
-		msg.setMsg("장바구니 삭제 실패");
+		msg.setMsg("장바구니 등록 성공");
 		
 		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
+		return entity;
+	}	
+	
+	
+	//장바구니 삭제
+	@DeleteMapping("/cart/cart_list")
+	@ResponseBody
+	public ResponseEntity<MessageUtil> delCart(HttpServletRequest request, @RequestBody Cart[] cartList){	
+			
+		//3단계
+		cartService.delCart(cartList);
+		//4단계
+		MessageUtil msg = new MessageUtil();
+		msg.setMsg("장바구니 삭제 성공");
+		
+		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
+		return entity;
+	}
+	
+	//order_id 만들기
+	@GetMapping("/cart/orderid")
+	public ResponseEntity<String> getOrderId(){
+		String orderId=fileManager.getRealTime();
+		ResponseEntity entity = new ResponseEntity<String>(orderId,HttpStatus.OK);
 		return entity;
 	}
 	
@@ -82,6 +106,20 @@ public class RestCartController {
 		member.setMember_idx(2);
 		return wishService.selectAll(member);
 	}
+	
+	//기본 찜 등록
+	@PostMapping("/cart/regist_wish")
+	public ResponseEntity<MessageUtil> registWish(HttpServletRequest request,  Wish wish){	
+		//3단계
+		wishService.insert(wish);
+			
+		//4단계
+		MessageUtil msg = new MessageUtil();
+		msg.setMsg("찜 등록 성공");
+		
+		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
+		return entity;
+	}	
 	
 	//찜목록 장바구니에 등록
 	@PostMapping("/cart/wishTocart")
@@ -120,7 +158,7 @@ public class RestCartController {
 		
 		//4단계
 		MessageUtil msg = new MessageUtil();
-		msg.setMsg("장바구니 등록 실패");
+		msg.setMsg("장바구니 등록 성공");
 		
 		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
 		return entity;
@@ -129,17 +167,14 @@ public class RestCartController {
 	//찜목록 삭제하기
 	@DeleteMapping("/cart/wish_list")
 	@ResponseBody
-	public ResponseEntity<String> delWish(HttpServletRequest request, @RequestBody Wish[] wishList){	
-		logger.info("길이는"+wishList.length);
-		for(Wish wish  : wishList) {
-			logger.info("chkwish =  "+wishList);
-		}		
+	public ResponseEntity<MessageUtil> delWish(HttpServletRequest request, @RequestBody Wish[] wishList){	
+				
 		//3단계
 		wishService.delWish(wishList);
 
 		//4단계
 		MessageUtil msg = new MessageUtil();
-		msg.setMsg("찜 삭제 실패");
+		msg.setMsg("찜 삭제 성공");
 		
 		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
 		return entity;

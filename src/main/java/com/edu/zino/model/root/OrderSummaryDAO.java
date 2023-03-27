@@ -13,4 +13,6 @@ public interface OrderSummaryDAO {
 	public List selectAllBySubjectTitleMemberNickname(Map<String, Object> searchMap);
 	
 	public List selectAllByMember(Member member);
+	
+	public void insert(OrderSummary orderSummary);
 }

@@ -33,6 +33,11 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO {
 		return sqlSessionTemplate.selectList("OrderSummary.selectAllByMember",member);
 	}
 
+	@Override
+	public void insert(OrderSummary orderSummary) {
+		sqlSessionTemplate.insert("OrderSummary.insert", orderSummary);
+	}
+
 	
 
 

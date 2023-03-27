@@ -27,7 +27,12 @@
 	<delete id="delete" parameterType="int">
 	 delete from Cart where cart_idx=#{cart_idx}
  	 </delete>
-
+ 	 
+ 	 <!-- 카트 중복검사 -->
+	<select id="selectCount" parameterType="Cart" resultType="int">
+		select count(*) from cart where subject_idx=#{subject.subject_idx}
+		and member_idx=#{member.memeber_idx}
+	</select>
 	
 	
 </mapper>

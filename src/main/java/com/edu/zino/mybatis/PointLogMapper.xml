@@ -11,7 +11,7 @@
 	</resultMap>
 
 	<!-- 모든 포인트 내역 가져오기 -->
-	<select id="selectAll" >
-		select * from point_log where point_log_idx=#{point_log_idx}
+	<select id="selectAll" parameterType="Member">
+		select * from point_log where member_idx=#{order_summary.member.member_idx)}
 	</select>
 </mapper>

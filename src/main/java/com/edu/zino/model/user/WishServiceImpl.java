@@ -33,4 +33,16 @@ public class WishServiceImpl implements WishService{
 		}
 	}
 
+	@Override
+	public void insert(Wish wish) throws WishException{
+		wishDAO.insert(wish);
+	}
+
+	@Override
+	public int selectCount(Wish wish)  throws WishException {
+		int count = wishDAO.selectCount(wish);
+		return count;
+	}
+	
+
 }

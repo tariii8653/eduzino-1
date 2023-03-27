@@ -36,11 +36,17 @@ public class MybatisCartDAO implements CartDAO{
 	}
 
 	@Override
-	public void delCart(int cart_idx) throws CartException{
-		int result = sqlSessionTemplate.delete("Cart.delete",cart_idx);
+	public void delCart(Cart cart) throws CartException{
+		int result = sqlSessionTemplate.delete("Cart.delete",cart.getCart_idx());
 		if(result<1) {
 			throw new CartException("장바구니 삭제 실패");
 		}
+	}
+
+	//카트 중복검사
+	public int selectCount(Cart cart) throws CartException {
+		int count =sqlSessionTemplate.selectOne("Cart.selectCount",cart);
+		return count;
 	}
 
 }

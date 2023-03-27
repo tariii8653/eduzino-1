@@ -1,6 +1,11 @@
 package com.edu.zino.model.root;
 
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.OrderSummary;
+import com.edu.zino.exception.OrderSummaryException;
 
 @Service
 public class OrderSummaryServiceImpl implements OrderSummaryService {
@@ -49,6 +56,39 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	public List selectAllByMember(Member member) {
 		return orderSummaryDAO.selectAllByMember(member);
 	}
+
+	//결제내역 추가
+	@Override
+	@Transactional
+	public void regist(OrderSummary orderSummary) throws OrderSummaryException {
+			orderSummaryDAO.insert(orderSummary);
+	
+	}
+
+	//토스 결제 로직
+	@Override
+	@Transactional
+	public String getPay(String orderId, int amount, String paymentKey) {
+		
+		HttpRequest httprequest = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.tosspayments.com/v1/payments/"+paymentKey))
+			    .header("Authorization", "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==")
+			    .header("Content-Type", "application/json")
+			    .method("POST", HttpRequest.BodyPublishers.ofString("{\"paymentKey\":\""+paymentKey+"\",\"amount\":"+amount+",\"orderId\":\""+orderId+"\"}"))
+			    .build();
+			HttpResponse<String> response=null;
+			try {
+				response = HttpClient.newHttpClient().send(httprequest, HttpResponse.BodyHandlers.ofString());
+				System.out.println(response.body());
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		return response.body();
+	}
+	
 	
 
 

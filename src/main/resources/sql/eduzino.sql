@@ -151,7 +151,8 @@ CREATE TABLE wish (
 
 CREATE TABLE order_summary (
 	order_summary_idx	number		NOT NULL,
-	order_summary_regdate	date		NULL,
+	order_id varcarh2(30) not null,
+	order_summary_regdate	date default sysdate null,
 	member_idx	number		NOT NULL,
 	payment_idx	number		NOT NULL,
 	paystate_idx	number		NOT NULL,
@@ -165,7 +166,7 @@ CREATE TABLE payment (
 );
 
 review ON COLUMN payment.payment_type IS 'idx 1 : 카드
-idx 2 : 가상계죄';
+idx 2 : 간편결제';
 
 CREATE TABLE paystate (
 	paystate_idx	number		NOT NULL,
