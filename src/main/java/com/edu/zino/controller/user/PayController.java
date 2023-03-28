@@ -23,8 +23,7 @@ import com.edu.zino.domain.Paystate;
 import com.edu.zino.domain.Subject;
 import com.edu.zino.exception.OrderSummaryException;
 import com.edu.zino.exception.PayException;
-import com.edu.zino.model.root.OrderSummaryService;
-import com.edu.zino.model.user.OrderDetailService;
+import com.edu.zino.model.root.OrderService;
 import com.edu.zino.util.MessageUtil;
 import com.google.gson.JsonObject;
 
@@ -33,10 +32,12 @@ public class PayController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private OrderSummaryService orderSummaryService;
+	private OrderService orderService;
 	
-	@Autowired
-	private OrderDetailService orderDetailService;
+	@GetMapping("/order/paycomplete")
+	public ModelAndView payCom() {
+		return new ModelAndView("/user/order/paycomplete");
+	}
 	
 	//결제 완료 (콜백주소)
 	@GetMapping("/pay/payment")
@@ -51,13 +52,13 @@ public class PayController {
 		logger.info("paymentKey는 "+paymentKey);
 		
 		//결제 완료 시 넘어오는 파라미터(json)를 String 으로 받음
-		String payResult=orderSummaryService.getPay(orderId, amount, paymentKey);
+		String payResult=orderService.getPay(orderId, amount, paymentKey);
 		logger.info("payresult는 "+payResult);
 		
 		JSONObject obj = new JSONObject(payResult);
 		String method = obj.getString("method"); //결제방법
 		String state = obj.getString("status"); //결제상태
-		String balanceAmount =  obj.getString("balanceAmount");
+		int balanceAmount =  obj.getInt("balanceAmount");
 		
 		logger.info("method "+method);
 		logger.info("status "+state);
@@ -84,49 +85,29 @@ public class PayController {
 			paystate.setState("결제실패");
 		}
 	
-			//orderSummary에 들어갈 내용들을 채워준다
+		//orderSummary에 들어갈 내용들을 채워준다
 		order.setMember(member); //회원번호
 		order.setOrder_id(orderId); //주문번호
 		order.setPayment(payment);//결제방법
 		order.setPaystate(paystate);//결제상태
 		order.setTotal_buy(amount); //구매금액
-		order.setTotal_pay(Integer.parseInt(balanceAmount)); //실제 결제금액(포인트사용 후)
+		order.setTotal_pay(balanceAmount); //실제 결제금액(포인트사용 후)
 		//장바구니에서 끌어다써도 된다
+		
 		order.setOrderDetailList(null); //여러 건 등록시 사용해야할듯?
 		
 		logger.info("paystate는 "+order.getPayment());
 		logger.info("paystate는 "+order.getPaystate());
 
-		//3단계
-		orderSummaryService.regist(order);
+		logger.info("채워진 order는 "+order);
 		
-		/*-----*/
-		
-		//orderDeatil에 등록
-		OrderDetail[] orderDetailList = new OrderDetail[order.getOrderDetailList().size()];
-		
-		Subject subject = new Subject();//임시데이터
-		subject.setSubject_idx(23);
-		
-		//여러 건 등록시 orderDetailList의 length만큼 돌려야하나?
-		for(int i=0; i<orderDetailList.length; i++) {
-			OrderDetail orderDetail = new OrderDetail();
-			orderDetail.setOrderSummary(order);
-			orderDetail.setSubject(subject);
-			orderDetailList[i] = orderDetail;
-		}
-		//3단계
-		orderDetailService.regist(orderDetailList);
-		
-		//카트리스트에서 삭제하기
-		
-		
+		//3단계> 여기서 orderSummary, orderDetail -insert / cart-del 완료
+		orderService.regist(order);
 		
 		//4단계
-		ModelAndView mav = new ModelAndView("/user/cart/cartList"); 
+		ModelAndView mav = new ModelAndView("/user/order/paycomplete"); 
 		//잠깐 cartilst로 보낸다.. orderList로 보내면 list 에러남
 		//mav.addObject("orderList",orderList.toString());
-		
 		
 		return mav;
 	}

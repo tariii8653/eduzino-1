@@ -28,8 +28,8 @@ public class MybatisOrderDetailDAO implements OrderDetailDAO{
 	
 	//주문idx에 딸린 건수 가져오기
 	@Override
-	public List selectAll(OrderSummary orderSummary) throws OrderDetailException{
-		return sqlSessionTemplate.selectList("OrderDetail.selectByOrderSummary",orderSummary);
+	public List selectAll(int order_summary_idx) throws OrderDetailException{
+		return sqlSessionTemplate.selectList("OrderDetail.selectByOrderSummary",order_summary_idx);
 	}
 
 }

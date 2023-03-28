@@ -1,9 +1,11 @@
+<%@page import="com.edu.zino.domain.OrderDetail"%>
 <%@page import="com.edu.zino.util.PageManager"%>
 <%@page import="com.edu.zino.domain.OrderSummary"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
 	List<OrderSummary> orderList = (List)request.getAttribute("orderList");
+	//List<OrderDetail> detailList = (List)request.getAttribute("detailList");
 %>
 
 <!DOCTYPE html>
@@ -22,7 +24,6 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- header_link -->
 <jsp:include page="../inc/header_link.jsp"></jsp:include>
 <!-- header_link end -->
@@ -99,11 +100,12 @@
 				                            <th>수강료</th>
 				                          </tr>
 				                       	 </thead>
-											<tbody class="cart_form_box" >
-		                     	        	<template v-for="i in count">
-		                     	        		{{count}}
-		                     	        </template>
-                            </tbody>
+										<tbody class="cart_form_box" >
+		                     	        	<template v-for="(detail,i) in orderDetailList">
+		                     	        		<modal_table :key="detail.order_detail_idx" :detail="detail" :no="i"/>
+		                     	      	  </template>
+                          		 	 </tbody>
+
 					          	</table>	
 					        </div>
 					        
@@ -142,7 +144,8 @@
                             <td><%=order.getPayment().getPayment_type() %></td>
                             <td><%=order.getPaystate().getState()%></td>
                            <td>
-                           <button  type="button" class="btn btn-outline-success btn-fw"data-toggle="modal" data-target="#myModal" > 상세보기 </button> 
+                           <button  type="button" class="btn btn-outline-success btn-fw"data-toggle="modal" data-target="#myModal" 
+                           onclick="getOrderDetail(<%=order.getOrder_summary_idx()%>)"> 상세보기 </button> 
                            <td>
                           </tr>
                           <%} %>
@@ -174,81 +177,42 @@
 	<!-- footer_link -->
 	<jsp:include page="../inc/footer_link.jsp"></jsp:include>
 	<!-- footer_link end-->
-
+<code><script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script></code>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script type="text/javascript">
-let pager = new Pager();
-let currentPage=1;
-let key=0;
-
 let app1;
-	const modal_table={
-			template:`
-				<tr>
-					<td>1</td>
-					<td>스프링부트</td>
-					<td >54599</td>
-				</tr>
-			`,props:['orderDetail']
-			,data(){
-				item:this.orderDetail
-			};
-	}
-	
+const modal_table={
+		template:`
+			<tr>
+				<td>{{no+1}}</td>
+				<td>{{detail.subject.subject_title}}</td>
+				<td>{{detail.subject.subject_price}}</td>
+				
+			</tr>
+		`,props:['detail',"no"]
+}
 
-	app1=new Vue({
-			el:"#app1",
-			components:{
-				modal_table,
-				
-			},
-			data:{
-				count:3
-				orderDetailList:[]
-				pagerList:[], //배열의 정보를 담을 배열
-				currentList:[], //현재 페이지에 보여질 배열
-				num:0
-			}
-	});
-	
-	function pageLink(n){
-		pager.init(app1.pagerList,n);
-		console.log("pageSize is", pager.pageSize);
-		console.log("curPos is ", pager.curPos);
-		console.log("num is ", pager.num);
-		
-		app1.num=pager.num;
-		app1.currentList.splice(0, app1.currentList.length);
-		
-		for(let i=pager.curPos;i<pager.curPos+pager.pageSize; i++){
-			
-			if(pager.num<1){
-				break;
-			}
-			pager.num--;
-			
-			app1.currentList.push(]);				
-		}
-	};
-	
-	function getList(){
-				//페이징 처리
-				pageLink(currentPage);
-				
-				//페이지 번호 출력
-				$("#paging-area").append("<a href='#'>«</a>");
-				for(let i=pager.firstPage;i<=pager.lastPage;i++){
-					if(i >pager.totalPage)break;
-					$("#paging-area").append("<a href='javascript:pageLink("+i+")' style='margin:3px'>"+i+"</a>");
-				}
-				$("#paging-area").append("<a href='#'>»</a>");
-			}
+app1=new Vue({
+	el:"#app1",
+	components:{
+		modal_table
+	},
+	data:{
+		count:3,
+		orderDetailList:[]
 	}
-	
-	$(function(){
-		getList();
+});
+
+function getOrderDetail(summary_idx){
+	$.ajax({
+		url:"/rest/order/orderlist/"+summary_idx,
+		type:"get",
+		success:function(result,status,xhr){
+			console.log(result);
+			app1.orderDetailList = result;
+		}
 	});
+}
 
 </script>
 </html>

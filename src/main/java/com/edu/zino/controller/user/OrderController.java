@@ -25,8 +25,7 @@ import com.edu.zino.domain.Cart;
 import com.edu.zino.domain.Member;
 import com.edu.zino.exception.CartException;
 import com.edu.zino.exception.OrderSummaryException;
-import com.edu.zino.model.root.OrderSummaryService;
-import com.edu.zino.model.user.OrderDetailService;
+import com.edu.zino.model.root.OrderService;
 import com.edu.zino.util.MessageUtil;
 
 @Controller
@@ -34,10 +33,7 @@ public class OrderController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private OrderSummaryService orderSummaryService;
-	
-	@Autowired
-	private OrderDetailService orderDetailService;
+	private OrderService orderService;
 	
 	/*--------- 주문내역-----------------*/
 	
@@ -49,7 +45,7 @@ public class OrderController {
 		member1.setMember_idx(2);
 		
 		//3단계
-		List<Member> orderList = orderSummaryService.selectAllByMember(member1);
+		List<Member> orderList = orderService.selectAllByMember(member1);
 		//orderDetailService.selectAll(orderSummary)
 		logger.info("orderList "+orderList.toString());
 		//4단계
@@ -57,9 +53,6 @@ public class OrderController {
 		mav.addObject("orderList",orderList);
 		return mav;
 	}
-	
-	/*-------결제 상세내역 보여주기---------*/
-	
 	
 	
 	/*--------- 포인트------------------*/

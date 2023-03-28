@@ -38,7 +38,7 @@
 	
 	<!-- 모든 주문 가져오기 -->
 	<select id="selectAll" resultMap="orderSummaryMap">
-		select * from order_summary
+		select * from order_summary order by order_summary_idx ASC
 	</select>
 	
 	<!-- 회원 한 명의 주문 가져오기 -->

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.zino.domain.Cart;
@@ -29,6 +30,7 @@ public class CartServiceImpl implements CartService{
 
 	//찜목록 > 카트로 이동하기
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void regist(Cart[] cart) throws CartException{
 		for(int i=0; i<cart.length; i++) {
 			cartDAO.Insert(cart[i]);
@@ -36,7 +38,7 @@ public class CartServiceImpl implements CartService{
 	}
 
 	//카트에서 삭제하기
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void delCart(Cart[] cart) throws CartException{
 			for(int i=0; i<cart.length; i++) {
 				cartDAO.delCart(cart[i]);

@@ -7,5 +7,5 @@ import com.edu.zino.domain.OrderSummary;
 
 public interface OrderDetailDAO {
 	public void insert(OrderDetail orderDetail);
-	public List selectAll(OrderSummary orderSummary);
+	public List selectAll(int order_summary_idx);
 }

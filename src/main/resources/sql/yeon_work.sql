@@ -67,4 +67,5 @@ CREATE TABLE order_detail (
 	subject_idx number not null
 );
 
+select * from subject;
 
