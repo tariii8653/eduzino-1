@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import com.edu.zino.model.user.OrderDetailDAO;
 
 @Service
 public class OrderServiceImpl implements OrderService{
-	
+
 	@Autowired
 	private OrderSummaryDAO orderSummaryDAO;
 	
@@ -86,6 +87,41 @@ public class OrderServiceImpl implements OrderService{
 				
 			return response.body();
 		}
+		
+		
+		//과목에 따른 전체 수강생조회
+		@Override
+		public List selectAllByTeacher( int teacher_idx) {
+			return orderSummaryDAO.selectAllByTeacher(teacher_idx);
+		}
+		
+		//과목이나 이름을 통한 수강생조회
+		@Override
+		public List selectAllBySearch(Map<String, Object> searchMap) {
+			
+			List<OrderSummary> orderSummaryList = null;
+			
+			String subject_idx = (String)searchMap.get("subject_idx");
+			String member_nickname = (String)searchMap.get("member_nickname");
+			int teacher_idx = (Integer)searchMap.get("teacher_idx");
+			
+			if(subject_idx == null && member_nickname == null || subject_idx.equals("0") && member_nickname == null) {
+			orderSummaryList = orderSummaryDAO.selectAllByTeacher(teacher_idx);
+			}else {
+			orderSummaryList = orderSummaryDAO.selectAllBySubjectTitleMemberNickname(searchMap);
+			}
+			
+			return orderSummaryList;
+		}
+
+		
+		@Override
+		//회원별 강사내역 가져오기
+		public List selectAllByMemberTeacher(int member_idx) {
+			return orderSummaryDAO.selectAllByMemberTeacher(member_idx);
+		}
+		
+		
 		
 		
 	/*----orderDetail-------*/

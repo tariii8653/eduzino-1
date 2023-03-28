@@ -23,11 +23,11 @@
         <span class="menu-title">요약</span>
       </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic">
-      	<i class="mdi mdi-chart-bar menu-icon"></i>
+       <li class="nav-item">
+       <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic">
+        <i class="mdi mdi-chart-bar menu-icon"></i>
         <span class="menu-title">매출 & 정산</span>
-        <i class="menu-arrow"></i>
+                 <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="ui-basic1">
         <ul class="nav flex-column sub-menu">

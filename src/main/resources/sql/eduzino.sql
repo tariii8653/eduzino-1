@@ -42,21 +42,17 @@ CREATE TABLE teacher (
 
 CREATE TABLE blacklist (
 	blacklist_idx	number		NOT NULL,
-	pause	date		NULL,
-	blacklist_memo	clob		NULL,
+	pause	 date		,
+	blacklist_memo	clob		,
 	member_idx	number		NOT NULL
 );
 
 CREATE TABLE admin (
 	admin_idx	number		NOT NULL,
-	admin_id	varchar2(100)		NULL,
-	admin_pass	varchar2(64)		NULL,
-	admin_name	varchar2(100)		NULL,
-<<<<<<< HEAD
+	admin_id	varchar2(100)		,
+	admin_pass	varchar2(64)		,
 	grade_idx number not null
-=======
 	rank_idx number not null
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 );
 
 CREATE TABLE grade (
