@@ -16,6 +16,7 @@
 <script src="/resources/teacher/assets/js/misc.js"></script>
 <script src="/resources/teacher/assets/js/settings.js"></script>
 <script src="/resources/teacher/assets/js/todolist.js"></script>
+<script src="/resources/teacher/assets/js/chart.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page -->
 <script src="/resources/teacher/assets/js/dashboard.js"></script>

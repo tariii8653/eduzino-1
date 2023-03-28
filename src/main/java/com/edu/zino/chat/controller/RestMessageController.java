@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +19,6 @@ import com.edu.zino.chat.model.MessageService;
 import com.edu.zino.domain.Chat;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.Message;
-import com.edu.zino.util.MessageUtil;
 
 
 @RestController
@@ -143,12 +141,17 @@ public class RestMessageController {
 	}
 	
 	//메세지 조회
-	@PostMapping("/chat/chatMessage")
-	public List<Message> selectChatMessages(HttpServletRequest request, Chat chat){
+	@GetMapping("/chat/chatmessage/{chat_idx}")
+	public List<Message> selectChatMessages(HttpServletRequest request, @PathVariable int chat_idx){
 		
-		logger.info("메세지목록 "+chat);
+		logger.info("메세지목록 "+chat_idx);
 		
-		List<Message> messageList = messageService.selectChat(chat.getChat_idx());
+		Message message = new Message();
+		Chat chat = new Chat();
+		chat.setChat_idx(chat_idx);
+		message.setChat(chat);
+		
+		List<Message> messageList = messageService.selectChat(message);
 		
 		return messageList;
 	}

@@ -20,7 +20,7 @@
 	
 
 	<!-- 한 채팅방의 메세지 조회하기 -->
-	<select id="selectChat" parameterType="int" resultMap="messageMap">
+	<select id="selectChat" parameterType="Message" resultType="Message">
 		select * from message where chat_idx=#{chat.chat_idx}
 	</select>
 

@@ -7,6 +7,9 @@
 		<!-- 관리자 -->
 		<typeAlias type="com.edu.zino.domain.Admin" alias="Admin"/>
 		<typeAlias type="com.edu.zino.domain.Grade" alias="Grade"/>
+		<typeAlias type="com.edu.zino.domain.Qnaboard" alias="Qnaboard"/>
+		<typeAlias type="com.edu.zino.domain.Target" alias="Target" />
+		<typeAlias type="com.edu.zino.domain.Adminboard" alias="Adminboard"/>
 				
 		<!-- 회원 -->
 		<typeAlias type="com.edu.zino.domain.Member" alias="Member"/>
@@ -57,6 +60,9 @@
 		<!-- 관리자 -->
 		<mapper resource="com/edu/zino/mybatis/AdminMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/GradeMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/AdminboardMapper.xml" />
+		<mapper resource="com/edu/zino/mybatis/QnaboardMapper.xml" />
+		<mapper resource="com/edu/zino/mybatis/TargetMapper.xml" />
 		
 		<!-- 회원 -->
 		<mapper resource="com/edu/zino/mybatis/TeacherMapper.xml"/>

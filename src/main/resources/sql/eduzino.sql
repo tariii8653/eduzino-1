@@ -1,54 +1,39 @@
-<<<<<<< HEAD
 
 
----------------------------------------------
 CREATE TABLE member (
 	member_idx	number		NOT NULL,
-	member_nickname	varchar2(100)		NULL,
-	member_regdate	date		NULL,
+	member_nickname	varchar2(100)		,
+	member_regdate	date	default sysdate	,
 	member_id	varchar2(30) NOT NULL,
 	sns_name_idx	number NOT NULL
 );
 
-=======
-CREATE TABLE member (
-	member_idx	number		NOT NULL,
-	member_email	varchar2(100)		NULL,
-	member_nickname	varchar2(100)		NULL,
-	member_regdate	date		NULL,
-	member_birth	date		NULL,
-	member_photo	varchar2(30)		NULL,
-	social_login_idx number not null
-);
 
 
 
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
+
 CREATE TABLE sns_name(
 	sns_name_idx number primary key,
 	sns_type varchar2(20) not null
 );
 
-<<<<<<< HEAD
 CREATE TABLE birthday(
 	birthday_idx number primary key,
 	member_idx	number		NOT NULL,
-	birthday varchar2(30) NULL
+	birthday varchar2(30) 
 );
 
 CREATE TABLE profile_photo(
 	profile_photo_idx number primary key,
 	member_idx	number		NOT NULL,
-	profile_photo varchar2(50) NULL
+	profile_photo varchar2(50) 
 );
 
 CREATE TABLE email(
 	email_idx number primary key,
 	member_idx	number		NOT NULL,
-	email varchar2(30) NULL
+	email varchar2(30) 
 );
-=======
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 
 CREATE TABLE teacher (
 	teacher_idx	number		NOT NULL,

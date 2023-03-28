@@ -91,7 +91,10 @@
       <div class="collapse" id="ui-basic5">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+            <a class="nav-link" href="/admin/board">공지사항</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/qnaboard">QnA</a>
           </li>
         </ul>
       </div>

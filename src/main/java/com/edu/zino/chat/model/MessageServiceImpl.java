@@ -20,8 +20,8 @@ public class MessageServiceImpl implements MessageService {
 
 	//chat_idx로 채팅방 조회
 	@Override
-	public List<Message> selectChat(int chat_idx) {
-		return messageDAO.selectChat(chat_idx);
+	public List<Message> selectChat(Message message) {
+		return messageDAO.selectChat(message);
 	}
 	
 	//메세지 저장

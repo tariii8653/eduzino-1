@@ -29,19 +29,11 @@
             
             
 			<div class="card">
-            	<div class="card-body">
-            		<div class="chartjs-size-monitor">
-            			<div class="chartjs-size-monitor-expand">
-            				<div class=""></div>
-            			</div>
-            			<div class="chartjs-size-monitor-shrink">
-            				<div class=""></div>
-            			</div>
-            		</div>
+                  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                     <h4 class="card-title">Bar chart</h4>
-                    <canvas id="barChart" style="height: 138px; display: block; width: 277px;" width="346" height="172" class="chartjs-render-monitor"></canvas>
+                    <canvas id="barChart" style="height: 134px; display: block; width: 269px;" width="336" height="167" class="chartjs-render-monitor"></canvas>
+                  </div>
                 </div>
-            </div>
             
             
             

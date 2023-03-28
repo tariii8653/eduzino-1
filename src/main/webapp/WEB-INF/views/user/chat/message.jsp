@@ -110,8 +110,8 @@
 							
 					</div>
 
-					<div class="position-relative" style="height:70%">
-						<div class="chat-messages p-4" id="chatArea">
+					<div class="position-relative" style="height:500px; overflow: auto;" id="chatAreaScroll">
+						<div class="chat-messages p-4" id="chatArea" >
 
 
 						</div>
@@ -214,6 +214,7 @@ function connect(chat){
 		//time, content
 		let messageRightCard = new MessageRightCard(time, msg);
 		$("#chatArea").append(messageRightCard.getBox());	
+		$("#chatAreaScroll").scrollTop($("#chatAreaScroll")[0].scrollHeight);
 		
 	}
 	
@@ -225,6 +226,7 @@ function connect(chat){
 		//profile, name, time, content
 		let messageLeftCard = new MessageLeftCard("https://bootdey.com/img/Content/avatar/avatar5.png", chat.member_teacher.member_nickname, time, msg);
 		$("#chatArea").append(messageLeftCard.getBox());	
+		$("#chatAreaScroll").scrollTop($("#chatAreaScroll")[0].scrollHeight);
 	}
 	
 	
@@ -237,7 +239,6 @@ function connect(chat){
 		ws.send(chat.chat_idx + "," + chat.member.member_idx + "," + chat.member_teacher.member_idx + "," + msg);
 		
 		showMessageRightCard(msg);
-		
 	}
 	
 	/*-------------------------------------------------------------------------------------------
@@ -341,19 +342,33 @@ function connect(chat){
   		$("#chatArea").empty(); //div내용지우기
   		
   		$.ajax({
-            url:"/rest/chat/chatMessage",
-            type:"post",
+            url:"/rest/chat/chatmessage/"+chat.chat_idx,
+            type:"get",
 			contentType:"application/json;charset=utf-8",
-            data:{
-               chat_idx:chat.chat_idx
-            },
             processData:false, /*query string화 여부*/
             success:function(result, status, xhr){
-               console.log("유저가 조회한 메세지 목록", result);
+                console.log("유저가 조회한 메세지 목록", result);
+				console.log(result.length);
+               for(let i=0;i<result.length;i++){
+					//console.log(result[i]);
+					//console.log(chat);
+            	   chatAreaMessegesAppend(result[i], chat);
+               }
            }
        });
-  		
   	}
+	
+	//db에 저장된 message내역들을 chatArea에 붙여넣자
+	function chatAreaMessegesAppend(result, chat){
+		//console.log(result);
+		//console.log(chat);
+		if(result.you != chat.member.member_idx){
+			showMessageLeftCard(chat, result.message_content);  		
+		}else{
+			showMessageRightCard(result.message_content);
+		}
+		$("#chatAreaScroll").scrollTop($("#chatAreaScroll")[0].scrollHeight);
+	}
   	
 	
 	function getChatHeadFoot(chat){
@@ -500,7 +515,6 @@ function connect(chat){
 		selectShowHide(flag); //기본 : 채팅방검색
 		//connect();
 		getChatRooms(); //채팅방리스트 조회
-		
 		
 		
 		//메세지플러스 아이콘 눌렀을 때 수강생selectbox와 검색창
