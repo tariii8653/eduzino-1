@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.zino.chat.model.ChatService;
@@ -57,6 +58,8 @@ public class RestMessageController {
 	@PostMapping("/teacher/chat/message")
 	public Chat insertTeacher(HttpServletRequest request, @RequestBody Chat chat){
 		
+		
+		//logger.info("member_idx is "+member_idx);
 		logger.info("chat is "+chat);
 		
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음

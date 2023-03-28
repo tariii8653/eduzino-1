@@ -86,7 +86,7 @@
                             <% } %>
                             </td>
                             <td>
-                            	<button type="button" class="btn btn-outline-warning" id="bt_messege" onclick=goMessage() >메세지</button>
+                            	<button type="button" class="btn btn-outline-warning" id="bt_messege" onclick="showMessage('<%= orderSummary.getMember().getMember_idx() %>')" >메세지</button>
                             </td>
                             <td>
                               	<button type="button" class="btn btn-outline-danger" id="bt_onOff">차단</button>
@@ -128,8 +128,8 @@
 		$("#form1").submit();
 	}
   	
-	function goMessage(){
-		location.href="/teacher/chat/message";
+	function showMessage(member_idx){
+		//location.href="/teacher/chat/message";
 	}
   	
   	
