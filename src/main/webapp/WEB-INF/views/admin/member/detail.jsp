@@ -38,14 +38,50 @@
       </div>
 	<!-- *********************상단 버튼들 끝************************** -->
             
-	<!-- **********************회원 정보 시작************************** -->
-	<div class="card" style="width:200px">
-	  <img class="card-img-top" src="/resources/admin/data/profile1.png" alt="Card image" style="width:100%">
-	  <div class="card-body">
-	    <h4 class="card-title">John Doe</h4>
-	  </div>
-	</div>
-	
+	<!-- 회원 정보 시작 -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="card" style="width:200px">
+            <img class="card-img-top" src="/resources/admin/data/profile1.png" alt="Card image" style="width:100%">
+            <div class="card-body">
+                <h4 class="card-title">John Doe</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>닉네임</th>
+                    <th>메일주소</th>
+                    <th>회원상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><a href="#"> Doe</a></td>
+                    <td>john@example.com</td>
+                    <td>일반회원</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><a href="#"> Doe</a></td>
+                    <td>john@example.com</td>
+                    <td>강사</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><a href="#"> Doe</a></td>
+                    <td>john@example.com</td>
+                    <td>정지</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 회원 테이블 -->
 	<!-- **********************회원 정보 끝************************** -->
 
           </div>

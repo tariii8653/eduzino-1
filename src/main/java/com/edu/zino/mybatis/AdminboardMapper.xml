@@ -23,29 +23,31 @@
 
 	<!-- 레코드 가져오기 -->
 	<select id="selectAll" resultMap="AdminboardMap">
-		select * from adminboard order
-		by adminboard_idx asc
+		select * from adminboard 
 	</select>
 
+	<!-- 한건 가져오기 -->
 	<select id="select" resultMap="AdminboardMap" parameterType="int">
 		select * from adminboard where adminboard_idx=#{adminboard_idx}
 	</select>
 
+	<!-- 한건 조회하기 -->
 	<insert id="insert" parameterType="Adminboard">
 		insert into adminboard(adminboard_idx, adminboard_title,adminboard_content, adminboard_regdate, adminboard_sort, target_idx, admin_idx)
 		values(seq_adminboard.nextval, #{adminboard_title}, #{adminboard_content},sysdate, #{adminboard_sort}, #{target.target_idx}, #{admin.admin_idx})
 		
 	</insert>
 
+	<!-- 한건 수정하기 -->
 	<update id="update" parameterType="Adminboard">
 		update adminboard set adminboard_title=#{adminboard_title}, adminboard_content=#{adminboard_content}, adminboard_sort=#{adminboard_sort}, target_idx=#{target.target_idx},admin_idx=#{admin.admin_idx} 
 		where adminboard_idx=#{adminboard_idx}
 	</update>
 
+	<!-- 한건 삭제하기 -->
 	<delete id="delete" parameterType="int">
 		delete from adminboard where
 		adminboard_idx=#{adminboard_idx}
 	</delete>
-
 
 </mapper>

@@ -3011,7 +3011,8 @@ p.footer-copyright {
 .chat-messages {
     display: flex;
     flex-direction: column;
-    max-height: 950px;
+    /* max-height: 950px; */
+    
     overflow-y: hidden;
 }
 

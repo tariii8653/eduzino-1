@@ -4,9 +4,11 @@
 	
 	<resultMap type="Subject" id="subjectMap">
 		<id column="subject_idx" property="subject_idx"/>
+		
 		<association column="teacher_idx" property="teacher"
 							javaType="Teacher" select="Teacher.select" />
 	</resultMap>
+	
 
 	<!-- 전부 가져오기 -->
 	<select id="selectAll" resultType="Subject">
@@ -14,7 +16,7 @@
 	</select>
 	
 	<!-- 강의 한건 가져오기 -->
-	<select id="select" parameterType="int" resultType="Subject">
+	<select id="select" parameterType="int" resultMap="subjectMap">
 		select * from subject where subject_idx = #{subject_idx}
 	</select>
 	

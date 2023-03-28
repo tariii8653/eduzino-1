@@ -4,12 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.edu.zino.model.admin.AdminboardService;
@@ -17,6 +16,8 @@ import com.edu.zino.model.admin.AdminboardService;
 @Controller
 public class AdminController {
 
+	private Logger logger=LoggerFactory.getLogger(this.getClass().getName());
+	
 	@Autowired
 	private  AdminboardService adminboardService;
 	
@@ -28,7 +29,15 @@ public class AdminController {
 		ModelAndView mav=new ModelAndView("/admin/board/board_main");
 		mav.addObject("adminboardList",adminboardList);
 		return mav;
-	}	
+		
+	}
+	
+	@GetMapping("/qnaboard")
+	public ModelAndView getQnaBoard(HttpServletRequest request) {
+		logger.info("qna페이지 요청 받음");
+		ModelAndView mav=new ModelAndView("/admin/qnaboard/qnaboard_main");
+		return mav;
+	}
 	 
 	@GetMapping("/index")
 	public String getIndex() {

@@ -7,12 +7,16 @@
 		<!-- 관리자 -->
 		<typeAlias type="com.edu.zino.domain.Admin" alias="Admin"/>
 		<typeAlias type="com.edu.zino.domain.Grade" alias="Grade"/>
+		<typeAlias type="com.edu.zino.domain.Qnaboard" alias="Qnaboard"/>
+		<typeAlias type="com.edu.zino.domain.Target" alias="Target" />
+		<typeAlias type="com.edu.zino.domain.Adminboard" alias="Adminboard"/>
 				
 		<!-- 회원 -->
 		<typeAlias type="com.edu.zino.domain.Member" alias="Member"/>
 		<typeAlias type="com.edu.zino.domain.Teacher" alias="Teacher"/>
+		<typeAlias type="com.edu.zino.domain.MemberStatus" alias="MemberStatus"/>
 		
-		<typeAlias type="com.edu.zino.domain.SnsName" alias="SnsName"/>
+		<typeAlias type="com.edu.zino.domain.Sns" alias="Sns"/>
 		<typeAlias type="com.edu.zino.domain.Birthday" alias="Birthday"/>
 		<typeAlias type="com.edu.zino.domain.ProfilePhoto" alias="ProfilePhoto"/>
 		<typeAlias type="com.edu.zino.domain.Email" alias="Email"/>
@@ -56,15 +60,20 @@
 		<!-- 관리자 -->
 		<mapper resource="com/edu/zino/mybatis/AdminMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/GradeMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/AdminboardMapper.xml" />
+		<mapper resource="com/edu/zino/mybatis/QnaboardMapper.xml" />
+		<mapper resource="com/edu/zino/mybatis/TargetMapper.xml" />
 		
 		<!-- 회원 -->
 		<mapper resource="com/edu/zino/mybatis/TeacherMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/MemberMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/MemberStatusMapper.xml"/>
+		
 		<mapper resource="com/edu/zino/mybatis/BirthdayMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/EmailMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/ProfilePhotoMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/SnsMapper.xml"/>
 		
-		<mapper resource="com/edu/zino/mybatis/SnsNameMapper.xml"/>
 		<mapper resource="com/edu/zino/mybatis/BlacklistMapper.xml"/>
 		
 		<!-- 강의 -->

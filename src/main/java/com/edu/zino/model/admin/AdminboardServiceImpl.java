@@ -1,6 +1,7 @@
 package com.edu.zino.model.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,9 @@ public class AdminboardServiceImpl implements AdminboardService{
 		adminboardDAO.delete(adminboard_idx);
 		
 	}
+
+
+
 
 
 

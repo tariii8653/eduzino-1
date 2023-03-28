@@ -14,6 +14,7 @@
                     <div class="col-3 col-lg-9 flex justify-content-end align-content-center" style="display: content;">
                         <nav class="site-navigation flex justify-content-end align-items-center">
                             <ul class="flex flex-column flex-lg-row justify-content-lg-end align-content-center">
+                            <!-- 
                                 <li>
                                 	<a href="#">IT</a>
 									<div>
@@ -31,6 +32,8 @@
                                 <li><a href="#">마케팅</a></li>
                                 <li><a href="#">외국어</a></li>
                                 <li><a href="#">edu</a></li>
+                                
+                              -->
                             </ul>
 
                             <div class="hamburger-menu d-lg-none">

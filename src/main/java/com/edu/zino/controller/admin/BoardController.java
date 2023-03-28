@@ -1,6 +1,7 @@
 package com.edu.zino.controller.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,12 +26,13 @@ import com.edu.zino.model.admin.AdminboardService;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+	
 	private Logger logger=LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private AdminboardService adminboardService;
 
-	private String userType;
+
 	
 	
 	//목록 요청 처리
@@ -43,6 +45,21 @@ public class BoardController {
 		mav.addObject("adminboardList",adminboardList);
 		return mav;
 	}
+	
+	
+	//상세보기 요청 처리
+	@GetMapping(value = "/detail")
+	public ModelAndView getDetail(int adminboard_idx,HttpServletRequest request) {
+		logger.info("상세보기 요청을 받음");
+		//3단계
+		Adminboard adminboard=adminboardService.select(adminboard_idx);
+		
+		//4단계- 결과 저장
+		ModelAndView mav=new ModelAndView("/admin/board/detail");
+		mav.addObject("adminboard",adminboard);
+		return mav;
+	}
+
 	
 	//글쓰기 폼 요청
 	@GetMapping("/registform")
@@ -58,34 +75,12 @@ public class BoardController {
 	
 		adminboard.setAdmin(admin);
 		
-		Target target=new Target();
-		target.setTarget_idx(1);
+		
 		
 		//3단계 일시키기
 		adminboardService.insert(adminboard);
 		ModelAndView mav=new ModelAndView("redirect:/admin/board/list");
 
-		return mav;
-	}
-	
-	//상세보기 요청 처리
-	@GetMapping("/detail")
-	public ModelAndView getDetail(int adminboard_idx,HttpServletRequest request) {
-		//3단계
-		Adminboard adminboard=adminboardService.select(adminboard_idx);
-		
-		//4단계- 결과 저장
-		ModelAndView mav=new ModelAndView("/admin/board/detail");
-		mav.addObject("adminboard",adminboard);
-		return mav;
-	}
-	
-	//게시믈 보기
-	@GetMapping("/view")
-	public ModelAndView getView(HttpServletRequest request,int adminboard_idx) {
-		Adminboard adminboard=adminboardService.select(adminboard_idx);
-		ModelAndView mav=new ModelAndView("/admin/board/view");
-		mav.addObject("adminboard",adminboard);
 		return mav;
 	}
 	
@@ -116,7 +111,7 @@ public class BoardController {
 		admin.setAdmin_idx(1);
 	
 		adminboard.setAdmin(admin);
-		
+			
 		//3단계: 일시키기
 		adminboardService.update(adminboard);
 		

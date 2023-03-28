@@ -14,5 +14,6 @@ public interface OrderSummaryService {
 	//과목, 닉네임으로 검색
 	public List selectAllBySearch(Map<String, Object> searchMap);
 	
-	
+	//회원별 강사내역 가져오기
+	public List selectAllByMemberTeacher(int member_idx);
 }

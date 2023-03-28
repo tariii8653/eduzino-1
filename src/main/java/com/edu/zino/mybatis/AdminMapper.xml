@@ -6,7 +6,6 @@
 		<id 		column="admin_idx" 			property="admin_idx"/>
 		<result  column="admin_id" 			property="admin_id"/>
 		<result  column="admin_pass" 		property="admin_pass"/>
-		<result  column="admin_name" 		property="admin_name"/>
 		
 		<!-- 부모인 grade association -->
 		<association 
@@ -42,7 +41,5 @@
 	<delete id="delete" parameterType="int">
 		delete form admin where admin_idx=#{admin_idx}
 	</delete>
-	
-
 	
 </mapper>

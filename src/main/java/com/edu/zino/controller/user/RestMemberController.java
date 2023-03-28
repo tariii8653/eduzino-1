@@ -37,7 +37,7 @@ public class RestMemberController {
 	@PostMapping("/member")
 	public ResponseEntity<MessageUtil> regist(HttpServletRequest request, Member member){
 		//3단계: 일 시키기
-		memberService.regist(member);
+		memberService.insert(member);
 		MessageUtil message = new MessageUtil();
 		message.setMsg("회원가입 성공");
 		

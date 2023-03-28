@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edu.zino.domain.Chat;
-import com.edu.zino.exception.ChatException;
+import com.edu.zino.domain.Message;
+import com.edu.zino.exception.MessageException;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -17,45 +18,15 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageDAO messageDAO;
 
-	//수강생 조회
+	//chat_idx로 채팅방 조회
 	@Override
-	public List selectAllByTeacher(int teacher_idx) {
-		return messageDAO.selectAllByTeacher(teacher_idx);
+	public List<Message> selectChat(Message message) {
+		return messageDAO.selectChat(message);
 	}
 	
-	//채팅방생성
+	//메세지 저장
 	@Override
-	public void insert(Chat chat) throws ChatException {
-			messageDAO.insert(chat);
+	public void insert(Message message) throws MessageException {
+		messageDAO.insert(message);
 	}
-	
-	
-	//채팅방전체조회
-	@Override
-	public List selectAll(Chat chat) {
-		List<Chat> chatList = null;
-	
-		logger.info("ServiceImpl이 넘겨받은 chat"+chat);
-		
-		if(chat.getMember_teacher() != null) {
-			//선생님이 학생을 조회할때
-			//member.member_idx == 0
-			//member.member_teacher_idx : session에서 값을 받아서 가져옴
-			chatList = messageDAO.selectByTeacher(chat.getMember_teacher().getMember_idx());
-		}else {
-			//학생이 선생님을 조회할때
-			chatList = messageDAO.selectByStudent(chat.getMember().getMember_idx());
-		}
-		
-		logger.info("ServiceImpl chatList"+chatList);
-		
-		return chatList;
-	}
-	
-	//채팅방 한건 조회
-	@Override
-	public Chat select(Chat chat) {
-		return messageDAO.select(chat);
-	}
-
 }

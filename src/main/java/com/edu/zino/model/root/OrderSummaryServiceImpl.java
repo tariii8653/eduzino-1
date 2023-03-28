@@ -55,9 +55,12 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	}
 
 	
+	@Override
+	//회원별 강사내역 가져오기
+	public List selectAllByMemberTeacher(int member_idx) {
+		return orderSummaryDAO.selectAllByMemberTeacher(member_idx);
+	}
 
-	
-	
 
 
 
