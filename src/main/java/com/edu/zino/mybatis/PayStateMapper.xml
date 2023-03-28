@@ -3,6 +3,6 @@
 <mapper namespace="PayState">
 	
 	<select id="select" parameterType="int" resultType="PayState">
-		select * from paystate where paystate_idx = #{paystate_idx}
+		select * from payState where paystate_idx = #{paystate_idx}
 	</select>
 </mapper>

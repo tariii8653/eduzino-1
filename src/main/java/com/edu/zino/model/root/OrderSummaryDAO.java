@@ -14,5 +14,7 @@ public interface OrderSummaryDAO {
 	
 	public List selectAllByMember(Member member);
 	
+	public void insert(OrderSummary orderSummary);
+
 	public List selectAllByMemberTeacher(int member_idx); //회원별 강사내역 가져오기
 }

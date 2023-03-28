@@ -1,6 +1,11 @@
 package com.edu.zino.model.root;
 
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.OrderSummary;
+import com.edu.zino.exception.OrderSummaryException;
+import com.edu.zino.model.user.OrderDetailDAO;
 
 @Service
 public class OrderSummaryServiceImpl implements OrderSummaryService {
@@ -18,6 +27,7 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	
 	@Autowired
 	private OrderSummaryDAO orderSummaryDAO;
+	private OrderDetailDAO orderDetailDAO;
 
 	//과목에 따른 전체 수강생조회
 	@Override
@@ -44,18 +54,13 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 		return orderSummaryList;
 	}
 
-	@Override
-	//회원별 주문내역 가져오기
-	public List selectAllByMember(Member member) {
-		return orderSummaryDAO.selectAllByMember(member);
-	}
-
+	
 	@Override
 	//회원별 강사내역 가져오기
 	public List selectAllByMemberTeacher(int member_idx) {
 		return orderSummaryDAO.selectAllByMemberTeacher(member_idx);
 	}
-	
+
 
 
 

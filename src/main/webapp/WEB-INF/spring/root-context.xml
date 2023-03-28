@@ -70,7 +70,7 @@
 	</beans:bean>	
 	
 	<context:component-scan base-package="com.edu.zino.model" />
-	
+	<context:component-scan base-package="com.edu.zino.util" />
 	
 	<!-- 구글 로그인 관련 정보 등록  -->
  	<beans:bean id="googleLogin" class="com.edu.zino.snslogin.GoogleLogin">

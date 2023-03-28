@@ -1380,7 +1380,7 @@ ol {
 }
 
 .categories__accordion .card-heading a:after,
-.categories__accordion .card-heading>a.active[aria-expanded=false]:after {
+.categories__accordion .card-heading a.active[aria-expanded=false]:after {
 	content: "";
 	font-size: 14px;
 	font-family: "FontAwesome";
