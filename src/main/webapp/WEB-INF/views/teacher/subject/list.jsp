@@ -135,10 +135,14 @@ const subject_item ={
  			</div>
  			<div class="zino-subject-list-item-body">
 			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+				<div class="progress-bar bg-success" role="progressbar" v-bind:style="styleObject" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
  				<div>
-     				<h2 class="zino-subject-list-item-title">{{item.subject_title}}</h2>
+     				<h2 v-if="item.subject_permission == 1" class="zino-subject-list-item-title"><a :href="subjectDetailPage">{{item.subject_title}}</a></h2>
+     				<h2 v-else class="zino-subject-list-item-title">
+     					<a v-if="item.subject_title !=null" :href="subjectEditPage">{{item.subject_title}}</a>
+     					<a v-else :href="subjectEditPage">제목이 없습니다.</a>
+     				</h2>
      			</div>
      			<div class="zino-subject-list-item-teacher">
      				<a href="#">{{item.teacher.member_nickname}}</a>
@@ -149,13 +153,41 @@ const subject_item ={
  			</div>
  		</div>
 	`,props:['item']
+	,data(){
+		return {
+			styleObject: {
+			    width: '10%'
+			  }
+		}
+	}
 	  ,methods:{
+		  setProgress:function(){
+			  let count = 0;
+			  if(this.item.goals.length>0)count++;
+			  if(this.item.requirements.length>0)count++;
+			  if(this.item.sectionList.length > 0)count++;
+			  if(this.item.sub_category != null)count++;
+			  if(this.item.subject_detail != null)count++;
+			  if(this.item.subject_pic != null)count++;
+			  if(this.item.subject_price > 0)count++;
+			  if(this.item.subject_subTitle != null)count++;
+			  if(this.item.subject_title != null)count++;
+			  
+			  let avg = Math.round((count/9)*100);
+			  console.log("avg : ",avg);
+			  
+			  this.styleObject.width=avg+"%";
+		  }
 	},created:function(){
+		console.log("item : ",this.item);
+		this.setProgress();
 		if(this.item.subject_pic==null){
 			this.imgurl="${imgUri}/selectImage.png";
 		}else{
 			this.imgurl="${imgUri}/"+this.item.subject_pic;
 		}
+		this.subjectDetailPage="/teacher/subject/detail/"+this.item.subject_idx;
+		this.subjectEditPage = "/teacher/subject/regist/detail/"+this.item.subject_idx;
 	}
 }
 
@@ -164,7 +196,7 @@ function init(){
 		location.href="/teacher/subject/regist";
 	});
 	$.ajax({
-		url:"/teacher/rest/subjects/1",
+		url:"/teacher/rest/subjects/1",//idx교체(teacher_idx)
 		type:"get",
 		success:function(result){
 			console.log(result);

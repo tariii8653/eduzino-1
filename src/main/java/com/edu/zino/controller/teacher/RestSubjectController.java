@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,6 +113,33 @@ public class RestSubjectController {
 		Subject subject = subjectService.select(subject_idx);
 		ResponseEntity<Subject> entity = new ResponseEntity<Subject>(subject,HttpStatus.OK);
 		return entity;
+	}
+	
+	@DeleteMapping("/subject/{subject_idx}")
+	public ResponseEntity<Void> delete(@PathVariable("subject_idx") int subject_idx){
+		subjectService.delete(subject_idx);
+		ResponseEntity<Void> entity = new ResponseEntity<Void>(HttpStatus.OK);
+		return entity;
+	}
+	
+	@GetMapping("subject/{subject_idx}/summary")
+	public ResponseEntity<Subject> selectSummary(@PathVariable("subject_idx") int subject_idx){
+		Subject subject = subjectService.selectSummary(subject_idx);
+		ResponseEntity<Subject> entity = new ResponseEntity<Subject>(subject,HttpStatus.OK);
+		return entity;
+	}
+	
+	@PostMapping("/subject/request")
+	public ResponseEntity<Void> subjectRequest(int subject_idx){
+		subjectService.subjectRequest(subject_idx);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/subject/access")
+	public ResponseEntity<Void> setAccess(Subject subject){
+		logger.info("subject : "+subject);
+		subjectService.updateAccess(subject);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	
