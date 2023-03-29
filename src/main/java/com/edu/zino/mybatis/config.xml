@@ -25,6 +25,11 @@
 		
 		<!-- 강의 관련 -->
 		<typeAlias type="com.edu.zino.domain.Subject" alias="Subject"/>
+		<typeAlias type="com.edu.zino.domain.Video" alias="Video"/>
+		<typeAlias type="com.edu.zino.domain.Requirement" alias="Requirement"/>
+		<typeAlias type="com.edu.zino.domain.Goal" alias="Goal"/>
+		<typeAlias type="com.edu.zino.domain.Section" alias="Section"/>
+		<typeAlias type="com.edu.zino.domain.Movie" alias="Movie"/>
 		
 		<!-- 결제관련 -->
 		<typeAlias type="com.edu.zino.domain.Cart" alias="Cart"/>
@@ -78,6 +83,11 @@
 		
 		<!-- 강의 -->
 		<mapper resource="com/edu/zino/mybatis/SubjectMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/VideoMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/RequirementMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/GoalMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/SectionMapper.xml"/>
+		<mapper resource="com/edu/zino/mybatis/MovieMapper.xml"/>
 
 		<!-- 장바구니 결제 -->
 		<mapper resource="com/edu/zino/mybatis/CartMapper.xml"/>

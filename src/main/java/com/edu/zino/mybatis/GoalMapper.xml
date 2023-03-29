@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Goal">
+
+	<insert id="insert" parameterType="Goal">
+        insert into goal(goal_idx,goal_name,subject_idx) values (seq_goal.nextval,#{goal_name},#{subject.subject_idx})
+	</insert>
+	<!-- 
+		INSERT ALL 
+		INTO goal(goal_idx, goal_name, subject_idx) VALUES (seq_goal.nextval, '학습1', 3)
+		INTO goal(goal_idx, goal_name, subject_idx) VALUES (seq_goal.nextval, '학습2', 3)
+		SELECT 1 FROM DUAL; 
+	 -->
+	
+	<select id="selectAllBySubject" parameterType="int" resultType="Goal">
+		select * from goal where subject_idx=#{subject_idx}
+	</select>
+		
+	<delete id="deleteBySubject" parameterType="Goal">
+		delete goal where subject_idx=#{subject_idx}
+	</delete>
+
+</mapper>
