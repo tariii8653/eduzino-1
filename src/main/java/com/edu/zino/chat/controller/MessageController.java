@@ -31,7 +31,7 @@ public class MessageController {
 	
 	//선생님의 수강생목록 가져오기
 	@GetMapping("/chat/message")
-	public ModelAndView getTeacherMessage(HttpServletRequest request) {
+	public ModelAndView getTeacherMessage(HttpServletRequest request,@RequestParam(defaultValue = "0") int member_idx) {
 		
 		
 		//로그인 하면 session에서 teacher_idx를 가져오므로 getMapping으로 가져올 필요는 없음
@@ -42,6 +42,7 @@ public class MessageController {
 		
 		ModelAndView mav = new ModelAndView("/teacher/chat/message");
 		mav.addObject("orderSummaryList", orderSummaryList);
+		mav.addObject("member_idx", member_idx);
 		
 		return mav;
 	}

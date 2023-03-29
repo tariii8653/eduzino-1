@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.zino.chat.model.ChatService;
@@ -20,6 +21,7 @@ import com.edu.zino.chat.model.MessageService;
 import com.edu.zino.domain.Chat;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.Message;
+import com.edu.zino.util.MessageUtil;
 
 
 @RestController
@@ -157,6 +159,21 @@ public class RestMessageController {
 		List<Message> messageList = messageService.selectChat(message);
 		
 		return messageList;
+	}
+	
+	//채팅방 읽음표시 체크
+	@PostMapping("/chat/chatmessage/check")
+	public  ResponseEntity<MessageUtil> updateCheck(HttpServletRequest request, Message message){
+		
+		messageService.updateCheck(message);
+		
+		
+		MessageUtil messageUtil = new MessageUtil();
+		messageUtil.setMsg("읽음표시 업데이트 성공");
+		
+		ResponseEntity entity=new ResponseEntity<MessageUtil>(messageUtil, HttpStatus.OK);
+		
+		return entity;
 	}
 	
 

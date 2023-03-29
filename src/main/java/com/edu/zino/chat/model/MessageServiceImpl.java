@@ -18,10 +18,23 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageDAO messageDAO;
 
+	
+	//채팅방 전체 조회
+	@Override
+	public List<Message> selectAll(Message message) {
+		return messageDAO.selectAll(message);
+	}
+	
 	//chat_idx로 채팅방 조회
 	@Override
 	public List<Message> selectChat(Message message) {
 		return messageDAO.selectChat(message);
+	}
+	
+	//안읽은 메세지 조회
+	@Override
+	public List<Message> seleckByCheck(Message message) {
+		return messageDAO.seleckByCheck(message);
 	}
 	
 	//메세지 저장
@@ -29,4 +42,11 @@ public class MessageServiceImpl implements MessageService {
 	public void insert(Message message) throws MessageException {
 		messageDAO.insert(message);
 	}
+
+	//읽었는지 체크
+	@Override
+	public void updateCheck(Message message) throws MessageException {
+		messageDAO.updateCheck(message);
+	}
+
 }

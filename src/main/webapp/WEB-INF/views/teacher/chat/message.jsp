@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
 	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
-
+	int member_idx = (int)request.getAttribute("member_idx");
 %>
 <!DOCTYPE html>
 <html>
@@ -349,7 +349,7 @@
 	function chatAreaMessegesAppend(chat, result){
 		//console.log(result);
 		//console.log(chat);
-		if(result.you != chat.member_teacher.member_idx){
+		if(result.you == chat.member_teacher.member_idx){
 			showMessageLeftCard(chat, result.message_content);  		
 		}else{
 			showMessageRightCard(result.message_content);
@@ -394,12 +394,12 @@
   	const row={
   			template:`
   				<a href="#" class="list-group-item list-group-item-action border-0" @click="getChat(chat)">
-  				<div class="badge bg-success float-right">5</div>
+  				<div class="badge bg-success float-right">{{totalMessageCheck}}</div>
   					<div class="d-flex align-items-start">
   							<img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
   						<div class="chatname flex-grow-1 ml-3">
   											{{chat.member.member_nickname}}
-  							<div class="chatmessage">안녕하세요</div>
+  							<div class="chatmessage">{{showLastMessage}}</div>
   						</div>
   					</div>
   				</a>
@@ -407,7 +407,9 @@
   			props:["obj"],
   			data(){
   				return{
-  					chat:this.obj
+  					chat:this.obj,
+  					totalMessageCheck:0,
+  					showLastMessage:""
   				};
   			},
   			methods:{
@@ -416,6 +418,21 @@
   	  				console.log("getChat 호출", chat);
   	  				getChatHeadFoot(chat);
   	  			}
+  	  		},
+  	  		created:function(){
+  	  			let messageList = this.obj.messageList;
+  	  			let count = 0;
+  	  			let lastMessage = "";
+  	  			for(let i=0;i<messageList.length;i++){
+  	  				let message = messageList[i];
+  	  				if(message.you == this.obj.member.member_idx){
+  	  					lastMessage = message.message_content;
+  	  					count++;
+  	  				}
+  	  			}
+  	  			this.totalMessageCheck = count;
+  	  			this.showLastMessage = lastMessage;
+  	  			//console.log("lastMessage : ",lastMessage);
   	  		}
   	};
   	

@@ -129,7 +129,8 @@
 	}
   	
 	function showMessage(member_idx){
-		//location.href="/teacher/chat/message";
+		location.href="/teacher/chat/message?member_idx="+member_idx;
+		
 	}
   	
   	
