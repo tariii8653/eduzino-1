@@ -41,7 +41,7 @@ public class ChatServiceImpl implements ChatService {
 		
 		List<Chat> chatList = chatDAO.selectByTeacher(chat.getMember_teacher().getMember_idx());
 		
-		logger.info("ServiceImpl chatList"+chatList);
+		//logger.info("ServiceImpl chatList"+chatList);
 		
 		return chatList;
 	}

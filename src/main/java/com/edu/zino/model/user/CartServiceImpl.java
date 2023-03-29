@@ -2,10 +2,11 @@ package com.edu.zino.model.user;
 
 import java.util.List;
 
-import javax.smartcardio.CardException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.zino.domain.Cart;
 import com.edu.zino.domain.Member;
@@ -29,15 +30,35 @@ public class CartServiceImpl implements CartService{
 
 	//찜목록 > 카트로 이동하기
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void regist(Cart[] cart) throws CartException{
 		for(int i=0; i<cart.length; i++) {
 			cartDAO.Insert(cart[i]);
 		}
 	}
 
-	@Override
-	public void delCart(int cart_idx) throws CartException{
-			cartDAO.delCart(cart_idx);
+	//카트에서 삭제하기
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void delCart(Cart[] cart) throws CartException{
+			for(int i=0; i<cart.length; i++) {
+				cartDAO.delCart(cart[i]);
+			}
 		}
+
+	//카트 중복검사
+	@Override
+	public int selectCount(Cart cart)  throws CartException {
+		int count = cartDAO.selectCount(cart);
+		return count;
+	}
+
+	//카트 한 건만 삭제
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void delOneCart(int cart_idx) {
+		cartDAO.delOneCart(cart_idx);
+		
+	}
+
+
 	
 }

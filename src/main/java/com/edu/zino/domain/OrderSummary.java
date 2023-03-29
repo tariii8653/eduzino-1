@@ -13,6 +13,7 @@ public class OrderSummary {
 	private Member member;
 	private Payment payment;
 	private Paystate paystate;
+	private String order_id;
 	
 	//이 주문 상세내역
 	private List<OrderDetail> orderDetailList;

@@ -1,5 +1,8 @@
 package com.edu.zino.controller.user;
 
+import java.io.IOException;
+import java.net.URI;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,19 +10,28 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.edu.zino.domain.Cart;
 import com.edu.zino.domain.Member;
-import com.edu.zino.model.root.OrderSummaryService;
+import com.edu.zino.exception.CartException;
+import com.edu.zino.exception.OrderSummaryException;
+import com.edu.zino.model.root.OrderService;
+import com.edu.zino.util.MessageUtil;
 
 @Controller
 public class OrderController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private OrderSummaryService orderSummaryService;
+	private OrderService orderService;
 	
 	/*--------- 주문내역-----------------*/
 	
@@ -31,8 +43,9 @@ public class OrderController {
 		member1.setMember_idx(2);
 		
 		//3단계
-		List<Member> orderList = orderSummaryService.selectAllByMember(member1);
-		
+		List<Member> orderList = orderService.selectAllByMember(member1);
+		//orderDetailService.selectAll(orderSummary)
+		logger.info("orderList "+orderList.toString());
 		//4단계
 		ModelAndView mav = new ModelAndView("/user/order/orderList");
 		mav.addObject("orderList",orderList);
@@ -46,5 +59,18 @@ public class OrderController {
 	@GetMapping("/order/point")
 	public ModelAndView getPointList() {
 		return new ModelAndView("/user/order/point");
+	}
+	
+	
+	
+	/*-----------exception-------------------*/
+	@ExceptionHandler(OrderSummaryException.class)
+	public ResponseEntity<MessageUtil> handle(OrderSummaryException e){
+		
+		MessageUtil msg = new MessageUtil();
+		msg.setMsg("결제내역 작업 실패");
+		
+		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
+		return entity;
 	}
 }

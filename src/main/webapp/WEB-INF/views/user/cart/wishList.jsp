@@ -71,7 +71,7 @@
 					</div>
 					
 				</div>
-				<div class="row" style="float: right; margin: 10px 0px 5px 10px">
+				<div class="row" style="margin-left: 520px; margin-bottom:17px" >
 					<button type="button" class="btn btn-success btn-md" style="margin-right:10px" id="bt_del">선택항목 삭제</button>
 	                 <button type="button" class="btn btn-success btn-md" id="bt_cart"> 장바구니로 이동</button>
 	        	</div>
@@ -254,9 +254,9 @@ let wishApp;
 					contentType:"application/json",
 					data: JSON.stringify(arr2),
 					success:function(result, status, xhr){
-						//if(confirm("장바구니로 이동하시겠습니까?")){
-							//location.href="/cart/list";
-						//}
+						if(confirm("장바구니로 이동하시겠습니까?")){
+							location.href="/cart/list";
+						}
 						console.log(result);
 					}
 				});

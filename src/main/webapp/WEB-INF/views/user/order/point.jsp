@@ -34,7 +34,8 @@
 			<div class="col-md-9">
 			<div class="card mt-5">
                   <div class="card-body">
-                    <h4 class="card-title">포인트 적립내역</h4>
+                    <h4 class="card-titl
+                    e">포인트 적립내역</h4>
                     
                     <div class="table-responsive">
                       <table class="table table-hover">
@@ -42,7 +43,7 @@
                            <tr>
                             <th>결제일</th>
                             <th>강좌명</th>
-                            <th>수강료</th>
+                            <th>결제액</th>
                             <th>적립액</th>
                           </tr>
                         </thead>
@@ -50,7 +51,7 @@
                         	<tr>
                             <td>결제일</td>
                             <td>강좌명</td>
-                            <td>수강료</td>
+                            <td>결제액</td>
                             <td>적립액</td>
                           </tr>
 							

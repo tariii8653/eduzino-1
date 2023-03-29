@@ -9,4 +9,6 @@ public interface WishService {
 	public List selectAll(Member member);
 	public Wish select(Wish wish);
 	public void delWish(Wish[] wish);
+	public void insert(Wish wish);
+	public int selectCount(Wish wish);
 }

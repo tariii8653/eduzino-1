@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.edu.zino.domain.OrderSummary;
 import com.edu.zino.domain.Subject;
-import com.edu.zino.model.root.OrderSummaryService;
+import com.edu.zino.model.root.OrderService;
 import com.edu.zino.model.teacher.SubjectService;
 
 //강사페이지 관련
@@ -26,7 +26,7 @@ public class TeacherController {
 	private Logger logger=LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private OrderSummaryService orderSummaryService;
+	private OrderService orderService;
 	
 	@Autowired
 	private SubjectService subjectService;
@@ -96,7 +96,7 @@ public class TeacherController {
 
 		
 		//검색하기 : subject_idx와 member_nickname이 null일땐 전체 조회
-		orderSummaryList = orderSummaryService.selectAllBySearch(searchMap);
+		orderSummaryList = orderService.selectAllBySearch(searchMap);
 		
 		logger.info("수강생 목록 "+orderSummaryList);
 		
@@ -105,7 +105,7 @@ public class TeacherController {
 		mav.addObject("orderSummaryList", orderSummaryList); //수강생들
 
 		
-		orderSummaryList = orderSummaryService.selectAllBySearch(searchMap);
+		orderSummaryList = orderService.selectAllBySearch(searchMap);
 		
 		
 		return mav;

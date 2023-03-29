@@ -19,44 +19,42 @@ CREATE TABLE sns_name(
 
 CREATE TABLE birthday(
 	birthday_idx number primary key,
-	member_idx	number		NOT NULL,
+	member_idx number	 NOT NULL,
 	birthday varchar2(30) 
 );
 
 CREATE TABLE profile_photo(
 	profile_photo_idx number primary key,
-	member_idx	number		NOT NULL,
+	member_idx number	 NOT NULL,
 	profile_photo varchar2(50) 
 );
 
 CREATE TABLE email(
 	email_idx number primary key,
-	member_idx	number		NOT NULL,
+	member_idx number NOT NULL,
 	email varchar2(30) 
 );
 
 CREATE TABLE teacher (
-	teacher_idx	number		NOT NULL,
-	member_idx	number		NOT NULL
+	teacher_idx number NOT NULL,
+	member_idx number NOT NULL
 );
 
 CREATE TABLE blacklist (
+
 	blacklist_idx	number		NOT NULL,
-	pause	date		NULL,
-	blacklist_memo	clob		NULL,
+	pause	 date		,
+	blacklist_memo	clob		,
 	member_idx	number		NOT NULL
+
 );
 
 CREATE TABLE admin (
 	admin_idx	number		NOT NULL,
-	admin_id	varchar2(100)		NULL,
-	admin_pass	varchar2(64)		NULL,
-	admin_name	varchar2(100)		NULL,
-<<<<<<< HEAD
+	admin_id	varchar2(100)		,
+	admin_pass	varchar2(64)		,
 	grade_idx number not null
-=======
 	rank_idx number not null
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 );
 
 CREATE TABLE grade (
@@ -136,7 +134,8 @@ CREATE TABLE wish (
 
 CREATE TABLE order_summary (
 	order_summary_idx	number		NOT NULL,
-	order_summary_regdate	date		NULL,
+	order_id varcarh2(30) not null,
+	order_summary_regdate	date default sysdate null,
 	member_idx	number		NOT NULL,
 	payment_idx	number		NOT NULL,
 	paystate_idx	number		NOT NULL,
@@ -150,7 +149,7 @@ CREATE TABLE payment (
 );
 
 review ON COLUMN payment.payment_type IS 'idx 1 : 카드
-idx 2 : 가상계죄';
+idx 2 : 간편결제';
 
 CREATE TABLE paystate (
 	paystate_idx	number		NOT NULL,
@@ -200,16 +199,16 @@ review ON COLUMN target.userType IS '1 : 모두에게
 3 : 유저에게';
 
 CREATE TABLE teacherboard (
-	teacherboard_idx	number		NOT NULL,
-	teacherboard_title	varchar2(200)		NULL,
-	teacherboard_content	clob		NULL,
-	teacherboard_regdate	date		NULL,
-	teacher_idx	number		NOT NULL,
-	teacherboard_sort	number		NULL
+	teacherboard_idx number NOT NULL,
+	teacherboard_title varchar2(200) NULL,
+	teacherboard_content clob NULL,
+	teacherboard_regdate date NULL,
+	teacher_idx number NOT NULL,
+	teacherboard_sort	 number NULL
 );
 
 CREATE TABLE message (
-	message_idx	number		NOT NULL,
+	message_idx	number	 NOT NULL,
 	message_content	clob		NULL,
 	message_regdate	date		NULL,
 	message_check	number	DEFAULT 0	NULL,

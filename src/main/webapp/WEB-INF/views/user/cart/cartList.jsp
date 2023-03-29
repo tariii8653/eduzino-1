@@ -6,7 +6,6 @@
 	List cartList = (List)request.getAttribute("cartList");
 
 	int totalPrice=0;
-	
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +44,12 @@
 	    border-radius: 50px;
 	    width: 100%;
 	}
+	
+.subejct-item-checkbox input[type='checkbox'], .check_wrap input[type='checkbox']{
+	zoom:1.5;
+    width: 12px;
+    height: 12px;
+}
 </style>
 
 </head>
@@ -120,10 +125,9 @@
 										  <input type="checkbox" id="checkAll" name="checkAll"/>
 										 <span>select all</span>
 										</div>
-                                 	</td>
+                                 	</th>
                                     <th>Product</th>
-                                    <th>Price</th>
-                                    <th></th>
+                                    <th>Price</th>                              
                                 </tr>
                             </thead>
                           	<tbody class="cart_form_box" id="app_orderCheck">>
@@ -132,31 +136,19 @@
                      	        </template>
                             </tbody>
                         </table>
+                        <div class="row" style="margin-left:10px; margin-bottom:17px; margin-top:10px" >
+							<button type="button" class="btn btn-success btn-md"  id="bt_chkdel">선택항목 삭제</button> 
+	        			</div>
                     </div>
                 </div>
             </div>
            
             <div class="row" style="justify-content: flex-end;">
-	             <div class="col-lg-6 offset-lg-2">
-                    <div class="cart__total__procced">
-                          <h4>포인트 사용</h4>                       
-                            <ul>
-                            <li>보유 포인트 <span>1,000</span></li>
-                              </ul>
-                            <div class="discount__content">
-                        <form action="#">
-                            <input type="text" placeholder="Enter your point">
-                            <button type="submit" class="site-btn" style="right: -126px; ">전액 사용</button>
-                        </form>
-                    </div>
-                    </div>
-                </div>
                    <div class="col-lg-6 offset-lg-2">
                     <div class="cart__total__procced">
                         <h4>총 결제 금액</h4>
                         <ul>
-                            <li>할인 금액 <span>1,000</span></li>
-                            <li>결제 금액 <span><%=totalPrice %></span></li>
+                            <li>결제 금액 <span id="sp_total_price">{{totalPay}}</span></li>
                         </ul>
                           <button class="pay_bt" style="color: white" id="bt_payCheck" data-toggle="modal" data-target="#myModal" >결제하기</button>
                     </div>
@@ -179,10 +171,12 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script type="text/javascript">
+let checkTitle=[]; //선택한 강좌명을 저장할 배열
+let checkedList = [];//선택한 cart json정보를 담는 배열
+
+
 /*---------장바구니 vue----------------*/
 	let cartApp;
-	
-	
 	
 	const cart_table={
 			template:`
@@ -190,8 +184,8 @@
             	<td>
             	<div class="check_wrap">
             			<input type="hidden" name="hidden_cart_idx" :value="item.cart_idx">
-					  	<input type="checkbox" name="cart_idx" :value="item.subject.subject_idx" class="col-2" />
-						<span>select</span>
+					  	<input type="checkbox" name="cart_idx" :value="item.cart_idx" class="col-2" @change="checkEvent($event)"/>
+						<span style="font-size:14pt">select</span>
 					</div>
             	</td>
                 <td class="cart__product__item">
@@ -201,8 +195,8 @@
                         <span>{{item.subject.subject_subTitle}}</span>
                     </div>
                 </td>
-                <td class="cart__price">{{item.subject.subject_price}}</td>
-                <td class="cart__close" ><span class="icon_close" @click="del(item.cart_idx)"></span></td>
+              		<td class="cart__price">{{item.subject.subject_price}}</td>   
+              		<td class="cart__close" ><span class="icon_close" @click="del(item.cart_idx)"></span></td>
             </tr>
 			`, props:['cart']
 			,data(){
@@ -211,7 +205,8 @@
 				};
 			},methods:{
 				del:function(key){
-					delAsyncCart(key);
+					delAsyncCartOne(key);
+					console.log("넘겨진 keysms ",key);
 				}
 				,checkChange:function(event,item){
 					console.log(event);
@@ -223,6 +218,18 @@
 						json['subject']=item.subject;
 						
 						checkList.push(json);
+					}
+				},
+				checkEvent(event){
+					console.log(event);
+					let cart_idx = event.target.value;
+					let index=getCheckIndex(cart_idx);
+					let cart = cartApp.cartList[index];
+					let price = cart.subject.subject_price;
+					if(event.srcElement.checked){
+						cartApp.totalPay += price;
+					}else{
+						cartApp.totalPay -= price;
 					}
 				}
 			}
@@ -237,7 +244,8 @@
 		},
 		data:{
 			cartList:[],
-			count:4
+			count:4,
+			totalPay:0
 		}
 		
 	});
@@ -266,88 +274,79 @@
 		});
 	}
 	
-	//선택한 강좌명 가져오기
+	
+	//선택한 강좌명 가져오기	
 	function getOrderTitle(){
-		let checkedBox=$("input[name='cart_idx']:checked");
-		let checkTitle=[]; //선택한 강좌명을 저장할 배열
-		let checkedList = [];//선택한 cart json정보를 담는 배열
-		
-		for(let i=0; i<checkedBox.length; i++){					
-			let idx = getCheckIndex($(checkedBox[i]).val());
-			checkedList.push(cartApp.cartList[idx]);
-			checkTitle.push(cartApp.cartList[idx].subject.subject_title);
-		}
-		console.log(checkTitle);
-		console.log(checkedList);
-		let str = "";
-		for(let i=0;i<checkTitle.length;i++){
-			str+=checkTitle[i]+"<br>"
-		}
-		$("#checkedTitle").html(str);
-		$("#checkedLng").html("총 "+checkTitle.length+"건 결제하시겠습니까?");
+	let checkedBox=$("input[name='cart_idx']:checked");
+			
+			for(let i=0; i<checkedBox.length; i++){					
+				let idx = getCheckIndex($(checkedBox[i]).val());
+				console.log("idx : ",idx);
+				checkedList.push(cartApp.cartList[idx]);
+				checkTitle.push(cartApp.cartList[idx].subject.subject_title);
+						
+			console.log(checkTitle);
+			console.log(checkedList);
+
+				let str = "";
+				for(let i=0;i<checkTitle.length;i++){
+					str+=checkTitle[i]+"<br>"
+				}
+				$("#checkedTitle").html(str);
+				$("#checkedLng").html("총 "+checkTitle.length+"건 결제하시겠습니까?");		
+			}	
 	}
 
-		
+
 	
-	//선택한 강좌 결제창으로 넘기기
-	function cartTopay(){
-		let checkLng=$("input[name='cart_idx']:checked").length;
-		let checkval; //여기에 cart_idx를 담고
-		let checkval2; //여기에 subject_idx를 담을 것
-		
-		let arr=[];
-		
-		for(let i=0; i<checkLng; i++){
-			checkval = $($("input[name='hidden_cart_idx']")[i]).val(); //얘는 cart_idx임
-			checkval2=$($("input[name='cart_idx']")[i]).val(); //얘는 subject_idx임
-		
-			console.log("checkval: cart_idx",checkval);
-			console.log("checkval2: subject_idx",checkval2);
-			
-			let json={};
-			let subject={};
-			subject["subject_idx"]=checkval2;
-			
-			json["cart_idx"]=checkval;
-			json["subject"]=subject;
-			arr.push(json);
-			
+	//장바구니에서 한 건 삭제
+	function delAsyncCartOne(){
+		if(!confirm("선택하신 항목을 삭제하시겠습니까?")){
+			return;
 		}
-		
-		console.log("arr is", JSON.stringify(arr));
-		
 		$.ajax({
-			url:"/rest/pay/payment1",
-			type:"POST",
-			contentType:"application/json",
-			data:JSON.stringify(arr),
+			url:"/rest/cart/list/"+$("input[name='cart_idx']").val(),
+			type:"DELETE",
 			success:function(result,status,xhr){
-				console.log("result is ",result);
-			}, errer:function(xhr,status,err){
+				console.log("한 건 삭제 결과" , result);
+				getCartList();
+			},error:function(xhr, status, err){
 				
 			}
 		});
 		
 	}
-	
 
-	//선택 장바구니 비동기로 삭제
-	function delAsyncCart(cart_idx){
+	
+	//여러건 비동기 삭제 (결제 후 장바구니 비우기)
+	function delAsyncCart(){
+		let checkedBox=$("input[name='cart_idx']:checked");
+		
+		for(let i=0; i<checkedBox.length; i++){					
+			let idx = getCheckIndex($(checkedBox[i]).val());
+			console.log("idx : ",idx);
+			checkedList.push(cartApp.cartList[idx]);
+	
+			console.log("삭제할 때 쓸 것",checkedList);
+			console.log("삭제할 때 쓸 checkedBox",checkedBox);
+			}	
+			
 		if(!confirm("선택하신 항목을 삭제하시겠습니까?")){
 			return;
 		}else{
 			$.ajax({
-				url:"/rest/cart/list/"+$("input[name='cart_idx']").val(),
+				url:"/rest/cart/cart_list",
 				type:"DELETE",
+				contentType:"application/json",
+				data: JSON.stringify(checkedList),
 				success:function(result,status,xhr){
-					console.log(result);
+					console.log("장바구니 삭제 성공");
 					getCartList();
-				},error:function(xhr, status, err){
-					
 				}
 			});
 		}
 	}
+
 
 
 	//체크박스 전체 선택
@@ -368,48 +367,70 @@
 		}
 	}
 	
-	/*-------------------*/
-function showPayModal(){
-		
-	 var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
+	/*---------결제메서드------------------*/
+	
+	//order_id 만들어오기
+	function getOrderId(){
+		$.ajax({
+			url:"/rest/cart/orderid",
+			type:"get",
+			success:function(result,status,xhr){
+				console.log(result);
+				orderId=result;
+				showPayModal(orderId);
+			}
+			
+		});
+	}
+	
+	
+	/*---------toss api 결제----------*/
+	function showPayModal(orderId){
+
+	var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
     var tossPayments = TossPayments(clientKey) // 클라이언트 키로 초기화하기
   
     tossPayments.requestPayment('카드', { // 결제 수단 파라미터
     	  // 결제 정보 파라미터
-    	  amount: 15000, //order_summary.totalbuy
-    	  orderId: 'MNprnPRH0LEGq1CA837vT',  //이건 날짜+시간 조합으로 만들까봐
-    	  orderName: '토스 티셔츠 외 2건', //order_detail.subject_idx
+    	  amount: cartApp.totalPay, //order_summary.totalbuy
+    	  orderId: ${cartList[0].member.member_idx}+orderId,  //이건 멤버idx+시간 조합으로 만들까봐
+    	  orderName: checkedList[0].subject.subject_title+"외 "+(checkedList.length-1)+"건",  //여러 건 결제시 
+    	  //subject_title  >
     	  customerName: '박토스', //member.member_nickname
-    	  successUrl: 'http://localhost:7777/pay/payment1', //결제가 완료되었습니다>결제내역으로 이동
-    	  failUrl: 'http://localhost:에러페이지', //결제가 실패했습니다.> 카트리스트로 이동
+    	  successUrl: 'http://localhost:7777/pay/payment', //결제가 완료되었습니다>오더리스트로 이동
+    	  failUrl: 'http://localhost:7777/pay/payfail', //결제가 실패했습니다.> 카트리스트로 이동
     	})
     	.catch(function (error) {
     	  if (error.code === 'USER_CANCEL') {
     	    // 결제 고객이 결제창을 닫았을 때 에러 처리
+    	    alert("결제창을 닫았습니다.");
+    	    location.href='http://localhost:7777/cart/list';
     	  } else if (error.code === 'INVALID_CARD_COMPANY') {
     	    // 유효하지 않은 카드 코드에 대한 에러 처리
+    	    alert("유효하지 않은 카드입니다.");
+    	    location.href='http://localhost:7777/cart/list';
     	  }
     	})
 	
 	}
 	
-	
-	/*-------토스 api 여는 함수------------*/
+
+	/*---------------------------------*/
 
 	$(function(){
+		//console.log(${cartList});
 		getCartList();
 		
-
 		//모달에서 결제창 클릭
 		$("#bt_pay").click(function(){
-			showPayModal();
+			getOrderId();
+			//successPay();
 		});
 		
-		//모달 닫기 버튼
-		$("#bt_closeModal").click(function(){
-			//checkTitle 초기화
+		//선택 삭제 버튼
+		$("#bt_chkdel").click(function(){
+			delAsyncCart();
 		});
-	
 		
 		//결제버튼 클릭
 		$("#bt_payCheck").click(function(){

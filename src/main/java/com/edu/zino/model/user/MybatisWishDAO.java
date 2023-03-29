@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.Wish;
@@ -28,6 +29,7 @@ public class MybatisWishDAO implements WishDAO{
 	}
 
 	@Override
+	@Transactional
 	public void delWish(Wish wish) throws WishException{
 		int result = sqlSessionTemplate.delete("Wish.delete", wish.getWish_idx());
 		if(result<1) {
@@ -35,4 +37,19 @@ public class MybatisWishDAO implements WishDAO{
 		}
 	}
 
+	@Override
+	public void insert(Wish wish) throws WishException{
+		int result = sqlSessionTemplate.insert("Wish.insert", wish);
+		if(result<1) {
+			throw new WishException("찜 등록이 실패했습니다");
+		}
+	}
+
+	//위시 중복검사
+	public int selectCount(Wish wish)  throws WishException {
+		int count = sqlSessionTemplate.selectOne("Wish.selectCount", wish);
+		return count;
+	}
+
+	
 }

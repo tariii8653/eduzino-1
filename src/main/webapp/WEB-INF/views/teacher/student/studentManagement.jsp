@@ -86,7 +86,7 @@
                             <% } %>
                             </td>
                             <td>
-                            	<button type="button" class="btn btn-outline-warning" id="bt_messege" >메세지</button>
+                            	<button type="button" class="btn btn-outline-warning" id="bt_messege" onclick="showMessage('<%= orderSummary.getMember().getMember_idx() %>')" >메세지</button>
                             </td>
                             <td>
                               	<button type="button" class="btn btn-outline-danger" id="bt_onOff">차단</button>
@@ -128,6 +128,12 @@
 		$("#form1").submit();
 	}
   	
+	function showMessage(member_idx){
+		location.href="/teacher/chat/message?member_idx="+member_idx;
+		
+	}
+  	
+  	
 	$(function(){
 		
 		$("#bt_search").click(function(){
@@ -137,9 +143,6 @@
 		});
 		
 		
-		$("#bt_message").click(function(){
-			
-		});
 
 		$("#bt_onOff").click(function(){
 			if($(this).html() == "차단"){

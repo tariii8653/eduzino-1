@@ -18,10 +18,22 @@
 	
 	</resultMap>
 	
+	<!-- 전체조회하기 -->
+	<select id="selectAll" resultType="Message">
+		select * from message order by message_idx asc
+	</select>
+	
+	<!-- 한 채팅방의 check=0 확인하기 -->
+	<select id="seleckByCheck" parameterType="int" resultType="Message">
+		select message_check from message
+		where chat_idx=#{chat.chat_idx}
+		and message_check = 0
+	</select>
 
 	<!-- 한 채팅방의 메세지 조회하기 -->
 	<select id="selectChat" parameterType="Message" resultType="Message">
 		select * from message where chat_idx=#{chat.chat_idx}
+		order by message_idx asc
 	</select>
 
 	<!-- 메세지 저장하기 -->
@@ -29,6 +41,14 @@
 		insert into message(message_idx, chat_idx, me, you, message_content)
 		values(seq_message.nextval, #{chat.chat_idx}, #{me}, #{you}, #{message_content})
 	</insert>
+	
+	<!-- 채팅방 클릭시 message_check 0 -> 1로 바꾸기 -->
+	<update id="updateCheck" parameterType="Message">
+		update message set message_check = #{message_check}
+		where chat_idx = #{chat.chat_idx}
+	</update>
+
+	
 
 
 </mapper>

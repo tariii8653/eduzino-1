@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Section">
+	<resultMap type="Section" id="sectionMap">
+		<id column="section_idx" property="section_idx"/>
+		<result column="section_name" property="section_name"/>
+		<result column="subject_idx" property="subject.subject_idx"/>
+		<collection property="movieList" column="section_idx" javaType="java.util.List" ofType="Movie" select="Movie.selectBySection"></collection>
+	</resultMap>
+
+
+	<insert id="insert" parameterType="Section">
+		insert into section(section_idx,section_name,subject_idx) values(seq_section.nextval,#{section_name},#{subject.subject_idx})
+		
+		<selectKey keyColumn="section_idx" keyProperty="section_idx" order="AFTER" resultType="int">
+			select seq_section.currval as section_idx from dual
+		</selectKey>
+	</insert>
+	
+	<select id="selectIndexBySubject" parameterType="int" resultType="Section">
+		select section_idx from section where subject_idx=#{subject_idx}
+	</select>
+	
+	<select id="selectBySubject" parameterType="int" resultMap="sectionMap">
+		select * from section where subject_idx=#{subject_idx}
+	</select>
+	
+	
+	<delete id="deleteBySubject" parameterType="int">
+		delete section where subject_idx=#{subject_idx}
+	</delete>
+</mapper>

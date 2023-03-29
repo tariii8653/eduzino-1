@@ -17,6 +17,16 @@
 		select * from cart where member_idx =#{member_idx}
 	</select>
 	
+	<!-- 선택한 장바구니 가져오기 -->
+	<select id="selectCheckedCart" parameterType="java.util.List">
+		select * from cart
+		<where>
+			<foreach collection="list" item="cart" open="" close="" separator="OR">
+					(cart_idx=#{cart_idx})
+			</foreach>
+		</where>
+	</select>
+	
 	<!--   장바구니 등록하기  -->
 	<insert id="insert" parameterType="Cart">
 	 insert into cart (cart_idx, member_idx, subject_idx) 
@@ -27,7 +37,12 @@
 	<delete id="delete" parameterType="int">
 	 delete from Cart where cart_idx=#{cart_idx}
  	 </delete>
-
+ 	 
+ 	 <!-- 카트 중복검사 -->
+	<select id="selectCount" parameterType="Cart" resultType="int">
+		select count(*) from cart where subject_idx=#{subject.subject_idx}
+		and member_idx=#{member.memeber_idx}
+	</select>
 	
 	
 </mapper>
