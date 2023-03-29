@@ -40,23 +40,22 @@
 				<div class="content-wrapper pb-0">
 				
 				<form class="d-flex align-items-center" id="form1">
-				<!-- 검색창 -->
-				<select class="form-control form-control-sm my-3" style="margin-right: 20px; width: 40%" name="subject_idx" id="subject_idx">
-	                <option value="0">나의 강의 목록을 선택해 주세요</option>
-
-                    <% for(int i=0;i<subjectList.size();i++){ %>
-                    <% Subject subject = subjectList.get(i); %>
-	                <option value="<%= subject.getSubject_idx() %>"><%= subject.getSubject_title() %></option>
-					<% } %>
-
-	           	</select>
-              <div class="input-group width: 40%;">
-                <input type="text" class="form-control border-0" placeholder="이름을 입력해주세요" name="member_nickname">
-                <div class="input-group-prepend" id="bt_search">
-                  <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                </div>
-              </div>
-            </form>
+					<!-- 검색창 -->
+					<select class="form-control form-control-sm my-3" style="margin-right: 20px; width: 40%" name="subject_idx" id="subject_idx">
+		                <option value="0">나의 강의 목록을 선택해 주세요</option>
+	                    <% for(int i=0;i<subjectList.size();i++){ %>
+	                    <% Subject subject = subjectList.get(i); %>
+		                <option value="<%= subject.getSubject_idx() %>"><%= subject.getSubject_title() %></option>
+						<% } %>
+		           	</select>
+		           	
+	              <div class="input-group width: 40%;">
+		                <input type="text" class="form-control border-0" placeholder="이름을 입력해주세요" name="member_nickname">
+		                <div class="input-group-prepend" id="bt_search">
+		                  	<i class="input-group-text border-0 mdi mdi-magnify"></i>
+		                </div>
+              		</div>
+         	   </form>
             
             
             <!-- 수강생테이블 -->

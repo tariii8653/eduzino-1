@@ -4,7 +4,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
 	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
-	int member_idx = (int)request.getAttribute("member_idx");
 %>
 <!DOCTYPE html>
 <html>
