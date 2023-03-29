@@ -88,6 +88,18 @@ public class RestCartController {
 		return entity;
 	}
 	
+	//장바구니 한 건 삭제
+		@DeleteMapping("/cart/list/{cart_idx}")
+		public ResponseEntity<String> delOneCart(HttpServletRequest request, @PathVariable int cart_idx){
+			//3단계
+			logger.info("삭제할 cart_idx"+cart_idx);
+			cartService.delOneCart(cart_idx);
+			
+			//4단계
+			ResponseEntity<String> entity = new ResponseEntity<String>("성공",HttpStatus.OK);
+			return entity;
+		}
+	
 	//order_id 만들기
 	@GetMapping("/cart/orderid")
 	public ResponseEntity<String> getOrderId(){

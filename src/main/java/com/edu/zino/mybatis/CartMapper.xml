@@ -17,6 +17,16 @@
 		select * from cart where member_idx =#{member_idx}
 	</select>
 	
+	<!-- 선택한 장바구니 가져오기 -->
+	<select id="selectCheckedCart" parameterType="java.util.List">
+		select * from cart
+		<where>
+			<foreach collection="list" item="cart" open="" close="" separator="OR">
+					(cart_idx=#{cart_idx})
+			</foreach>
+		</where>
+	</select>
+	
 	<!--   장바구니 등록하기  -->
 	<insert id="insert" parameterType="Cart">
 	 insert into cart (cart_idx, member_idx, subject_idx) 

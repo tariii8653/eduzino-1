@@ -2,11 +2,13 @@ package com.edu.zino.model.root;
 
 import java.io.IOException;
 import java.net.URI;
+
+import java.util.List;
+import java.util.Map;
+
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,8 @@ public class OrderServiceImpl implements OrderService{
 	//주문메서드
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void regist(OrderSummary orderSummary) {
+		
+		
 		//1) 주문요약 넣기> pk 반환
 		orderSummaryDAO.insert(orderSummary);
 		
@@ -54,7 +58,7 @@ public class OrderServiceImpl implements OrderService{
 			orderDetailDAO.insert(orderDetail);
 			
 			//카트에서 삭제
-			//cartDAO.delCart(cartList.get(i));
+			cartDAO.delCart(cartList.get(i));
 		}
 		
 	}
@@ -91,7 +95,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		//과목에 따른 전체 수강생조회
 		@Override
-		public List selectAllByTeacher( int teacher_idx) {
+		public List selectAllByTeacher(int teacher_idx) {
 			return orderSummaryDAO.selectAllByTeacher(teacher_idx);
 		}
 		

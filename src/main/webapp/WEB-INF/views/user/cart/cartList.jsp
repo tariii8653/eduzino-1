@@ -144,25 +144,10 @@
             </div>
            
             <div class="row" style="justify-content: flex-end;">
-	             <div class="col-lg-6 offset-lg-2">
-                    <div class="cart__total__procced">
-                          <h4>포인트 사용</h4>                       
-                            <ul>
-                            <li>보유 포인트 <span>1,000</span></li>
-                              </ul>
-                            <div class="discount__content">
-                        <form action="#">
-                            <input type="text" placeholder="Enter your point">
-                            <button type="submit" class="site-btn" style="right: -126px; ">전액 사용</button>
-                        </form>
-                    </div>
-                    </div>
-                </div>
                    <div class="col-lg-6 offset-lg-2">
                     <div class="cart__total__procced">
                         <h4>총 결제 금액</h4>
                         <ul>
-                            <li>할인 금액 <span>1,000</span></li>
                             <li>결제 금액 <span id="sp_total_price">{{totalPay}}</span></li>
                         </ul>
                           <button class="pay_bt" style="color: white" id="bt_payCheck" data-toggle="modal" data-target="#myModal" >결제하기</button>
@@ -210,7 +195,8 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
                         <span>{{item.subject.subject_subTitle}}</span>
                     </div>
                 </td>
-              		<td class="cart__price">{{item.subject.subject_price}}</td>           
+              		<td class="cart__price">{{item.subject.subject_price}}</td>   
+              		<td class="cart__close" ><span class="icon_close" @click="del(item.cart_idx)"></span></td>
             </tr>
 			`, props:['cart']
 			,data(){
@@ -219,7 +205,8 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 				};
 			},methods:{
 				del:function(key){
-					delAsyncCart(key);
+					delAsyncCartOne(key);
+					console.log("넘겨진 keysms ",key);
 				}
 				,checkChange:function(event,item){
 					console.log(event);
@@ -300,7 +287,7 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 						
 			console.log(checkTitle);
 			console.log(checkedList);
-	
+
 				let str = "";
 				for(let i=0;i<checkTitle.length;i++){
 					str+=checkTitle[i]+"<br>"
@@ -312,7 +299,26 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 
 
 	
-	//여러건 비동기 삭제
+	//장바구니에서 한 건 삭제
+	function delAsyncCartOne(){
+		if(!confirm("선택하신 항목을 삭제하시겠습니까?")){
+			return;
+		}
+		$.ajax({
+			url:"/rest/cart/list/"+$("input[name='cart_idx']").val(),
+			type:"DELETE",
+			success:function(result,status,xhr){
+				console.log("한 건 삭제 결과" , result);
+				getCartList();
+			},error:function(xhr, status, err){
+				
+			}
+		});
+		
+	}
+
+	
+	//여러건 비동기 삭제 (결제 후 장바구니 비우기)
 	function delAsyncCart(){
 		let checkedBox=$("input[name='cart_idx']:checked");
 		
@@ -340,7 +346,6 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 			});
 		}
 	}
-
 
 
 

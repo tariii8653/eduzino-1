@@ -27,7 +27,7 @@ public class SubjectController {
 	private final static int GOAL = 0;
 	private final static int DETAIL = 1;
 	private final static int MOVIE = 2;
-	private final static int PRIVIEW = 3;
+	private final static int CONFIG = 3;
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -71,6 +71,14 @@ public class SubjectController {
 		return mav;
 	}
 	
+	@GetMapping("/regist/config/{subject_idx}")
+	public ModelAndView getConfig(HttpServletRequest request,@PathVariable("subject_idx") int subject_idx) {
+		ModelAndView mav=new ModelAndView("/teacher/subject/subject-config");
+		StudyPlanVO studyPlanVO = new StudyPlanVO(CONFIG, "강의 설정");
+		mav.addObject("studyPlanVO", studyPlanVO);
+		return mav;
+	}
+	
 	@GetMapping("/list")
 	public ModelAndView getList(HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView("/teacher/subject/list");
@@ -80,6 +88,12 @@ public class SubjectController {
 	@GetMapping("/detail/{subject_idx}")
 	public ModelAndView getDetail(@PathVariable("subject_idx") int subject_idx) {
 		ModelAndView mav=new ModelAndView("/teacher/subject/subject-detail");
+		return mav;
+	}
+	
+	@GetMapping("/watch/{subject_idx}")
+	public ModelAndView getWatch(@PathVariable("subject_idx") int subject_idx) {
+		ModelAndView mav=new ModelAndView("/teacher/subject/subject-watch");
 		return mav;
 	}
 	

@@ -73,7 +73,7 @@
 									<div class="pl-4">
 										<h4 class="font-weight-bold text-warning mb-0">자주묻는질문</h4>
 										<h6 class="text-muted">zinoedu</h6>
-										<button type="button" class="btn btn-inverse-warning btn-sm">
+										<button type="button" class="btn btn-inverse-warning btn-sm" id="bt_fnq">
 											List</button>
 									</div>
 								</div>
@@ -167,10 +167,17 @@
 		<!-- End custom js for this page -->
 	</div>
 	<script type="text/javascript">
+	function fnqlist(){
+		$("#form1").attr({
+			action : "/admin/qnaboard_fnq/list",
+			method: "/GET"
+		});
+		$("#form1").submit();
+	};
 	
 	function servicelist(){
 		$("#form1").attr({
-			action : "/admin/qnaboard/list",
+			action : "/admin/qnaboard_service/list",
 			method: "GET"
 		});
 		$("#form1").submit();
@@ -178,6 +185,9 @@
 		$(function(){
 			$("#bt_service").click(function(){
 				servicelist();
+			});
+			$("#bt_fnq").click(function(){
+				fnqlist();
 			});
 		});
 	</script>

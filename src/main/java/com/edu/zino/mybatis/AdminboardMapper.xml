@@ -21,7 +21,7 @@
 
 	</resultMap>
 
-	<!-- 레코드 가져오기 -->
+	<!-- 모두 가져오기 -->
 	<select id="selectAll" resultMap="AdminboardMap">
 		select * from adminboard 
 	</select>
