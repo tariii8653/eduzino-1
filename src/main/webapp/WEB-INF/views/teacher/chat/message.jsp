@@ -343,6 +343,8 @@
                }
            }
        });
+  		
+  		
   	}
 	
 	//db에 저장된 message내역들을 chatArea에 붙여넣자
@@ -356,13 +358,48 @@
 		}
 		$("#chatAreaScroll").scrollTop($("#chatAreaScroll")[0].scrollHeight);
 	}
+	
+	//읽음표시 0 -> 1 업데이트 실행
+	function messageCheck(chat){
+		console.log("업데이트 실행 ", chat);
+		let messageList = chat.messageList;
+  		/*
+	  		{
+					"message_check": "0",
+					"message_idx":"0"
+				}
+			}
+  		*/
+
+		let sendList=[];
+		for(let i=0;i<messageList.length;i++){
+			let message = messageList[i];
+			if(message.me == chat.member.member_idx && message.message_check == 0){
+		  		sendList.push(message);
+			}
+		}
+			console.log(JSON.stringify(sendList));
+			
+			$.ajax({
+	            url:"/rest//chat/chatmessage/check",
+	            type:"post",
+				contentType:"application/json;charset=utf-8",
+				data:JSON.stringify(sendList),
+				processData:false, 
+	            success:function(result, status, xhr){
+	               console.log("업데이트", result);
+	               console.log(result.msg);
+	               getChatRooms();
+			     }
+	       });
+  		
+	}
   	
   	function getChatHeadFoot(chat){
   		//채팅방 이름,프로필 위에 뜨는거, 밑에 메세지 전송창 불러오기(채팅방 클릭시 해당 채팅방 헤더 및 메세지전송창)
   		console.log("채팅방 클릭시", chat);
   		
   		$("#chatArea").empty(); //div내용지우기
-  		
   		
   		
   		app_chatHeader.chat = chat;
@@ -378,6 +415,7 @@
   		}
   		
   		chatAreaMesseges(chat); //채팅방 메세지 목록 불러오기
+  		messageCheck(chat); //읽음 체크하기 0-> 1
   		
   		connect(chat); //웹소켓 연결
   		//console.log("확인",chat.member.member_idx);
@@ -425,9 +463,11 @@
   	  			let lastMessage = "";
   	  			for(let i=0;i<messageList.length;i++){
   	  				let message = messageList[i];
-  	  				if(message.you == this.obj.member.member_idx){
+  	  				if(message.me == this.obj.member.member_idx){
   	  					lastMessage = message.message_content;
-  	  					count++;
+  	  					if(message.message_check==0){
+  	  						count++;
+  	  					}
   	  				}
   	  			}
   	  			this.totalMessageCheck = count;

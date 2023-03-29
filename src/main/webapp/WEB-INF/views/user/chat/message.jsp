@@ -369,6 +369,41 @@ function connect(chat){
 		}
 		$("#chatAreaScroll").scrollTop($("#chatAreaScroll")[0].scrollHeight);
 	}
+	
+	function messageCheck(chat){
+		console.log("업데이트 실행 ", chat);
+		let messageList = chat.messageList;
+  		/*
+	  		{
+					"message_check": "0",
+					"message_idx":"0"
+				}
+			}
+  		*/
+
+		let sendList=[];
+		for(let i=0;i<messageList.length;i++){
+			let message = messageList[i];
+			if(message.me == chat.member_teacher.member_idx && message.message_check == 0){
+		  		sendList.push(message);
+			}
+		}
+			console.log(JSON.stringify(sendList));
+			
+			$.ajax({
+	            url:"/rest//chat/chatmessage/check",
+	            type:"post",
+				contentType:"application/json;charset=utf-8",
+				data:JSON.stringify(sendList),
+				processData:false, 
+	            success:function(result, status, xhr){
+	               console.log("업데이트", result);
+	               console.log(result.msg);
+	               getChatRooms();
+			     }
+	       });
+  		
+	}
   	
 	
 	function getChatHeadFoot(chat){
@@ -390,6 +425,7 @@ function connect(chat){
 		}
 		
 		chatAreaMesseges(chat); //채팅방 메세지 목록 불러오기
+		messageCheck(chat); //읽음 체크하기 0-> 1
 		
   		connect(chat); //웹소켓 연결
 		//console.log("확인",chat.member.member_idx);
@@ -435,9 +471,11 @@ function connect(chat){
   	  			let lastMessage = "";
   	  			for(let i=0;i<messageList.length;i++){
   	  				let message = messageList[i];
-  	  				if(message.you == this.obj.member_teacher.member_idx){
+  	  				if(message.me == this.obj.member_teacher.member_idx){
   	  					lastMessage = message.message_content;
-  	  					count++;
+  	  					if(message.message_check==0){
+  	  						count++;
+  	  					}
   	  				}
   	  			}
   	  			this.totalMessageCheck = count;

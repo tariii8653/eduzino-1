@@ -26,20 +26,30 @@
         <div class="main-panel">
           <div class="content-wrapper pb-0">
             
+            
             <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-    		<i class="fa fa-calendar"></i>&nbsp;
-   			 <span></span>
-   			 <i class="fa fa-caret-down"></i>
-		</div>
+	    		<i class="fa fa-calendar"></i>&nbsp;
+	   			<span></span>
+	   			<i class="fa fa-caret-down"></i>
+			</div>
+
             
             
             
 			<div class="card">
-                  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <div class="card-body">
+                	<div class="chartjs-size-monitor">
+                		<div class="chartjs-size-monitor-expand">
+                			<div class=""></div>
+            			</div>
+	            		<div class="chartjs-size-monitor-shrink">
+	            			<div class=""></div>
+	            		</div>
+	            	</div>
                     <h4 class="card-title">Bar chart</h4>
                     <canvas id="barChart" style="height: 134px; display: block; width: 269px;" width="336" height="167" class="chartjs-render-monitor"></canvas>
-                  </div>
                 </div>
+              </div>
             
             
             
@@ -80,13 +90,18 @@
 		        startDate: start,
 		        endDate: end,
 		        ranges: {
-		           'Today': [moment(), moment()],
-		           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-		           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-		           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-		           'This Month': [moment().startOf('month'), moment().endOf('month')],
-		           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-		        }
+		           '최근 일별 매출': [moment().subtract(6, 'days'), moment()],
+		           '이번달 주간 매출': [moment().startOf('month'), moment().endOf('month')],
+		           '최근 월별 매출': [moment().subtract(6, 'months'), moment().endOf('month')]
+		        },
+		        locale: {
+		            "separator": " ~ ",                     // 시작일시와 종료일시 구분자
+		            "format": 'YYYY-MM-DD',     // 일시 노출 포맷
+		            "applyLabel": "확인",                    // 확인 버튼 텍스트
+		            "cancelLabel": "취소",                   // 취소 버튼 텍스트
+		            "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+		            "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+		            }
 		    }, cb);
 
 		    cb(start, end);

@@ -160,7 +160,7 @@ review ON COLUMN paystate.state IS '1 : 결제전
 
 CREATE TABLE chat (
 	chat_idx	number		NOT NULL,
-	chat_regdate	date		NULL,
+	chat_regdate	date		default sysdate,
 	member_idx	number		NOT NULL,
 	member_teacher_idx	 number	NOT NULL
 );
@@ -207,12 +207,12 @@ CREATE TABLE teacherboard (
 
 CREATE TABLE message (
 	message_idx	number		NOT NULL,
-	message_content	clob		NULL,
-	message_regdate	date		NULL,
+	message_content	clob		,
+	message_regdate	date	default sysdate	,
 	message_check	number	DEFAULT 0	NULL,
 	chat_idx	number		NOT NULL,
-	me	number		NULL,
-	you	number		NULL
+	me 	number		,
+	you	number		
 );
 
 review ON COLUMN message.message_check IS '0 : 확인안함
