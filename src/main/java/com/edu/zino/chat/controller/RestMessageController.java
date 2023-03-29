@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.zino.chat.model.ChatService;
@@ -163,9 +164,11 @@ public class RestMessageController {
 	
 	//채팅방 읽음표시 체크
 	@PostMapping("/chat/chatmessage/check")
-	public  ResponseEntity<MessageUtil> updateCheck(HttpServletRequest request, Message message){
+	@ResponseBody
+	public  ResponseEntity<MessageUtil> updateCheck(HttpServletRequest request,@RequestBody List<Message> messages){
 		
-		messageService.updateCheck(message);
+		logger.info("읽음표시 체크 message "+messages);
+		messageService.updateCheck(messages);
 		
 		
 		MessageUtil messageUtil = new MessageUtil();
@@ -173,7 +176,7 @@ public class RestMessageController {
 		
 		ResponseEntity entity=new ResponseEntity<MessageUtil>(messageUtil, HttpStatus.OK);
 		
-		return entity;
+		return null;
 	}
 	
 

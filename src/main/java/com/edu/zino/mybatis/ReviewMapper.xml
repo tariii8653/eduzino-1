@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Review">
+	<resultMap type="Review" id="ReviewMap">
+		<id column="review_idx" property="review_idx"/>
+		<result column="review_rate" property="review_rate"/>
+		<result column="review_content" property="review_content"/>
+		<result column="review_regdate" property="review_regdate"/>
+		
+	<!-- 부모인 member association -->
+	<association column="member_idx" property="member"
+						javaType="Member" select="Member.select"/>
+						
+	<!-- 부모인 subject association -->
+	<association column="subject_idx" property="subject"
+						javaType="Subject" select="Subject.select"/>				
+	</resultMap>
+	
+	<!-- 모두 가져오기 -->
+	<select id="selectAll" resultMap="ReviewMap">
+		select * from review
+	</select>
+	
+	<!-- 한건 가져오기 -->
+	<select id="select" resultMap="ReviewMap" parameterType="int">
+		select * from review where review_idx=#{review_idx}
+	</select>
+	
+	<!-- 한건 조회하기 -->
+	<insert id="insert" parameterType="Review">
+	insert into review(review_idx,review_rate,review_content,review_regdate,member_idx,subject_idx)
+	values(seq_review.nextval,#{review_rate},#{review_content},sysdate,#{member.member_idx},#{subject.subject_idx})
+	</insert>
+	
+	<!-- 한건 수정하기 -->
+	<update id="update" parameterType="Review">
+		update review set review_rate=#{review_rate}, review_content=#{review_content},member_idx=#{member.member_idx},subject_idx=#{subject.subject_idx}
+		where review_idx=#{review_idx}
+	</update>
+	
+	<!-- 한건 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		delete from review where review_idx=#{review_idx}
+	</delete>
+	
+</mapper>

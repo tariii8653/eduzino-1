@@ -23,6 +23,8 @@
 	     
 		<typeAlias type="com.edu.zino.domain.Blacklist" alias="Blacklist"/>
 		
+		<typeAlias type="com.edu.zino.domain.Review" alias="Review"/>
+		
 		<!-- 강의 관련 -->
 		<typeAlias type="com.edu.zino.domain.Subject" alias="Subject"/>
 		<typeAlias type="com.edu.zino.domain.Video" alias="Video"/>
@@ -80,6 +82,8 @@
 		<mapper resource="com/edu/zino/mybatis/SnsMapper.xml"/>
 		
 		<mapper resource="com/edu/zino/mybatis/BlacklistMapper.xml"/>
+		
+		<mapper resource="com/edu/zino/mybatis/ReviewMapper.xml"/>
 		
 		<!-- 강의 -->
 		<mapper resource="com/edu/zino/mybatis/SubjectMapper.xml"/>

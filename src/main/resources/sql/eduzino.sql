@@ -19,34 +19,32 @@ CREATE TABLE sns_name(
 
 CREATE TABLE birthday(
 	birthday_idx number primary key,
-	member_idx number	 NOT NULL,
+	member_idx	number		NOT NULL,
 	birthday varchar2(30) 
 );
 
 CREATE TABLE profile_photo(
 	profile_photo_idx number primary key,
-	member_idx number	 NOT NULL,
+	member_idx	number		NOT NULL,
 	profile_photo varchar2(50) 
 );
 
 CREATE TABLE email(
 	email_idx number primary key,
-	member_idx number NOT NULL,
+	member_idx	number		NOT NULL,
 	email varchar2(30) 
 );
 
 CREATE TABLE teacher (
-	teacher_idx number NOT NULL,
-	member_idx number NOT NULL
+	teacher_idx	number		NOT NULL,
+	member_idx	number		NOT NULL
 );
 
 CREATE TABLE blacklist (
-
 	blacklist_idx	number		NOT NULL,
 	pause	 date		,
 	blacklist_memo	clob		,
 	member_idx	number		NOT NULL
-
 );
 
 CREATE TABLE admin (
@@ -162,7 +160,7 @@ review ON COLUMN paystate.state IS '1 : 결제전
 
 CREATE TABLE chat (
 	chat_idx	number		NOT NULL,
-	chat_regdate	date		NULL,
+	chat_regdate	date		default sysdate,
 	member_idx	number		NOT NULL,
 	member_teacher_idx	 number	NOT NULL
 );
@@ -199,22 +197,22 @@ review ON COLUMN target.userType IS '1 : 모두에게
 3 : 유저에게';
 
 CREATE TABLE teacherboard (
-	teacherboard_idx number NOT NULL,
-	teacherboard_title varchar2(200) NULL,
-	teacherboard_content clob NULL,
-	teacherboard_regdate date NULL,
-	teacher_idx number NOT NULL,
-	teacherboard_sort	 number NULL
+	teacherboard_idx	number		NOT NULL,
+	teacherboard_title	varchar2(200)		NULL,
+	teacherboard_content	clob		NULL,
+	teacherboard_regdate	date		NULL,
+	teacher_idx	number		NOT NULL,
+	teacherboard_sort	number		NULL
 );
 
 CREATE TABLE message (
-	message_idx	number	 NOT NULL,
-	message_content	clob		NULL,
-	message_regdate	date		NULL,
+	message_idx	number		NOT NULL,
+	message_content	clob		,
+	message_regdate	date	default sysdate	,
 	message_check	number	DEFAULT 0	NULL,
 	chat_idx	number		NOT NULL,
-	me	number		NULL,
-	you	number		NULL
+	me 	number		,
+	you	number		
 );
 
 review ON COLUMN message.message_check IS '0 : 확인안함

@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
-		List adminboardList=(List)request.getAttribute("adminboardList");
+	List<Adminboard> adminboardList = (List) request.getAttribute("adminboardList");
 %>
 <!DOCTYPE html>
 <html>
@@ -62,65 +62,71 @@
 					</div>
 
 					<!-- table row starts here -->
-				
 					<div class="container">
 						<div class="row md-3">
 							<div class="col mt-3">
-							
-								<form id="form1" >
-									<div class="form-group">
+
+								<form class="form-group" id="form1">
 									<h1>공지사항 관리</h1>
-									
-									</div>
-									
-									<div class="from-group">
-										<select name=" ">
-											<option value="0">선택을 하세요...</option>
-											<option value="1">모두</option>
-											<option value="2">강사</option>
-											<option value="3">유저</option>
-										</select>
-									
-									</div>
-									<div class="form-group">		
-									<table class="table table-bordered table-sm">
-										<thead>
-											<tr>
-												<th>No</th>
-												<th>제목</th>
-												<th>필독여부</th>
-												<th>누구에게</th>
-												<th>작성일</th>
-												<th>관리</th>
-											</tr>
-										</thead>
-										<tbody>
-										<% for(int i=0; i<adminboardList.size();i++) {%>
-										<% Adminboard adminboard=(Adminboard)adminboardList.get(i); %>
-											<tr>
-												<td><%=i %></td>
-												<td><a href="/admin/board/detail?adminboard_idx=<%=adminboard.getAdminboard_idx()%>"><%=adminboard.getAdminboard_title() %></a></td>
-												<td><%=adminboard.getAdminboard_sort()%></td>
-												<td><%=adminboard.getTarget().getUserType()%></td>
-												<td><%=adminboard.getAdminboard_regdate() %></td>
-												<td>
-													<button type="button" class="btn btn-outline-secondary" id="bt_look"><a href="/admin/board/detail?adminboard_idx=<%=adminboard.getAdminboard_idx() %>">보기</a></button>
-													<button type="button" class="btn btn-outline-info" id="bt_edit"><a href="/admin/board/editform?adminboard_idx=<%=adminboard.getAdminboard_idx()%>">수정</a></button>
-													<button type="button" class="btn btn-outline-danger" id="bt_del"><a href="/admin/board/delform?adminboard_idx=<%=adminboard.getAdminboard_idx()%>">삭제</a></button>
-												</td>
-											</tr>
-												<%} %>
+							
+									<div class="form-group">
+										<table class="table table-bordered">
+											<thead class="thead-dark">
+												<tr>
+													<th>No</th>
+													<th>제목</th>
+													<th>필독여부</th>
+													<th>누구에게</th>
+													<th>작성일</th>
+													<th>관리</th>
+												</tr>
+											</thead>
+											<tbody>
+												<%
+													for (int i = 0; i < adminboardList.size(); i++) {
+												%>
+												<%
+													Adminboard adminboard = (Adminboard) adminboardList.get(i);
+												%>
+												<tr>
+													<td><%=i%></td>
+													<td><a
+														href="/admin/board/detail?adminboard_idx=<%=adminboard.getAdminboard_idx()%>"><%=adminboard.getAdminboard_title()%></a></td>
+													<td><%=adminboard.getAdminboard_sort()%></td>
+													<td><%=adminboard.getTarget().getUserType()%></td>
+													<td><%=adminboard.getAdminboard_regdate()%></td>
+													<td>
+														<button type="button" class="btn btn-outline-secondary"
+															id="bt_look">
+															<a
+																href="/admin/board/detail?adminboard_idx=<%=adminboard.getAdminboard_idx()%>">보기</a>
+														</button>
+														<button type="button" class="btn btn-outline-info"
+															id="bt_edit">
+															<a
+																href="/admin/board/editform?adminboard_idx=<%=adminboard.getAdminboard_idx()%>">수정</a>
+														</button>
+														<button type="button" class="btn btn-outline-danger"
+															id="bt_del">
+															<a
+																href="/admin/board/delform?adminboard_idx=<%=adminboard.getAdminboard_idx()%>">삭제</a>
+														</button>
+													</td>
+												</tr>
+												<%
+													}
+												%>
 
-										</tbody>
-									</table>
+											</tbody>
+										</table>
 									</div>
-
 								</form>
 							</div>
 						</div>
 
 
 					</div>
+
 
 					<!-- content-wrapper ends -->
 					<!-- partial:partials/_footer.html -->
@@ -140,11 +146,18 @@
 		<!-- End custom js for this page -->
 	</div>
 	<script type="text/javascript">
+		function search(){
+			$("form1").attr({
+				action : "/adminboard/board/board_main",
+				method: "POST"
+			});
+			$("#form1").submit();
+		}	
 	
-		function regist(){
+		function regist() {
 			$("#form1").attr({
-				action: "/admin/board/registform",
-				method: "GET"
+				action : "/admin/board/registform",
+				method : "GET"
 			});
 			$("#form1").submit();
 		}
@@ -152,11 +165,13 @@
 			$("#bt_regist").click(function() {
 				regist();
 			});
-			$("#bt_edit").click(function(){
-				location.href="/admin/board/editform";
+			$("#bt_edit").click(function() {
+				location.href = "/admin/board/editform";
+			});
+			$("#bt_search").click(function(){
+				search();
 			});
 		});
-		
 	</script>
 </body>
 
