@@ -71,12 +71,12 @@
 								<form id="form1">
 									<div class="d-flex border-bottom mb-4 pb-2">
 										<div class="hexagon">
-											<div class="hex-mid hexagon-warning">
-												<i class="mdi mdi-book-variant"></i>
+											<div class="hex-mid hexagon-danger">
+												<i class="mdi mdi-book-open-variant"></i>
 											</div>
 										</div>
 										<div class="pl-4">
-											<h4 class="font-weight-bold text-warning mb-0">자주묻는질문</h4>
+											<h4 class="font-weight-bold text-danger mb-0">서비스 소개 및 이용문의</h4>
 											<h6 class="text-muted">zinoedu</h6>
 										</div>
 
@@ -86,7 +86,7 @@
 									<div class="d-flex border-bottom mb-4 pb-2"><%=i %>
 										<div class="hexagon"></div>
 										<div class="pl-4">
-											<h4 class="font-weight-bold text-warning mb-0" ><a href="/admin/qnaboard/detail?qnaboard_idx=<%=qnaboard.getQnaboard_idx()%>"><%=qnaboard.getQnaboard_title() %></a></h4>
+											<a href="/admin/qnaboard_service/detail?qnaboard_idx=<%=qnaboard.getQnaboard_idx()%>"><%=qnaboard.getQnaboard_title() %></a></h4>
 											<h6 class="text-muted">zinoedu</h6>
 
 										</div>
@@ -94,6 +94,8 @@
 									<% }%>
 									<button type="button" class="btn btn-primary active"
 										id="bt_regist">글쓰기 등록</button>
+										<button type="button" class="btn btn-primary active"
+										id="bt_list"> 목록</button>
 								</form>
 							</div>
 						</div>
@@ -121,7 +123,7 @@
 	
 		function regist(){
 			$("#form1").attr({
-				action : "/admin/qnaboard/registform",
+				action : "/admin/qnaboard_service/registform",
 				method:"GET"
 			});
 			$("#form1").submit();
@@ -130,7 +132,11 @@
 		$(function(){
 			$("#bt_regist").click(function(){
 				regist();
-			});			
+			});
+			
+			$("#bt_list").click(function(){
+				location.href="/admin/qnaboard";
+			});
 		});
 	</script>
 

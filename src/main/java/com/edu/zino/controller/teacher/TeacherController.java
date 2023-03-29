@@ -43,6 +43,11 @@ public class TeacherController {
 		ModelAndView mav = new ModelAndView("/teacher/default");
 		return mav;
 	}
+	@GetMapping("/board")
+	public ModelAndView getBoard(HttpServletRequest request) {
+		ModelAndView mav=new ModelAndView("/teacher/board/board_main");
+		return mav;
+	}
 	
 	//매출내역
 	@GetMapping("/salescaculate/sales")

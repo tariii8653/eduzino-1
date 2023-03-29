@@ -35,7 +35,7 @@ public class AdminController {
 	@GetMapping("/qnaboard")
 	public ModelAndView getQnaBoard(HttpServletRequest request) {
 		logger.info("qna페이지 요청 받음");
-		ModelAndView mav=new ModelAndView("/admin/qnaboard/qnaboard_main");
+		ModelAndView mav=new ModelAndView("/admin/qnaboard_service/qnaboard_main");
 		return mav;
 	}
 	 
