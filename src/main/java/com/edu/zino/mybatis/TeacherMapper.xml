@@ -25,6 +25,11 @@
         values(seq_teacher_idx.nextval, #{member.member_idx})
     </insert>
 
+	<select id="selectOneByTeacher" parameterType="int" resultType="Teacher">
+        select m.member_idx as member_idx,member_nickname,member_regdate,member_id,sns_name_idx, teacher_idx
+        from member m inner join teacher t on m.member_idx = t.member_idx where teacher_idx=#{teacher_idx}
+    </select>
+    
     <!--수정할 필요 없음 -->
 
     <!--한 건 삭제하기 

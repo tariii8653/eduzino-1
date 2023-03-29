@@ -34,7 +34,8 @@
 			<div class="col-md-9">
 			<div class="card mt-5">
                   <div class="card-body">
-                    <h4 class="card-title">포인트 적립내역</h4>
+                    <h4 class="card-titl
+                    e">포인트 적립내역</h4>
                     
                     <div class="table-responsive">
                       <table class="table table-hover">

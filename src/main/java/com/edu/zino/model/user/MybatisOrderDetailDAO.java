@@ -17,7 +17,6 @@ public class MybatisOrderDetailDAO implements OrderDetailDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	//주문 상세내역 추가
-	@Override
 	public void insert(OrderDetail orderDetail) throws OrderDetailException{
 		
 		int result = sqlSessionTemplate.insert("OrderDetail.insert", orderDetail);

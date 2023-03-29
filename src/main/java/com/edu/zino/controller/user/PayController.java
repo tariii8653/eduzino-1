@@ -101,15 +101,13 @@ public class PayController {
 
 		logger.info("채워진 order는 "+order);
 		
+
 		//3단계> 여기서 orderSummary, orderDetail -insert / cart-del 완료
 		orderService.regist(order);
 		
 		//4단계
 		ModelAndView mav = new ModelAndView("/user/order/paycomplete"); 
-		//잠깐 cartilst로 보낸다.. orderList로 보내면 list 에러남
-		//mav.addObject("orderList",orderList.toString());
-		
-		return mav;
+		return null;
 	}
 	
 	//결제 실패
