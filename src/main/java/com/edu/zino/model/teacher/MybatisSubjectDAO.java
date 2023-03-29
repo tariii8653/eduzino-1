@@ -58,6 +58,28 @@ public class MybatisSubjectDAO implements SubjectDAO {
 		return sqlSessionTemplate.selectOne("Subject.select",subject_idx);
 	}
 	
+	
+	@Override
+	public Subject selectSummary(int subject_idx) {
+		return sqlSessionTemplate.selectOne("Subject.selectSummary", subject_idx);
+	}
+	
+
+	@Override
+	public void delete(int subject_idx) {
+		sqlSessionTemplate.delete("Subject.delete", subject_idx);
+	}
+
+	@Override
+	public void subjectRequest(int subject_idx) {
+		sqlSessionTemplate.update("Subject.subjectRequest",subject_idx);
+	}
+
+	@Override
+	public void updateAccess(Subject subject) {
+		sqlSessionTemplate.update("Subject.updateAccess",subject);
+	}
+
 
 
 }
