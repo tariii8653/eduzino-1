@@ -55,19 +55,25 @@ insert into SUB_CATEGORY(sub_category_idx,sub_name,mid_category_idx) values(seq_
 
 
 insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용1',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용2',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용3',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용4',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용5',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용6',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용7',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용8',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용9',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용10',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용11',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용12',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용13',2);
-insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용14',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812881740','테스트용2',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812882243','테스트용3',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812884421','테스트용4',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812884594','테스트용5',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812884702','테스트용6',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812885138','테스트용7',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812885599','테스트용8',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812886408','테스트용9',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812887153','테스트용10',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812887401','테스트용11',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812887665','테스트용12',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812888022','테스트용13',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/812888114','테스트용14',2);
+
+delete video where video_idx != 1
+
+select * from video order by video_idx
+
+select * from video where teacher_idx=2 and video_access=1 order by video_idx
 
 
 
@@ -161,3 +167,8 @@ select * from movie
 select * from subject
 delete subject
 select * from video
+
+
+select rowNum, subject_idx, subject_title, subject_subTitle, subject_pic, subject_price, subject_detail, teacher_idx, sub_category_idx
+		from (select * from subject where (subject_access = 0 or subject_access = 1) AND subject_permission = 1 order by subject_idx desc) 
+		where rowNum >=1 and rowNum <=10

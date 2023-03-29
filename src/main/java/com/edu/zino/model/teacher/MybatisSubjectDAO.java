@@ -2,6 +2,7 @@ package com.edu.zino.model.teacher;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,26 @@ public class MybatisSubjectDAO implements SubjectDAO {
 	@Override
 	public void updateAccess(Subject subject) {
 		sqlSessionTemplate.update("Subject.updateAccess",subject);
+	}
+
+	@Override
+	public List<Subject> selectAllAccessList(Map<String, Object> map) {
+		return sqlSessionTemplate.selectList("Subject.selectAllAccessList", map);
+	}
+
+	@Override
+	public int selectAllAccessRecoard() {
+		return sqlSessionTemplate.selectOne("Subject.selectAllAccessRecoard");
+	}
+
+	@Override
+	public List<Subject> selectAllPermissionRequestList(Map<String, Object> map) {
+		return sqlSessionTemplate.selectList("Subject.selectAllPermissionRequestList",map);
+	}
+
+	@Override
+	public void updatePermission(int subject_idx) {
+		sqlSessionTemplate.update("Subject.updatePermission", subject_idx);
 	}
 
 

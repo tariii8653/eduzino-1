@@ -58,6 +58,5 @@
 	<!-- footer_link -->
 	<jsp:include page="./user/inc/footer_link.jsp"></jsp:include>
 	<!-- footer_link end-->
-
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.edu.zino.domain.Admin;
 import com.edu.zino.domain.Member;
 import com.edu.zino.model.admin.AdminboardService;
 import com.edu.zino.model.member.MemberService;
@@ -48,6 +49,9 @@ public class AdminController {
 	@GetMapping("/login")
 	public ModelAndView getLogin(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/admin/member/login");
+		Admin admin = new Admin();
+		admin.setAdmin_idx(1);
+		request.getSession().setAttribute("admin", admin);
 		return mav;
 	}
 	

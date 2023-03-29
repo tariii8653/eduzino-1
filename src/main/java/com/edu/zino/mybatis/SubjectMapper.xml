@@ -98,4 +98,24 @@
 		update subject set subject_access=#{subject_access} where subject_idx=#{subject_idx}
 	</update>
 	
+	<select id="selectAllAccessList" parameterType="java.util.Map" resultMap="subjectMap">
+		select rowNum, subject_idx, subject_title, subject_subTitle, subject_pic, subject_price, subject_detail, teacher_idx, sub_category_idx
+		from (select * from subject where (subject_access = 0 or subject_access = 1) AND subject_permission = 2 order by subject_idx desc) 
+		where rowNum &gt;=#{startRow} and rowNum &lt;=#{lastRow}
+	</select>
+	
+	<select id="selectAllPermissionRequestList" parameterType="java.util.Map" resultMap="subjectMap">
+		select rowNum, subject_idx, subject_title, subject_subTitle, subject_pic, subject_price, subject_detail, teacher_idx, sub_category_idx
+		from (select * from subject where (subject_access = 0 or subject_access = 1) AND subject_permission = 1 order by subject_idx desc) 
+		where rowNum &gt;=${startRow} and rowNum &lt;=${lastRow}
+	</select>
+	
+	<select id="selectAllAccessRecoard" resultType="int">
+		select count(*) from subject where subject_access = 1 AND subject_permission = 2
+	</select>
+	
+	<update id="updatePermission" parameterType="int">
+		update subject set subject_permission=2 where subject_idx=#{subject_idx}
+	</update>
+	
 </mapper>

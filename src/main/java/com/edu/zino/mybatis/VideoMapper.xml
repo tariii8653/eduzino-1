@@ -22,7 +22,7 @@
 	
 	<!-- 강사가 보유중하면서 access가 1인 영상을 가져오기 -->
 	<select id="selectAllByTeacher" parameterType="int" resultType="Video">
-		select * from video where teacher_idx=#{teacher_idx} and video_access=1
+		select * from video where teacher_idx=#{teacher_idx} and video_access=1 order by video_idx
 	</select>
 	
 	<!-- 영상 이름 및 경로 변경 -->
