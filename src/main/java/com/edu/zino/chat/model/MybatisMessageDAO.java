@@ -18,6 +18,22 @@ public class MybatisMessageDAO implements MessageDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
+	
+	//전체 조회하기
+	@Override
+	public List<Message> selectAll(Message message) {
+		List list = sqlSessionTemplate.selectList("Message.selectAll", message);
+		return list;
+	}
+	
+	//안읽은 메세지 조회
+	@Override
+	public List<Message> seleckByCheck(Message message) {
+		return sqlSessionTemplate.selectList("Message.seleckByCheck", message);
+	}
+
+	
+	//채팅방 한건의 메세지 조회하기
 	@Override
 	public List<Message> selectChat(Message message) {
 		List list = sqlSessionTemplate.selectList("Message.selectChat", message);
@@ -27,7 +43,8 @@ public class MybatisMessageDAO implements MessageDAO {
 		return list;
 		
 	}
-
+	
+	//메세지 저장하기
 	@Override
 	public void insert(Message message) throws MessageException {
 		int result = sqlSessionTemplate.insert("Message.insert", message);
@@ -35,6 +52,17 @@ public class MybatisMessageDAO implements MessageDAO {
 			throw new MessageException("메세지 저장 실패");
 		}
 	}
+
+	@Override
+	public void updateCheck(Message message) throws MessageException {
+		int result = sqlSessionTemplate.update("Message.updateCheck", message);
+		if(result <1) {
+			throw new MessageException("읽음표시 업데이트 실패");
+		}
+		
+	}
+
+
 	
 	
 }

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import com.edu.zino.chat.model.MessageService;
 import com.edu.zino.domain.Chat;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.Message;
+import com.edu.zino.util.MessageUtil;
 
 
 @RestController
@@ -57,6 +60,8 @@ public class RestMessageController {
 	@PostMapping("/teacher/chat/message")
 	public Chat insertTeacher(HttpServletRequest request, @RequestBody Chat chat){
 		
+		
+		//logger.info("member_idx is "+member_idx);
 		logger.info("chat is "+chat);
 		
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
@@ -154,6 +159,21 @@ public class RestMessageController {
 		List<Message> messageList = messageService.selectChat(message);
 		
 		return messageList;
+	}
+	
+	//채팅방 읽음표시 체크
+	@PostMapping("/chat/chatmessage/check")
+	public  ResponseEntity<MessageUtil> updateCheck(HttpServletRequest request, Message message){
+		
+		messageService.updateCheck(message);
+		
+		
+		MessageUtil messageUtil = new MessageUtil();
+		messageUtil.setMsg("읽음표시 업데이트 성공");
+		
+		ResponseEntity entity=new ResponseEntity<MessageUtil>(messageUtil, HttpStatus.OK);
+		
+		return entity;
 	}
 	
 

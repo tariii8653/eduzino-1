@@ -22,11 +22,11 @@
 	
 	<!-- messageMapper에서 채팅내용 가져오기 -->
 	<collection 
-	column="message_idx"
+	column="chat_idx"
 	property="messageList"
 	javaType="java.util.ArrayList"
 	ofType="Message"
-	select="Message.selectChat" />
+	select="Message.selectAll" />
 	
 	</resultMap>
 	
