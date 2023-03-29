@@ -4,11 +4,42 @@
 	
 	<resultMap type="Subject" id="subjectMap">
 		<id column="subject_idx" property="subject_idx"/>
+		<result column="subject_title" property="subject_title"/>
+		<result column="subject_subTitle" property="subject_subTitle"/>
+		<result column="subject_pic" property="subject_pic"/>
+		<result column="subject_price" property="subject_price"/>
+		<result column="subject_access" property="subject_access"/>
+		<result column="subject_detail" property="subject_detail"/>
+		<result column="subject_permission" property="subject_permission"/>
 		
-		<association column="teacher_idx" property="teacher"
-							javaType="Teacher" select="Teacher.select" />
+		<association property="teacher" column="teacher_idx" javaType="Teacher" select="Teacher.selectOneByTeacher" />
+		<association property="sub_category" javaType="SubCategory" column="sub_category_idx" select="SubCategory.select" />
+		<collection property="sectionList" column="subject_idx" javaType="java.util.List" ofType="Section" select="Section.selectBySubject" />
+		<collection property="goals" column="subject_idx" javaType="java.util.List" ofType="Goal" select="Goal.selectAllBySubject" />
+		<collection property="requirements" column="subject_idx" javaType="java.util.List" ofType="Requirement" select="Requirement.selectAllBySubject" />
 	</resultMap>
 	
+	<resultMap type="Subject" id="subjectAccessMap">
+		<id column="subject_idx" property="subject_idx"/>
+		<result column="subject_title" property="subject_title"/>
+		<result column="subject_subTitle" property="subject_subTitle"/>
+		<result column="subject_pic" property="subject_pic"/>
+		<result column="subject_price" property="subject_price"/>
+		<result column="subject_access" property="subject_access"/>
+		<result column="subject_detail" property="subject_detail"/>
+		<result column="subject_permission" property="subject_permission"/>
+		<association property="teacher" column="teacher_idx" javaType="Teacher" select="Teacher.selectOneByTeacher"></association>
+	</resultMap>
+	
+	<resultMap type="Subject" id="subjectDetailMap">
+		<id column="subject_idx" property="subject_idx"/>
+		<result column="subject_title" property="subject_title"/>
+		<result column="subject_subTitle" property="subject_subTitle"/>
+		<result column="subject_pic" property="subject_pic"/>
+		<result column="subject_price" property="subject_price"/>
+		<result column="subject_detail" property="subject_detail"/>
+		<association property="sub_category" javaType="SubCategory" column="sub_category_idx" select="SubCategory.select" />
+	</resultMap>
 
 	<!-- 전부 가져오기 -->
 	<select id="selectAll" resultType="Subject">
@@ -25,7 +56,30 @@
 		select * from subject where teacher_idx = #{teacher_idx}
 	</select>
 	
+	<select id="selectAllByTeacherAccess" parameterType="int" resultMap="subjectAccessMap">
+		select * from subject where teacher_idx = #{teacher_idx} and (subject_access = 0 or subject_access = 1)
+	</select>
 	
+	<!-- null로 되어있는 강의 한건 등록 -->
+	<insert id="insert" parameterType="Subject">
+		insert into subject(subject_idx,teacher_idx) values(seq_subject.nextval,#{teacher.teacher_idx})
+		<selectKey keyColumn="subject_idx" keyProperty="subject_idx" order="AFTER" resultType="int">
+			select seq_subject.currval as subject_idx from dual
+		</selectKey>
+	</insert>
 	
-
+	<!-- null로되어있던 강의 업데이트 -->
+	<update id="updateAddFile" parameterType="Subject">
+		update subject set subject_title=#{subject_title}, subject_subTitle=#{subject_subTitle}, subject_pic=#{subject_pic}, subject_price=#{subject_price},
+		 subject_detail=#{subject_detail}, sub_category_idx=#{sub_category.sub_category_idx} where subject_idx=#{subject_idx}
+	</update>
+	
+	<select id="selectToDetail" parameterType="int" resultMap="subjectDetailMap">
+		select * from subject where subject_idx=#{subject_idx}
+	</select>
+	
+	<select id="selectFilename" parameterType="int" resultType="String">
+		select subject_pic from subject where subject_idx=#{subject_idx}
+	</select>
+	
 </mapper>
