@@ -5,7 +5,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
 	List<OrderSummary> orderList = (List)request.getAttribute("orderList");
-	//List<OrderDetail> detailList = (List)request.getAttribute("detailList");
 %>
 
 <!DOCTYPE html>
@@ -49,6 +48,25 @@
 		font-size: 13px;
 		text-transform: uppercase;
 	}
+	
+	.table-responsive{
+	  overflow-y: scroll;
+	}
+	
+	
+	.table-responsive::-webkit-scrollbar {
+	  width: 10px;  /* 스크롤바의 너비 */
+	}
+	.table-responsive::-webkit-scrollbar-thumb {
+	  height: 30%; /* 스크롤바의 길이 */
+	  background: rgb(60 181 49); /* 스크롤바의 색상 */
+	  border-radius: 10px;
+	}
+	
+	.table-responsive::-webkit-scrollbar-track {
+	  background: #84848447;  /*스크롤바 뒷 배경 색상*/
+	}
+	
 </style>
 
 </head>
@@ -72,7 +90,7 @@
 			</div>
 			<div class="col-md-9">
 			<div class="card mt-5">
-                  <div class="card-body">
+                  <div class="card-body" >
                     <h4 class="card-title">결제내역</h4>
                     
 						 <span>&nbsp;</span>
@@ -118,8 +136,8 @@
 					  </div>
 						<!-- 상세내용 모달 끝 -->
                     
-                    <div class="table-responsive">
-                      <table class="table table-hover">
+                    <div class="table-responsive"  style="height: 600px; overflow: scroll;">
+                      <table class="table table-hover" style="height:80%">
                         <thead>
                           <tr>
                             <th>순번</th>
@@ -154,14 +172,6 @@
                     </div>
                   </div>
                 </div>
-                  	<div class="btn-group" role="group" aria-label="Basic example"  style="margin-left:190px">
-                           <div class="dataTables_paginate paging_simple_numbers" style="float:center" id="example2_paginate"><ul class="pagination">
-                          <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                          		<tr>
-                          		<td colspan="6" id="paging-area"></td>
-				             </tr>
-                          <li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="10" tabindex="0" class="page-link">Next</a></li></ul></div>
-                     </div>
 			</div>
 		</div>	
 	</div>
