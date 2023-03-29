@@ -22,23 +22,11 @@
         <i class="mdi mdi-chart-bar menu-icon"></i>
         <span class="menu-title">매출 & 정산</span>
       </a>
-    <li class="nav-item">
-       <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="true" aria-controls="ui-basic">
+     <li class="nav-item">
+      <a class="nav-link" href="/teacher/subject/list">
         <i class="mdi mdi-youtube menu-icon"></i>
-        <span class="menu-title">강의</span>
-         <i class="menu-arrow"></i>
+        <span class="menu-title">강의관리</span>
       </a>
-      <div class="collapse show" id="ui-basic2">
-        <ul class="nav flex-column sub-menu">
-          <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">강의등록</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">강의목록</a>
-          </li>
-        </ul>
-      </div>
-    </li>
     <li class="nav-item">
        <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="true" aria-controls="ui-basic">
         <i class="mdi mdi-clipboard-account menu-icon"></i>
