@@ -58,4 +58,10 @@ public class MybatisCartDAO implements CartDAO{
 		return sqlSessionTemplate.selectList("Cart.selectCheckedCart",cart);
 	}
 
+	@Override
+	public void delOneCart(int cart_idx) throws CartException{
+		int result = sqlSessionTemplate.delete("Cart.delete",cart_idx);
+	}
+
+
 }

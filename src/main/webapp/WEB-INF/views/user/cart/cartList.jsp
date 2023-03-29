@@ -205,7 +205,8 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 				};
 			},methods:{
 				del:function(key){
-					delAsyncCart(key);
+					delAsyncCartOne(key);
+					console.log("넘겨진 keysms ",key);
 				}
 				,checkChange:function(event,item){
 					console.log(event);
@@ -298,7 +299,26 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 
 
 	
-	//여러건 비동기 삭제
+	//장바구니에서 한 건 삭제
+	function delAsyncCartOne(){
+		if(!confirm("선택하신 항목을 삭제하시겠습니까?")){
+			return;
+		}
+		$.ajax({
+			url:"/rest/cart/list/"+$("input[name='cart_idx']").val(),
+			type:"DELETE",
+			success:function(result,status,xhr){
+				console.log("한 건 삭제 결과" , result);
+				getCartList();
+			},error:function(xhr, status, err){
+				
+			}
+		});
+		
+	}
+
+	
+	//여러건 비동기 삭제 (결제 후 장바구니 비우기)
 	function delAsyncCart(){
 		let checkedBox=$("input[name='cart_idx']:checked");
 		
@@ -326,7 +346,6 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 			});
 		}
 	}
-
 
 
 

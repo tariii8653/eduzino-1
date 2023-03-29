@@ -52,5 +52,13 @@ public class CartServiceImpl implements CartService{
 		return count;
 	}
 
+	//카트 한 건만 삭제
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void delOneCart(int cart_idx) {
+		cartDAO.delOneCart(cart_idx);
+		
+	}
+
+
 	
 }
