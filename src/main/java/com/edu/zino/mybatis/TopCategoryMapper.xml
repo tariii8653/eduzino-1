@@ -13,4 +13,8 @@
 		select * from top_category order by top_category_idx
 	</select>
 	
+	<select id="select" parameterType="int" resultType="TopCategory">
+		select * from top_category where top_category_idx=#{top_category_idx}
+	</select>
+	
 </mapper>

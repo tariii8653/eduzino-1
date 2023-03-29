@@ -8,7 +8,7 @@
       <a class="navbar-brand brand-logo-mini" href="/teacher/index"><img src="/resources/teacher/data/logomini.png" alt="logo" /></a>
     </div>
     <ul class="navbar-nav">
-    	<li><button class="btn btn--form-grop-back">돌아가기</button></li>
+    	<li><button class="btn btn--form-grop-back" id="bt_back" onclick="location.href='/teacher/subject/list';">돌아가기</button></li>
     </ul>
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-logout d-none d-lg-block">
@@ -22,4 +22,3 @@
     </button>
   </div>
 </nav>
-        

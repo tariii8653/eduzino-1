@@ -31,40 +31,31 @@
            	</div>
            	<div class="main-content--content--1Myl4">
            		<div class="goals--formgroup-box" id="app_goal">
-<<<<<<< HEAD
            			<!--<p class="goals-form--subtitle--3R5d-">
 	       				<span>
 		       				 적을내용이있으면 적자 
 	       				</span>
 	      			</p>-->
-=======
-           			<p class="goals-form--subtitle--3R5d-">
-	       				<span>
-		       				강의 내용은 eduzino에서 성공을 거두는 데 있어 중요합니다. 이 섹션을 완료하면서 사람들이 강의를 왜 수강 신청하려는지 보여주는 호소력 있는 강의 미리보기 만들기에 대해 생각해 보세요. 
-		       				강의 미리보기 만들기 및 강의 제목 표준에 대해 자세히 알아보세요.
-	       				</span>
-	      			</p>
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 	      			<div>
 	      				<div class="ud-heading-md goals-form--question-label--1lkHx">강의 제목</div>
 		      			<div class="form-group details-form--question-text-container--2ac22">
-							<input type="text" class="form-control" placeholder="강의제목을 입력해주세요" maxlength="65">
-<<<<<<< HEAD
+							<input type="text" class="form-control" id="subject_title" placeholder="강의제목을 입력해주세요" maxlength="65">
 							<div class="subject-form-note">제목은 이목을 집중시키고, 정보를 전달하며, 검색에 최적화되어야 합니다</div>
-=======
-							<div id="u60-form-group-note--129" class="ud-form-note ud-text-xs">제목은 이목을 집중시키고, 정보를 전달하며, 검색에 최적화되어야 합니다</div>
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 						</div>
 	      			</div>
 	      			<div>
 	      				<div class="ud-heading-md goals-form--question-label--1lkHx">강의 부제</div>
 		      			<div class="form-group details-form--question-text-container--2ac22">
-							<input type="text" class="form-control" placeholder="강의 부제를 입력해주세요" >
-<<<<<<< HEAD
+							<input type="text" class="form-control" id="subject_subTitle" placeholder="강의 부제를 입력해주세요" >
 							<div class="subject-form-note">강의의 중요 키워드와 간단한 설명을 언급해주세요</div>
-=======
-							<div id="u60-form-group-note--129" class="ud-form-note ud-text-xs">강의의 중요 키워드와 간단한 설명을 언급해주세요</div>
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
+						</div>
+	      			</div>
+	      			
+	      			<div>
+	      				<div class="ud-heading-md goals-form--question-label--1lkHx">가격</div>
+		      			<div class="form-group details-form--question-text-container--2ac22">
+							<input type="number" class="form-control" id="subject_price" placeholder="가격을 입력해주세요" >
+							<div class="subject-form-note"><!-- 가격에대한 설명을 적을것 --></div>
 						</div>
 	      			</div>
 	      			
@@ -72,10 +63,9 @@
 	      				<legend class="ud-form-label ud-heading-md">카테고리 선택</legend>
 	      				<div class="zino-subject-selectbox-inline-field">
 	      					<div class="course-basics-form--category-fields--1M1_V">
-<<<<<<< HEAD
 	      						<div class="form-group" id="category_app">
 		      						<div class="ud-select-container ud-select-container-large">
-										<select aria-invalid="false" name="top_category" class="zino-subject-select" @change="topCategoryChange($event)">
+										<select aria-invalid="false" id="top_category" class="zino-subject-select" @change="topCategoryChange($event)">
 										<option value="0">TOP카테고리 선택</option>
 										<template v-for="topCategory in topCategoryList">
 											<category_item :key="topCategory.top_category_idx" :value="topCategory.top_category_idx" :name="topCategory.top_name"/>
@@ -84,43 +74,20 @@
 										
 									</div>
     								<div class="ud-select-container ud-select-container-large">
-    									<select aria-invalid="false" name="mid_category" class="zino-subject-select" @change="midCategoryChange($event)">
-											<option value="0">MID카테고리 선택</option>
+    									<select aria-invalid="false" id="mid_category" class="zino-subject-select" @change="midCategoryChange($event)">
+											<option value="0" selected>MID카테고리 선택</option>
 			      							<template v-for="midCategory in midCategoryList">
-												<category_item :key="midCategory.mid_category_idx" :value="midCategory.mid_category_idx" :name="midCategory.mid_name"/>
+												<category_item :key="midCategory.mid_category_idx" :value="midCategory.mid_category_idx" :name="midCategory.mid_name" />
 											</template>
 										</select>
 	    							</div>
     								<div class="ud-select-container ud-select-container-large">
-	    								<select aria-invalid="false" name="sub_category" class="zino-subject-select">
+	    								<select aria-invalid="false" id="sub_category" class="zino-subject-select">
 												<option value="0">SUB카테고리 선택</option>
 				      							<template v-for="subCategory in subCategoryList">
-													<category_item :key="subCategory.sub_category_idx" :value="subCategory.sub_category_idx" :name="subCategory.sub_name"/>
+													<category_item :key="subCategory.sub_category_idx" :value="subCategory.sub_category_idx" :name="subCategory.sub_name" />
 												</template>
 										</select>
-=======
-	      						<div class="form-group">
-		      						<div class="ud-select-container ud-select-container-large">
-		      							<select aria-invalid="false" name="top_category" class="zino-subject-select">
-		      								<option value="0">TOP카테고리 선택</option>
-		      								<option value="1">IT</option>
-		      								<option value="2">디자인</option>
-	      								</select>
-	    							</div>
-    								<div class="ud-select-container ud-select-container-large">
-		      							<select aria-invalid="false" name="mid_category" class="zino-subject-select">
-		      								<option value="0">MID카테고리 선택</option>
-		      								<option value="1">프론트</option>
-		      								<option value="2">백엔드</option>
-	      								</select>
-	    							</div>
-    								<div class="ud-select-container ud-select-container-large">
-		      							<select aria-invalid="false" name="top_category" class="zino-subject-select">
-		      								<option value="0">SUB카테고리 선택</option>
-		      								<option value="1">C</option>
-		      								<option value="2">Java</option>
-	      								</select>
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 	    							</div>
     							</div>
   							</div>
@@ -131,7 +98,7 @@
 	      				<div class="ud-heading-md goals-form--question-label--1lkHx">강의 이미지</div>
 		      			<div class="form-group details-form--question-text-container--2ac22" style="overflow: hidden;" >
 		      				<div class="float-left">		      				
-								<img alt="강의이미지" src="/resources/teacher/subject/img/selectImage.png" id="subject_detail_photo" width="400" height="250">
+								<img alt="강의이미지" src="${imgUri}/selectImage.png" id="subject_detail_photo" width="400" height="250">
 		      				</div>
 							<div class="float-right details-form-img-text-container">
 								<p style="display: inline;">
@@ -158,13 +125,13 @@
 	      			<div>
 	      				<div class="ud-heading-md goals-form--question-label--1lkHx">강의 설명</div>
 		      			<div class="form-group details-form--question-text-container--2ac22">
-							<div id="summernote"></div>
+							<textarea id="summernote"></textarea>
 						</div>
 	      			</div>
 	      			
            		</div>
 				<div class="ud-form-group detail-form-btn-group">
-					<button class="btn btn-primary mb-2 mb-md-0 mr-2 btn--form-grop-save float-right">저장하기</button>
+					<button class="btn btn-primary mb-2 mb-md-0 mr-2 btn--form-grop-save float-right" id="bt_save">저장하기</button>
 				</div>
            	</div>
           <!-- content-wrapper ends -->
@@ -183,14 +150,12 @@
     <!-- End custom js for this page -->
   </body>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-<<<<<<< HEAD
 <script src="/resources/root/categoryApp.js"></script>
 <script type="text/javascript">
+let subjectRegistFile;
+const changeEvent = new Event('change');
 function prev(file){//미리보기 함수
-=======
-<script type="text/javascript">
-function prev(file){
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
+	subjectRegistFile = file;
 	let reader = new FileReader();
 	reader.onload = function(e){
 		$("#file-upload-fake-filename").html(file.name);
@@ -198,22 +163,114 @@ function prev(file){
 	}
 	reader.readAsDataURL(file);
 }
-<<<<<<< HEAD
 function getCategory(){//카테고리 가져오는 메서드
 	$.ajax({
 		url:"/rest/category",
 		type:"get",
 		success:function(result,status,xhr){
-			console.log(result);
 			categoryApp.topCategoryList = result;
 		},error:function(xhr,status,error){
 			console.log(xhr);
 		}
 	});
-=======
-function getTopCategory(){
+}
+
+function getDetail(){//카테고리 가져오는 메서드
+	$.ajax({
+		url:"/teacher/rest/subject/${subject_idx}/detail",
+		type:"get",
+		success:function(result,status,xhr){
+			console.log(result);
+			setDetail(result);
+		},error:function(xhr,status,error){
+			console.log(xhr);
+		}
+	});
+}
+
+function setDetail(subject){
+	$("#subject_title").val(subject.subject_title);
+	$("#subject_subTitle").val(subject.subject_subTitle);
+	//$("#sub_category").val();
+	$("#subject_price").val(subject.subject_price);
+	if(subject.subject_pic != undefined){
+		let path ="${imgUri}/"+subject.subject_pic;
+		$("#subject_detail_photo").attr("src",path);
+	}
+	if(subject.subject_detail != undefined){		
+		$('#summernote').summernote('editor.pasteHTML',subject.subject_detail);
+	}
 	
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
+	if(subject.sub_category != undefined){
+		let sub_category_idx = subject.sub_category.sub_category_idx;
+		let mid_category_idx = subject.sub_category.mid_category.mid_category_idx;
+		let top_category_idx = subject.sub_category.mid_category.top_category.top_category_idx;
+		
+		setTimeout(()=>{
+			let top_selectBox = document.getElementById('top_category');
+			top_selectBox.value = top_category_idx;
+			top_selectBox.dispatchEvent(changeEvent);
+		},100);
+		
+		console.log("mid_category_idx : ",mid_category_idx);
+		setTimeout(()=>{
+			console.log("mid_category setting");
+			let mid_selectBox = document.getElementById('mid_category');
+			mid_selectBox.value = mid_category_idx;
+			mid_selectBox.dispatchEvent(changeEvent);
+		},200);
+		setTimeout(()=>{
+			console.log("sub_category setting");
+			let sub_selectBox = document.getElementById('sub_category');
+			sub_selectBox.value = sub_category_idx;
+			sub_selectBox.dispatchEvent(changeEvent);
+		},300);
+	}
+
+	
+	//$("#mid_category").val(4);
+	//categoryApp.midCategoryChange();
+	
+	//$("#sub_category").val(sub_category_idx);
+}
+function detailSaveAddFile(){
+	console.log("파일있는 저장");
+	let formData = new FormData();
+	formData.append("subject_title",$("#subject_title").val());
+	formData.append("subject_subTitle",$("#subject_subTitle").val());
+	formData.append("sub_category.sub_category_idx",$("#sub_category").val());
+	formData.append("subject_file",subjectRegistFile);//강의썸네일
+	formData.append("subject_price",$("#subject_price").val());
+	formData.append("subject_detail",$("#summernote").val());
+	$.ajax({
+		url:"/teacher/rest/subject/${subject_idx}", 
+		type:"post", 
+		data:formData, 
+		processData:false, 
+		contentType:false, 
+		success:function(result, status, xhr){
+			alert(result);
+		}
+	});
+}
+
+function detailSave(){
+	let formData = new FormData();
+	formData.append("subject_title",$("#subject_title").val());
+	formData.append("subject_subTitle",$("#subject_subTitle").val());
+	formData.append("sub_category.sub_category_idx",$("#sub_category").val());
+	formData.append("subject_price",$("#subject_price").val());
+	formData.append("subject_detail",$("#summernote").val());
+	$.ajax({
+		url:"/teacher/rest/subject/${subject_idx}", 
+		type:"post", 
+		data:formData, 
+		processData:false, 
+		contentType:false, 
+		success:function(result, status, xhr){
+			alert(result);
+		}
+	});
 }
 function init(){
     $('#summernote').summernote({
@@ -223,11 +280,8 @@ function init(){
       lang : 'ko-KR',
       width: '48rem'
     });
-<<<<<<< HEAD
     getCategory();
-=======
-    getTopCategory();
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
+    getDetail();
 }
 $(function(){
 	init();
@@ -237,6 +291,14 @@ $(function(){
 	$("input[name=subject_pic]").change(function(){
 		prev(this.files[0]);
 	});
+	$("#bt_save").click(function(){
+		if(subjectRegistFile == undefined){
+			detailSave();
+		}else{
+			detailSaveAddFile();
+		}
+	});
+	
 });
 </script>
 </html>

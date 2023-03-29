@@ -62,7 +62,7 @@
 					</form>
 				</div>
 				<div class="ud-form-group">
-					<button class="btn btn-primary mb-2 mb-md-0 mr-2 btn--form-grop-save float-right">저장하기</button>
+					<button class="btn btn-primary mb-2 mb-md-0 mr-2 btn--form-grop-save float-right" id="bt_save">저장하기</button>
 				</div>
            	</div>
           <!-- content-wrapper ends -->
@@ -85,13 +85,9 @@
 const goal_item={
 	template:`
 		<div class="form-group goals-form--question-text-container--2ac22">
-			<input type="text" class="form-control" placeholder="예: 프로젝트 관리자의 역할과 책임을 정의합니다." maxlength="65" @input="update($event,item.key)">
+			<input type="text" class="form-control" placeholder="예: 프로젝트 관리자의 역할과 책임을 정의합니다." maxlength="65" @input="update($event,item.key)" :value="item.goal">
 			<span class="btn--input--close--icon" @click="del(item.key)"><i class="bi bi-x"></i></span>
-<<<<<<< HEAD
 		</div>
-=======
-		</div> 
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
 	`,props:['goal'],
 	data(){
 		return{
@@ -111,7 +107,7 @@ const goal_item={
 const require_item={
 	template:`
 		<div class="form-group goals-form--question-text-container--2ac22">
-			<input type="text" class="form-control" placeholder="예: 이 강의를 수강하기 위해서는 window가 필요합니다" maxlength="65" @input="update($event,item.key)">
+			<input type="text" class="form-control" placeholder="예: 이 강의를 수강하기 위해서는 window가 필요합니다" maxlength="65" @input="update($event,item.key)" :value="item.requirement">
 			<span class="btn--input--close--icon" @click="del(item.key)"><i class="bi bi-x"></i></span>
 		</div>
 	`,props:['require'],
@@ -126,7 +122,7 @@ const require_item={
 		},
 		update:function(event,key){
 			let idx = getIndex(requireApp.requireList,key);
-			requireApp.requireList[idx].goal=event.target.value;
+			requireApp.requireList[idx].requirement=event.target.value;
 		}
 	}
 }
@@ -157,29 +153,81 @@ function getIndex(list,key){
 	return -1;
 }
 
-function goalItemPlus(){
+function goalItemPlus(goal_name){
 	let goal=[];
 	goal['key']=++goalApp.key;
-	goal['goal']='';
+	goal['goal']=goal_name;
 	goalApp.goalList.push(goal);
 }
-function requireItemPlus(){
+function requireItemPlus(requirement_name){
 	let require=[];
 	require['key']=++requireApp.key;
-	require['goal']='';
+	require['requirement']=requirement_name;
 	requireApp.requireList.push(require);
 }
-function init(){
-	for(let i=0;i<2;i++){
-		goalItemPlus();
+let formData;
+function goalSave(){
+	formData = new FormData();
+	let goalList = goalApp.goalList;
+	let requireList = requireApp.requireList;
+	for(let i=0;i<goalList.length;i++){
+		formData.append("goals",goalList[i].goal);
 	}
-	requireItemPlus();
+	for(let i=0;i<requireList.length;i++){
+		console.log("requirement : ",requireList[i].requirement);
+		formData.append("requirements",requireList[i].requirement);
+	}
+	$.ajax({
+		url:"/teacher/rest/subject/${subject_idx}/goals-requirements",
+		type:"post",
+		data:formData,
+		processData: false,
+		contentType:false,
+		success:function(result,status,xhr){
+			console.log("결과는 : ",result);
+			alert("저장완료");
+		}
+	});
+}
+
+function init(){
+	$.ajax({
+		url:"/teacher/rest/subject/${subject_idx}/goals-requirements",
+		type:"get",
+		success:function(result,status,xhr){
+			console.log("가져온 데이터는 : ",result);
+			let goalList = result.goalList;
+			let requirementList = result.requirementList;
+			if(goalList.length>1){
+				for(let i=0;i<goalList.length;i++){
+					goalItemPlus(goalList[i].goal_name);
+				}
+			}else{
+				for(let i=0;i<2;i++){
+					goalItemPlus('');
+				}
+			}
+			if(requirementList.length>0){
+				for(let i=0;i<requirementList.length;i++){
+					requireItemPlus(requirementList[i].requirement_name);
+				}
+			}else{
+				requireItemPlus('');
+			}
+			
+		}
+	});
+	
+	
 	
 	$("#bt_goal_plus").click(function(){
 		goalItemPlus();
 	});
 	$("#bt_require_plus").click(function(){
 		requireItemPlus();
+	});
+	$("#bt_save").click(function(){
+		goalSave();
 	});
 }
 
