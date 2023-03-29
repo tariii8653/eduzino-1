@@ -67,21 +67,7 @@
 							<div class="col mt-3">
 								<form class="form-inline" id="form1">
 									<h1>공지사항 관리</h1>
-									<div class="form-group">전체 공지사항을 관리합니다</div>
-									<p>
-									<div class="form-group">
-										<select name=" ">
-											<option value="val1">선택을 하세요...</option>
-										</select>
-									
-									</div>
-								<div class="form-group">
-									<div class="search">
-										<input type="text" placeholder="검색어를 입력해주세요.">
-									</div>
-								</div>
-
-
+									<div class="form-group"></div>
 									<table class="table table-bordered table-sm">
 										<thead>
 											<tr>
@@ -115,8 +101,6 @@
 								</form> 
 							</div>
 						</div>
-
-
 					</div>
 
 					<!-- content-wrapper ends -->

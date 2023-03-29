@@ -108,7 +108,7 @@
 	<script type="text/javascript">
 		function regist(){
 			$("#form1").attr({
-				action : "/admin/qnaboard/regist",
+				action : "/admin/qnaboard_service/regist",
 				method: "POST"
 			});
 			$("#form1").submit();
@@ -118,7 +118,7 @@
 				regist();
 			});
 			$("#bt_list").click(function(){
-				location.href="/admin/qnaboard/list"
+				location.href="/admin/qnaboard_service/list"
 			});
 		});
 	</script>

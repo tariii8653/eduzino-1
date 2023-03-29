@@ -1,8 +1,7 @@
-<%@page import="com.edu.zino.domain.Qnaboard"%>
-<%@page import="com.edu.zino.domain.Adminboard"%>
+	<%@page import="com.edu.zino.domain.Qnaboard"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
-	Qnaboard qnaboard = (Qnaboard) request.getAttribute("qnaboard");
+	Qnaboard qnaboard=(Qnaboard)request.getAttribute("qnaboard");
 %>
 <!DOCTYPE html>
 <html>
@@ -15,11 +14,11 @@
 <!-- plugins:css -->
 <jsp:include page="../inc/header_link.jsp"></jsp:include>
 </head>
-
 <style type="text/css">
-.btd {
+.bte{
 	text-align: center;
 }
+
 </style>
 <body>
 	<div class="container-scroller">
@@ -71,33 +70,33 @@
 
 						<h2>qna게시판 글 등록</h2>
 
-						<form id="form1">
+						<form  id="form1">
 							<div class="mb-3">
-
-								<input type="hidden" name="qnaboard_idx"
-									value="<%=qnaboard.getQnaboard_idx()%>"> <label>제목</label>
-								<input type="text" class="form-control" name="qnaboard_title"
-									value="<%=qnaboard.getQnaboard_title()%>">
+							
+								<input type="hidden" name="qnaboard_idx"  value="<%=qnaboard.getQnaboard_idx()%>">
+								<label>제목</label> <input type="text" class="form-control"
+									name="qnaboard_title" value="<%=qnaboard.getQnaboard_title()%>">
 
 							</div>
 
 							<div class="mb-3">
 
-								<label>내용</label>
-								<textarea class="form-control" rows="5" name="qnaboard_content"><%=qnaboard.getQnaboard_content()%></textarea>
+								<label>내용</label> 
+								<textarea class="form-control" rows="5"
+									name="qnaboard_content" ><%=qnaboard.getQnaboard_content()%></textarea>
 							</div>
 
 						</form>
 
 						<div class="bte">
-
-							<button type="button" class="btn btn-sm btn-primary" id="bt_del">삭제</button>
-							<button type="button" class="btn btn-sm btn-primary" id="bt_list">목록</button>
+							
+							<button type="button" class="btn btn-sm btn-primary"  id="bt_edit" >수정</button>
+							<button type="button" class="btn btn-sm btn-primary"  id="bt_list">목록</button>
 
 						</div>
 
 					</div>
-
+		
 
 					<!-- content-wrapper ends -->
 					<!-- partial:partials/_footer.html -->
@@ -117,20 +116,23 @@
 		<!-- End custom js for this page -->
 	</div>
 	<script type="text/javascript">
-		$(function() {
-			$("#bt_del").click(function() {
-				if (confirm("삭제하십니까?")) {
-					$("#form1").attr({
-						action : "/admin/qnaboard/del",
-						method : "POST"
-					});
-					$("#form1").submit();
-				}
-			});
-			$("#bt_list").click(function() {
-				location.href = "/admin/qnaboard/list";
-			});
+	$(function(){
+		$("#bt_edit").click(function(){
+			if(confirm("수정하실래요?")){
+				$("#form1").attr({
+					action: "/admin/qnaboard_service/edit" ,
+					method:"POST"
+				});
+				$("#form1").submit();
+			}
 		});
+	
+		$("#bt_list").click(function(){
+			location.href="/admin/qnaboard_service/list";
+		});
+	});
+
+	
 	</script>
 </body>
 
