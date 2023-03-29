@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Teacher">
-
+	<resultMap type="Teacher" id="teacherMap">
+		<id column="teacher_idx" property="teacher_idx"/>
+		
+		<association property="member" column="member_idx" javaType="Member" select="Member.selectByTeacher"></association>
+	</resultMap>
 
     <!--전체 가져오기 -->
     <select id="selectAll" resultType="Teacher">
@@ -25,9 +29,8 @@
         values(seq_teacher_idx.nextval, #{member.member_idx})
     </insert>
 
-	<select id="selectOneByTeacher" parameterType="int" resultType="Teacher">
-        select m.member_idx as member_idx,member_nickname,member_regdate,member_id,sns_name_idx, teacher_idx
-        from member m inner join teacher t on m.member_idx = t.member_idx where teacher_idx=#{teacher_idx}
+	<select id="selectOneByTeacher" parameterType="int" resultMap="teacherMap">
+        select * from teacher where teacher_idx=#{teacher_idx}
     </select>
     
     <!--수정할 필요 없음 -->

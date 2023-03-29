@@ -59,7 +59,7 @@
 		
 		                            <div class="author-wrap">
 		                                <label class="m-0">Teacher</label>
-		                                <div class="author-name"><a href="#">{{subject.teacher.member_nickname}}</a></div>
+		                                <div class="author-name"><a href="#">{{subject.teacher.member.member_nickname}}</a></div>
 		                            </div><!-- .author-wrap -->
 		                        </div><!-- .course-author -->
 		
@@ -114,7 +114,9 @@
 	                            </div>
 	                        </div><!-- .entry-contents -->
 	                    </div><!-- .single-course-accordion-cont  -->
-	
+						<div class="mt-3">
+							<button type="button" class="btn btn-primary">수정하기</button>
+						</div>
 	                    <div class="related-courses">
 	                        <header class="entry-heading flex flex-wrap justify-content-between align-items-center">
 	                            <h2 class="entry-title">수강평</h2>

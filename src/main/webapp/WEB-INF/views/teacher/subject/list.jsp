@@ -196,7 +196,7 @@ function init(){
 		location.href="/teacher/subject/regist";
 	});
 	$.ajax({
-		url:"/teacher/rest/subjects/1",//idx교체(teacher_idx)
+		url:"/teacher/rest/subjects/${teacher.teacher_idx}",//idx교체(teacher_idx)
 		type:"get",
 		success:function(result){
 			console.log(result);
@@ -205,6 +205,7 @@ function init(){
 	});
 }
 $(function(){
+	console.log("서버의 teacher : ${teacher}");
 	subjectApp = new Vue({
 		el:"#subjectApp",
 		data:{

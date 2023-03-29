@@ -251,6 +251,7 @@ function sectionSave(){
 		data:JSON.stringify(subjectApp.sectionList)
 		,success:function(result,status,xhr){
 			console.log(result);
+			alert("저장완료");
 		}
 	});
 }
@@ -273,7 +274,7 @@ function getSubjectMovie(){
 
 function init(){	
 	$.ajax({
-		url:"/rest/teacher/videos/1",
+		url:"/rest/teacher/videos/${teacher.teacher_idx}",
 		type:"get",
 		success:function(result){
 			subjectApp.setList(result);

@@ -40,7 +40,7 @@ start with 1;;
 
 create sequence seq_top_category
 increment by 1
-start with 1;;
+start with 1;
 
 create sequence seq_mid_category
 increment by 1
@@ -51,6 +51,10 @@ increment by 1
 start with 1;
 
 create sequence seq_sub_category
+increment by 1
+start with 1;
+
+create sequence seq_video
 increment by 1
 start with 1;
 

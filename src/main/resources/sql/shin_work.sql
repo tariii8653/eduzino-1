@@ -21,8 +21,6 @@ insert into MID_CATEGORY(mid_category_idx,mid_name,top_category_idx) values(seq_
 insert into MID_CATEGORY(mid_category_idx,mid_name,top_category_idx) values(seq_mid_category.nextval,'자기개발',5);
 insert into MID_CATEGORY(mid_category_idx,mid_name,top_category_idx) values(seq_mid_category.nextval,'예술',5);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 select * from mid_category
 
 insert into SUB_CATEGORY(sub_category_idx,sub_name,mid_category_idx) values(seq_sub_category.nextval,'HTML/CSS',1);
@@ -56,10 +54,110 @@ insert into SUB_CATEGORY(sub_category_idx,sub_name,mid_category_idx) values(seq_
 insert into SUB_CATEGORY(sub_category_idx,sub_name,mid_category_idx) values(seq_sub_category.nextval,'캘리그라피',10);
 
 
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용1',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용2',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용3',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용4',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용5',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용6',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용7',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용8',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용9',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용10',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용11',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용12',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용13',2);
+insert into video(video_idx,video_link,video_name,teacher_idx) values(seq_video.nextval,'/807359667','테스트용14',2);
+
 
 
 select * from sub_category
-=======
->>>>>>> 4b5f5943f54a43d599168cedf087a264d33380de
-=======
->>>>>>> 090364d14f2248e255f6a980387b9adb6e56c4f0
+---------------------------------------------------------     aws          ----------------------------------------------------------------------
+select table_name from user_tables
+
+CREATE TABLE top_category (
+	top_category_idx	number primary key,
+	top_name	varchar2(30)		NULL
+);
+drop table top_category
+
+CREATE TABLE mid_category (
+	mid_category_idx	number	 primary key,
+	mid_name	varchar2(30)		NULL,
+	top_category_idx	number		NOT NULL
+);
+drop table mid_category
+
+CREATE TABLE sub_category (
+	sub_category_idx	number	 primary key,
+	sub_name	varchar2(30)		NULL,
+	mid_category_idx	number		NOT NULL
+);
+drop table sub_category
+
+CREATE TABLE section (
+	section_idx	number primary key,
+	section_name	varchar2(200)		NULL,
+	subject_idx	number		NOT NULL
+);
+drop table section
+
+CREATE TABLE movie (
+	movie_idx	number	 primary key,
+	movie_name	varchar2(100)		NULL,
+	section_idx	number		NOT NULL,
+	video_idx number null
+);
+
+CREATE TABLE goal (
+	goal_idx	number	 primary key,
+	goal_name	varchar2(200)		NULL,
+	subject_idx	number		NOT NULL
+);
+
+drop table goal
+
+CREATE TABLE requirement (
+	requirement_idx	number	 primary key,
+	requirement_name	varchar2(200)		NULL,
+	subject_idx	number		NOT NULL
+);
+
+drop table requirement
+
+CREATE TABLE subject (
+	subject_idx	number	 primary key,
+	subject_title	varchar2(200),
+	subject_subTitle	clob,
+	subject_pic	varchar2(30),
+	subject_price	number	,
+	subject_access number default 0,
+	subject_detail	clob,
+	subject_permission number default 0,
+	teacher_idx	number		NOT NULL,
+	sub_category_idx	number		NULL
+);
+alter table subject modify sub_category_idx null
+
+select * from teacher
+
+drop table subject
+
+create table video(
+	video_idx number primary key,
+	video_link varchar2(30) not null,
+	video_name varchar2(50) not null,
+	video_access number default 1,
+	teacher_idx number not null
+);
+drop table subject
+
+select * from teacher
+
+select * from member
+
+select * from section
+select * from movie
+select * from subject
+delete subject
+select * from video
