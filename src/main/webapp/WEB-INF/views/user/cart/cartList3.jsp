@@ -144,10 +144,25 @@
             </div>
            
             <div class="row" style="justify-content: flex-end;">
+	             <div class="col-lg-6 offset-lg-2">
+                    <div class="cart__total__procced">
+                          <h4>포인트 사용</h4>                       
+                            <ul>
+                            <li>보유 포인트 <span>1,000</span></li>
+                              </ul>
+                            <div class="discount__content">
+                        <form action="#">
+                            <input type="text" placeholder="Enter your point">
+                            <button type="submit" class="site-btn" style="right: -126px; ">전액 사용</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
                    <div class="col-lg-6 offset-lg-2">
                     <div class="cart__total__procced">
                         <h4>총 결제 금액</h4>
                         <ul>
+                            <li>할인 금액 <span>1,000</span></li>
                             <li>결제 금액 <span id="sp_total_price">{{totalPay}}</span></li>
                         </ul>
                           <button class="pay_bt" style="color: white" id="bt_payCheck" data-toggle="modal" data-target="#myModal" >결제하기</button>
@@ -195,8 +210,7 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
                         <span>{{item.subject.subject_subTitle}}</span>
                     </div>
                 </td>
-              		<td class="cart__price">{{item.subject.subject_price}}</td>   
-              		<td class="cart__close" ><span class="icon_close" @click="del(item.cart_idx)"></span></td>
+              		<td class="cart__price">{{item.subject.subject_price}}</td>           
             </tr>
 			`, props:['cart']
 			,data(){
@@ -286,7 +300,7 @@ let checkedList = [];//선택한 cart json정보를 담는 배열
 						
 			console.log(checkTitle);
 			console.log(checkedList);
-
+	
 				let str = "";
 				for(let i=0;i<checkTitle.length;i++){
 					str+=checkTitle[i]+"<br>"

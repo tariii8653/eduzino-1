@@ -12,4 +12,5 @@ public interface CartService {
 	public void regist(Cart[] cart); //여러건이라 배열로 간다
 	public void delCart(Cart[] cart);
 	public int selectCount(Cart cart);
+
 }

@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.zino.domain.Cart;
 import com.edu.zino.domain.Member;
@@ -26,8 +28,8 @@ public class MybatisCartDAO implements CartDAO{
 		return sqlSessionTemplate.selectList("Cart.selectAll",member);
 	}
 
-	@Override
 	//장바구니 1건 등록하기(찜에서 넘어온)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void Insert(Cart cart) throws CartException{
 		int result = sqlSessionTemplate.insert("Cart.insert", cart);
 		if(result<1) {
@@ -36,6 +38,7 @@ public class MybatisCartDAO implements CartDAO{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void delCart(Cart cart) throws CartException{
 		int result = sqlSessionTemplate.delete("Cart.delete",cart.getCart_idx());
 		if(result<1) {
@@ -47,6 +50,12 @@ public class MybatisCartDAO implements CartDAO{
 	public int selectCount(Cart cart) throws CartException {
 		int count =sqlSessionTemplate.selectOne("Cart.selectCount",cart);
 		return count;
+	}
+
+	//선택한 cart 만 가져오기
+	public List selectCheckedCart(Cart cart) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList("Cart.selectCheckedCart",cart);
 	}
 
 }

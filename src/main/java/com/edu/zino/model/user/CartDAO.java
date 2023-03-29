@@ -10,4 +10,5 @@ public interface CartDAO {
 	public void Insert(Cart cart);
 	public void delCart(Cart cart);
 	public int selectCount(Cart cart);
+	public List selectCheckedCart(Cart cart);
 }

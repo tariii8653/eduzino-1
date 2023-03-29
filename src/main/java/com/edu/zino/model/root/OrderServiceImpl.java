@@ -38,6 +38,8 @@ public class OrderServiceImpl implements OrderService{
 	//주문메서드
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void regist(OrderSummary orderSummary) {
+		
+		
 		//1) 주문요약 넣기> pk 반환
 		orderSummaryDAO.insert(orderSummary);
 		
@@ -53,7 +55,7 @@ public class OrderServiceImpl implements OrderService{
 			orderDetailDAO.insert(orderDetail);
 			
 			//카트에서 삭제
-			//cartDAO.delCart(cartList.get(i));
+			cartDAO.delCart(cartList.get(i));
 		}
 		
 	}
