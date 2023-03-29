@@ -143,6 +143,22 @@ public class SubjectServiceImpl implements SubjectService {
 	public Subject select(int subject_idx) {
 		return subjectDAO.select(subject_idx);
 	}
+	@Override
+	public Subject selectSummary(int subject_idx) {
+		return subjectDAO.selectSummary(subject_idx);
+	}
+	@Override
+	public void delete(int subject_idx) {
+		subjectDAO.delete(subject_idx);
+	}
+	@Override
+	public void subjectRequest(int subject_idx) {
+		subjectDAO.subjectRequest(subject_idx);
+	}
+	@Override
+	public void updateAccess(Subject subject) {
+		subjectDAO.updateAccess(subject);
+	}
 	
 
 

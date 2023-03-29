@@ -12,4 +12,8 @@ public interface SubjectDAO {
 	public String selectFilename(int subject_idx);
 	public List<Subject> selectAllByTeacherAccess(int teacher_idx);
 	public Subject select(int subject_idx);
+	public Subject selectSummary(int subject_idx);
+	public void delete(int subject_idx);
+	public void subjectRequest(int subject_idx);
+	public void updateAccess(Subject subject);
 }

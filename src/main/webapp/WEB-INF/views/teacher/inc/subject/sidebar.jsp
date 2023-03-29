@@ -30,9 +30,9 @@
       					</a>
    				</li>
        			<li class="side-nav--nav-item--3XyR4 <%if(studyPlanVO.getStataus() == 3){%>side-nav--nav-item-active--10cLf<%}%>">
-       				<a class="ud-link-neutral side-nav--nav-item-link--2qfvl" data-purpose="react-nav-link-goals" href="#">
+       				<a class="ud-link-neutral side-nav--nav-item-link--2qfvl" data-purpose="react-nav-link-goals" href="/teacher/subject/regist/config/${subject_idx}">
        					<span class="side-nav--completion--25WQ7"></span>
-       					<span>강의미리보기</span>
+       					<span>강의 설정</span>
       					</a>
    				</li>
   				</ul>

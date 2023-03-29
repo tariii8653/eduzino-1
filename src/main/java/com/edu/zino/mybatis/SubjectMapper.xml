@@ -51,12 +51,16 @@
 		select * from subject where subject_idx = #{subject_idx}
 	</select>
 	
+	<select id="selectSummary" parameterType="int" resultType="Subject">
+		select * from subject where subject_idx=#{subject_idx}
+	</select>
+	
 	<!-- 강사의 강의 전체 가져오기 -->
 	<select id="selectAllByTeacher" parameterType="int" resultMap="subjectMap">
 		select * from subject where teacher_idx = #{teacher_idx}
 	</select>
 	
-	<select id="selectAllByTeacherAccess" parameterType="int" resultMap="subjectAccessMap">
+	<select id="selectAllByTeacherAccess" parameterType="int" resultMap="subjectMap">
 		select * from subject where teacher_idx = #{teacher_idx} and (subject_access = 0 or subject_access = 1)
 	</select>
 	
@@ -81,5 +85,17 @@
 	<select id="selectFilename" parameterType="int" resultType="String">
 		select subject_pic from subject where subject_idx=#{subject_idx}
 	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete subject where subject_idx=#{subject_idx}
+	</delete>
+	
+	<update id="subjectRequest" parameterType="int">
+		update subject set subject_permission=1 where subject_idx=#{subject_idx}
+	</update>
+	
+	<update id="updateAccess" parameterType="Subject">
+		update subject set subject_access=#{subject_access} where subject_idx=#{subject_idx}
+	</update>
 	
 </mapper>
