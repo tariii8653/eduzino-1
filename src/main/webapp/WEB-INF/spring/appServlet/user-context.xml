@@ -4,8 +4,10 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/websocket https://www.springframework.org/schema/websocket/spring-websocket.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
@@ -30,8 +32,6 @@
 	
 	<context:component-scan base-package="com.edu.zino.chat" />
 	
-	<context:component-scan base-package="com.edu.zino.controller.video" />
-	
 	<!-- 웹소켓 핸들러 등록 -->
  	<beans:bean id="chatHandler" class="com.edu.zino.chat.ChatHandler"/>
  	
@@ -43,7 +43,18 @@
 		</websocket:handshake-interceptors>				
 	</websocket:handlers> 
 	
+	<!-- aop 처리-->
+	<beans:bean id="userLoginCheckAdvice" class="com.edu.zino.aop.UserLoginCheckAdvice"/>
+	<aop:config>
+		<aop:aspect ref="userLoginCheckAdvice">
+			<aop:pointcut expression="execution(public * com.edu.zino.controller.user..*(..))" id="userLoginCheckPointcut"/>
+			<aop:around method="sessionCheck" pointcut-ref="userLoginCheckPointcut"/>
+		</aop:aspect>
+	</aop:config>
 	
-	
+	<!-- 글로벌 예외 jsp로 결과를 보여주는 예외객체 -->
+	<beans:bean
+		id="userGlobalException"
+		class="com.edu.zino.aop.UserGlobalException"/>	
 	
 </beans:beans>

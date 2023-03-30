@@ -3,6 +3,7 @@ package com.edu.zino.controller.admin;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.edu.zino.domain.Admin;
 import com.edu.zino.domain.Blacklist;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.Teacher;
+import com.edu.zino.model.admin.AdminService;
 import com.edu.zino.model.member.BlacklistService;
 import com.edu.zino.model.member.MemberService;
 import com.edu.zino.model.teacher.TeacherService;
@@ -24,7 +27,9 @@ import com.edu.zino.util.MessageUtil;
 @RequestMapping("/rest")
 public class RestAdminMemberController {
 
-
+	@Autowired
+	private AdminService adminService;
+	
 	@Autowired
 	private MemberService memberService;
 	
@@ -33,6 +38,24 @@ public class RestAdminMemberController {
 
     @Autowired
     private BlacklistService blacklistService;
+    
+  //로그인 요청 처리 
+  	@PostMapping("/login/admin")
+  	public ResponseEntity<MessageUtil> loginCheck(Admin admin, HttpServletRequest request){
+  		//3단계 일시키기
+  		Admin obj=adminService.select(admin);
+  		
+  		//세션에 담기
+  		HttpSession session=request.getSession();
+  		session.setAttribute("admin", obj);
+  			
+  		MessageUtil message = new MessageUtil();
+  		message.setMsg("로그인성공");
+  		
+  		ResponseEntity entity = new ResponseEntity<MessageUtil>(message, HttpStatus.OK);
+  		return entity;
+  	}
+    
     
   //회원 전체 불러오기
   	@GetMapping("/member")

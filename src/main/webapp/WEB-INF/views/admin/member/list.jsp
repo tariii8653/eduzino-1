@@ -69,7 +69,7 @@
                                 <!-- - - - -디비에 저장된 회원들이 출력 될 곳 - - - - - - -->
                                 <tbody>
                                 	<template v-for="member in memberList">
-                                		<row :key="member.member_idx" :member="member" :picture="member.ProfilePhoto.profile_photo"/>
+                                		<row :key="member.member_idx" :member="member"/>
                                 	</template>
                                 </tbody>
                             </table>
@@ -105,7 +105,7 @@ const row={
 	template:`
 	 <tr>
         <td class="py-1">
-            <img :src="obj.getProfilePhoto().getProfile_photo()" alt="image">
+            <img :src=" '{{obj.profilePhoto.profile_photo}}' " alt="image">
         </td>
         <td @click="getDetail(obj.member_idx)"><a href="#">{{obj.member_nickname}}</a></td>
         <td>{{obj.sns.sns_type}}</td>
@@ -120,6 +120,8 @@ const row={
 		return {
 			obj:this.member,
 		};	
+		
+	
 		
 	}, 
 	methods:{

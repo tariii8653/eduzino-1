@@ -93,13 +93,8 @@
 		where member_idx = #{member_idx}
 	</select>
 	
-	<!-- 강사 정보로 member 정보가져오기 -->
-	<select id="selectByTeacher" resultType="Member" parameterType="int">
-		select * from member where member_idx=#{member_idx}
-	</select>
-	
 	<!-- 고유 id를 통한 회원조회 -->
-	<select id="selectById" resultType="Member" parameterType="String">
+	<select id="selectById" resultMap="membermap"  parameterType="Member">
 		select * from member
 		where member_id = #{member_id}
 	</select>
