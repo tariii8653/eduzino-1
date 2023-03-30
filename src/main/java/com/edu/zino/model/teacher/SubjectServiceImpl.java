@@ -149,6 +149,9 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 	@Override
 	public void delete(int subject_idx) {
+		goalDAO.deleteBySubject(subject_idx);
+		requirementDAO.deleteBySubject(subject_idx);
+		sectionDAO.deleteBySubject(subject_idx);
 		subjectDAO.delete(subject_idx);
 	}
 	@Override
