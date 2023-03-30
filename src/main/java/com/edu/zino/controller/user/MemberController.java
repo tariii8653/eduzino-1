@@ -26,8 +26,10 @@ import com.edu.zino.domain.Email;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.ProfilePhoto;
 import com.edu.zino.domain.Sns;
+import com.edu.zino.domain.Teacher;
 import com.edu.zino.model.member.MemberService;
 import com.edu.zino.model.member.SnsService;
+import com.edu.zino.model.teacher.TeacherService;
 import com.edu.zino.snslogin.GoogleLogin;
 import com.edu.zino.snslogin.GoogleOAuthToken;
 import com.edu.zino.snslogin.KaKaoLogin;
@@ -60,6 +62,9 @@ public class MemberController {
 	
 	@Autowired
 	private NaverLogin naverLogin;
+	
+	@Autowired
+	private TeacherService teacherService;
 	
 	//회원가입, 로그인 폼 요청처리
 	@GetMapping("/member/loginform")
@@ -249,6 +254,17 @@ public class MemberController {
 			
 			//세션에 담기 (자동 로그인 할 수 있게)
 			session.setAttribute("member", member);
+			logger.info("member : "+member);
+			Teacher teacher = teacherService.select(member.getMember_idx());
+			logger.info("member : "+teacher);
+			/*if(teacher != null) {
+				session.setAttribute("teacher", teacher);
+			}*/
+			//추후 지워야함
+			Teacher tempTeacher = new Teacher();
+			tempTeacher.setMember(member);
+			tempTeacher.setTeacher_idx(2);
+			session.setAttribute("teacher", tempTeacher);
 		
 			//완료하면 메인으로 돌아가기 
 			ModelAndView mav = new ModelAndView("redirect:/");
@@ -654,7 +670,6 @@ public class MemberController {
 			return mav;
 		}
 }
-
 
 
 

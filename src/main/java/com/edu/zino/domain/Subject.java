@@ -15,7 +15,7 @@ public class Subject {
 	private int subject_price;//가격
 	private int subject_access;//공개유무 0:비공개(강사,관리자에게만 보임), 1:공개(모두에게보임),2:삭제요청(관리자에게만보임) 
 	private String subject_detail;//강의 설명
-	private int subject_permission;
+	private int subject_permission;//0미승인,1승인요청,2승인완료
 	private Teacher teacher;//강사
 	private SubCategory sub_category;//소분류
 	

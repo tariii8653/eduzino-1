@@ -1,4 +1,7 @@
+<%@page import="com.edu.zino.domain.TopCategory"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%List<TopCategory> topCategorieList = (List)request.getAttribute("topCategoryList");%>
         <header class="site-header">
             <div class="nav-bar">
                 <div class="container">
@@ -12,11 +15,9 @@
                         <div class="col-3 col-lg-9 flex justify-content-end align-content-center">
                         <nav class="site-navigation flex justify-content-end align-items-center">
                             <ul class="flex flex-column flex-lg-row justify-content-lg-end align-content-center">
-                                <li><a href="#">IT</a></li>
-                                <li><a href="#">디자인</a></li>
-                                <li><a href="#">마케팅</a></li>
-                                <li><a href="#">외국어</a></li>
-                                <li><a href="#">edu</a></li>
+                            	<%for(TopCategory topCategory:topCategorieList){ %>
+	                                <li><a href="/subject/category/<%=topCategory.getTop_category_idx()%>"><%=topCategory.getTop_name()%></a></li>
+                                <%} %>
                             </ul>
 
                             <div class="hamburger-menu d-lg-none">

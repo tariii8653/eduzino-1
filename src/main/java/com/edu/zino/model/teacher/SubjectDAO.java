@@ -1,6 +1,7 @@
 package com.edu.zino.model.teacher;
 
 import java.util.List;
+import java.util.Map;
 
 import com.edu.zino.domain.Subject;
 
@@ -16,4 +17,9 @@ public interface SubjectDAO {
 	public void delete(int subject_idx);
 	public void subjectRequest(int subject_idx);
 	public void updateAccess(Subject subject);
+	public List<Subject> selectAllAccessList(Map<String, Object> map);
+	public int selectAllAccessRecoard();
+	public List<Subject> selectAllPermissionRequestList(Map<String, Object> map);
+	public void updatePermission(int subject_idx);
+	public List<Subject> selectAllByTopCategory(int top_category_idx);
 }

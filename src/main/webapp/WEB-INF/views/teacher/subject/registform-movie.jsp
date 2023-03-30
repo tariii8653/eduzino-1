@@ -194,7 +194,6 @@ const section_item={
 			sectionState.del(this.no);
 		}
 	},created:function(){
-		console.log("최초의 no는 ?  ",this.no);
 		if(this.no == 0 && this.movieItemList.length < 1){
 			let item = {};
 			item['key']=this.key++;
@@ -207,7 +206,6 @@ const section_item={
 	},updated:function(){
 		videoState.setTotalRecoard();
 		videoState.setShowList();
-		console.log("section updated",this.movieItemList);
 	}
 }
 
@@ -229,7 +227,6 @@ subjectApp= new Vue({
 			videoState.setTotalRecoard();
 			videoState.setShowList();
 		},sectionPlus:function(section_name){
-			console.log('sectionPlus');
 			let item = {};
 			item['key']=this.key++;
 			item['section_name']=section_name;
@@ -241,16 +238,17 @@ subjectApp= new Vue({
 });
 let sectionObj;
 function sectionSave(){
-	console.log("넘길 Data : ",JSON.stringify(subjectApp.sectionList));
 	$.ajax({
 		url:"/teacher/rest/subject/${subject_idx}/section",
 		type: 'POST',
 		contentType: "application/json; charset=utf-8",
 		async: false,
-		dataType: 'json',
-		data:JSON.stringify(subjectApp.sectionList)
-		,success:function(result,status,xhr){
-			console.log(result);
+		dataType: 'text',
+		data:JSON.stringify(subjectApp.sectionList),
+		success:function(result){
+			alert("저장완료");
+		},error:function(xhr,status,error){
+			console.log(xhr);
 		}
 	});
 }
@@ -259,8 +257,6 @@ function getSubjectMovie(){
 		url:"/teacher/rest/subject/${subject_idx}/section",
 		type: 'get',
 		success:function(result,status,xhr){
-			console.log(result);
-			console.log("result length : ",result.length);
 			if(result.length<1){
 				subjectApp.sectionPlus("소개");
 			}else{
@@ -271,9 +267,9 @@ function getSubjectMovie(){
 	});
 }
 
-function init(){	
+function init(){
 	$.ajax({
-		url:"/rest/teacher/videos/1",
+		url:"/rest/teacher/videos/${teacher.teacher_idx}",
 		type:"get",
 		success:function(result){
 			subjectApp.setList(result);
