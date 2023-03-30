@@ -6,6 +6,11 @@
 %>
 <!DOCTYPE html>
 <html lang="en">
+<style>
+.container1 {
+  margin-bottom: 20px; /* 아래쪽 여백 추가 */
+}
+</style>
 <head>
     <title>내 계정</title>
 
@@ -42,37 +47,41 @@
 			<div class="card">
             <div class="card-body">
                 <form class="forms-sample">
-                    <div class="form-group row">
-					    <div class="profile_photo col-sm-5">
-					        <img id="imgThumb" src="<%=member.getProfilePhoto().getProfile_photo() %>" width="200" height="200">
-					        <span class="mask"></span>
+                
+                    <div class="container1">
+					  <div class="row ">
+					<div class="col-4">
+					    <img id="imgThumb" src="<%=member.getProfilePhoto().getProfile_photo() %>" width="200" height="200">
+					           <span class="mask"></span>
+					</div>
+					  </div>
+					  <div class="row">
+					    <div class="col-4">
+					       <input type="file" name="img[]" class="file-upload-default">
+					       <div class="input-group col-xs-6">
+					           <input type="text" class="form-control file-upload-info" placeholder="선택된 사진 ">
+					           <span class="input-group-append">
+					               <button class="file-upload-browse btn btn-primary" type="button"> Upload </button>
+					           </span>
+					       </div>
 					    </div>
-					    <div class="form-group col-sm-7">
-					        <label>File upload</label>
-					        <input type="file" name="img[]" class="file-upload-default">
-					        <div class="input-group col-xs-6">
-					            <input type="text" class="form-control file-upload-info" placeholder="선택된 사진 ">
-					            <span class="input-group-append">
-					                <button class="file-upload-browse btn btn-primary" type="button"> Upload </button>
-					            </span>
-					        </div>
-					    </div>
+					  </div>
 					</div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">닉네임 :  </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-3 col-form-label">닉네임 :  </label>
+                        <div class="col-sm-5">
                             <input type="text"class="form-control" name="nickname" value="<%=member.getMember_nickname() %>" >
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">이메일 :  </label>
+                        <label class="col-sm-3 col-form-label">이메일 :  </label>
                         <div class="col-sm-9">
                             <input type="email" readonly class="form-control-plaintext" name="email" value="<%=member.getEmail().getEmail_addr()%>">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">가입형태 : </label>
+                        <label class="col-sm-3 col-form-label">가입형태 : </label>
                         <div class="col-sm-9">
                             <input type="text" readonly class="form-control-plaintext" name="age" value="<%=member.getSns().getSns_type()%>">
                         </div>
@@ -86,14 +95,12 @@
                     </div>  -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * *  -->
                    
-                    <div class="flex-wrap">
-                    	<div class="header-left">
-                    		<button type="submit" class="btn btn-primary mr-2"> 수정하기 </button>
-                    	</div>
-                    	 <div class="right d-flex flex-wrap mt-2 mt-sm-0">
-			        		<button type="submit" class="btn btn-light">탈퇴하기 </button>
-			        	</div>
-			        </div>
+                    <div class="header-left">
+                            <button type="button" class="btn btn-outline-danger btn-icon-text">
+                                <i class="mdi mdi-pencil btn-icon-sm"></i> 수정하기 </button>
+                            <button type="button" class="btn btn-outline-secondary btn-fw">
+                                <i class="mdi mdi-account-outline btn-icon-prepend"></i> 탈퇴하기 </button>
+                        </div>
                 </form>
             </div>
         </div>
