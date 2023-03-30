@@ -49,20 +49,12 @@ public class TeacherController {
 		return mav;
 	}
 	
-	//매출내역
+	//매출, 정산내역
 	@GetMapping("/salescaculate/sales")
 	public ModelAndView getSales(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/teacher/salescaculate/sales");
 		return mav;
 	}
-
-	//정산내역
-	@GetMapping("/salescaculate/caculate")
-	public ModelAndView getCaculate(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/teacher/salescaculate/caculate");
-		return mav;
-	}
-
 	
 	//수강생 관리_검색시 사용
 	@RequestMapping(value="/student/studentManagement", method = {RequestMethod.GET, RequestMethod.POST})

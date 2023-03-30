@@ -72,9 +72,6 @@
 
 					<div class="px-4 d-none d-md-block">
 						<div class="d-flex align-items-center">
-							<div class="flex-grow-1"  id="selectChat">
-								<input type="text" class="form-control my-3" placeholder="대화상대이름..">
-							</div>
 							<select class="form-control form-control-sm my-3" id="chatMember">
 		                        <option value="0">강사를 선택하세요</option>
 		                        <% for(int i=0;i<orderSummaryMemberTeacherList.size();i++){ %>
@@ -551,16 +548,7 @@ function connect(chat){
 		});
 	}
 
-	//수강생selectbox와 검색창
-	function selectShowHide (flag){
-		if(flag == true){
-	  		$("#selectChat").show(); //보이기
-	  		$("#chatMember").hide(); //숨기기  			
-		}else {
-	  		$("#selectChat").hide(); //보이기
-	  		$("#chatMember").show(); //숨기기
-		}
-	}
+
 	
 	/*------------------------------------------------------------------------------------------*/
 	
@@ -569,12 +557,7 @@ function connect(chat){
 		//connect();
 		getChatRooms(); //채팅방리스트 조회
 		
-		
-		//메세지플러스 아이콘 눌렀을 때 수강생selectbox와 검색창
-		$("#addChat").click(function(){
-			flag = !flag;
-			selectShowHide(flag);
-		});
+
 		
 		//selectbox눌렀을 때 모달창 띄우기
 		$("#chatMember").change(function(e){

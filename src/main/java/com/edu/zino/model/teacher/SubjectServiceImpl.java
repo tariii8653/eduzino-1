@@ -44,6 +44,8 @@ public class SubjectServiceImpl implements SubjectService {
 	public List selectAllByTeacher(int teacher_idx) {
 		return subjectDAO.selectAllByTeacher(teacher_idx);
 	}
+	
+	
 	@Transactional
 	@Override
 	public void insert(Subject subject) throws SubjectException{
