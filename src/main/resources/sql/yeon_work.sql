@@ -17,9 +17,14 @@ select payment_type from payment where (select * from order_summary where order_
 
 select * from payment;
 insert into payment(payment_idx,payment_type)
+values(1,'카드');
+insert into payment(payment_idx,payment_type)
 values(2,'간편결제');
 
 select * from paystate;
+
+insert into paystate(paystate_idx,state)
+values(1,'결제대기');
 
 insert into paystate(paystate_idx,state)
 values(2,'결제완료');
@@ -37,17 +42,17 @@ drop table payment;
 drop sequence seq_payment;
 
 CREATE TABLE order_summary (
-	order_summary_idx	number		NOT NULL,
+	order_summary_idx number NOT NULL,
 	order_id varchar2(30) not null,
-	order_summary_regdate	date default sysdate null,
-	member_idx	number		NOT NULL,
-	payment_idx	number		NOT NULL,
-	paystate_idx	number		NOT NULL,
-	total_buy	number		NULL,
-	total_pay	number		NULL
+	order_summary_regdate date default sysdate null,
+	member_idx number	 NOT NULL,
+	payment_idx number NOT NULL,
+	paystate_idx number NOT NULL,
+	total_buy number	 NULL,
+	total_pay number	 NULL
 );
 
-create sequence seq_order_detail
+create sequence seq_order_summary
 increment by 1
 start with 1;
 

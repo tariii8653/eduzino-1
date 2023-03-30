@@ -54,10 +54,10 @@
             <div class="row" style="justify-content: center; padding:30px ">
 	             <div class="cart__total__procced">
 	             
-                          <h3>결제가 완료되었습니다</h3>                                             
+                          <h3>결제에 실패하였습니다</h3>                                   
                        	<div class="discount__content" style="padding:30px ">
 							 <button type="button" class="btn btn-outline-success btn-fw"> <a href="http://localhost:7777">메인으로</a></button>                   
-							 <button type="button" class="btn btn-outline-success btn-fw"> <a href="http://localhost:7777/order/orderlist">결제내역</a></button>                    
+							 <button type="button" class="btn btn-outline-success btn-fw"> <a href="http://localhost:7777/cart/list">장바구니로 돌아가기</a></button>                    
 	                    </div>               
                 </div>  
             </div>

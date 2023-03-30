@@ -107,7 +107,7 @@ public class PayController {
 		
 		//4단계
 		ModelAndView mav = new ModelAndView("/user/order/paycomplete"); 
-		return null;
+		return mav;
 	}
 	
 	//결제 실패
@@ -120,7 +120,7 @@ public class PayController {
 		
 		String failResult = orderId+failMessage+failCode;
 		
-		ModelAndView mav= new ModelAndView("/user/cart/cartList");
+		ModelAndView mav= new ModelAndView("/user/order/payfail");
 		mav.addObject("failResult",failResult);
 		
 		return mav;
