@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.edu.zino.domain.Member;
 import com.edu.zino.domain.OrderSummary;
 import com.edu.zino.domain.Subject;
 import com.edu.zino.model.root.OrderService;
@@ -60,8 +62,15 @@ public class TeacherController {
 	@RequestMapping(value="/student/studentManagement", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView getStudentManagement(HttpServletRequest request) {
 		
+		/*
 		//로그인 하면 session에서 teacher_idx를 가져오므로 getMapping으로 가져올 필요는 없음
 		int teacher_idx = 1;
+		*/
+		
+		HttpSession session = request.getSession();
+        Member member = (Member)session.getAttribute("member");
+        
+        int teacher_idx = member.getTeacher().getTeacher_idx();
 		
 		List<OrderSummary> orderSummaryList = null;
 

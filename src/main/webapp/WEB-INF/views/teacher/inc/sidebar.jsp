@@ -1,4 +1,9 @@
+<%@page import="com.edu.zino.domain.Member"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%
+	HttpSession httpSession = request.getSession();
+	Member member = (Member)session.getAttribute("member");
+%>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
 <ul class="nav">
   <li class="nav-item nav-profile border-bottom">
@@ -13,7 +18,7 @@
         <!--change to offline or busy as needed-->
         </div>
         <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
-          <span class="font-weight-semibold mb-1 mt-2 text-center">Antonio Olson</span>
+          <span class="font-weight-semibold mb-1 mt-2 text-center"><%= member.getMember_nickname() %></span>
         </div>
       </a>
     </li>

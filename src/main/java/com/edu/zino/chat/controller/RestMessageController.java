@@ -3,6 +3,7 @@ package com.edu.zino.chat.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,20 @@ public class RestMessageController {
 	public List<Chat> selectAllTeacher(HttpServletRequest request, @RequestBody Chat chat){
 		logger.info("chat is "+chat);
 		
+		HttpSession session = request.getSession();
+        Member member = (Member)session.getAttribute("member");
+        
+		
+        /*
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
 		Member member = new Member();
 		logger.info("선생님이 방 요청시 chat.getMember_teacher() is "+chat.getMember_teacher());
 			//선생님이 방 생성 요청 시
 			int member_teacher_idx = 1;
 			member.setMember_idx(member_teacher_idx);
+		*/
 			chat.setMember_teacher(member);
+	
 	
 		logger.info("선생님이 방 요청시  chat2 is "+chat);
 		
@@ -65,12 +73,18 @@ public class RestMessageController {
 		//logger.info("member_idx is "+member_idx);
 		logger.info("chat is "+chat);
 		
+		HttpSession session = request.getSession();
+        Member member = (Member)session.getAttribute("member");
+		
+		/*
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
 		Member member = new Member();
 		logger.info("선생님이 방 요청시 chat.getMember_teacher() is "+chat.getMember_teacher());
 			//선생님이 방 생성 요청 시
 			int member_teacher_idx = 1;
 			member.setMember_idx(member_teacher_idx);
+			*/
+		
 			chat.setMember_teacher(member);
 	
 		logger.info("선생님이 방 요청시  chat2 is "+chat);
@@ -94,7 +108,10 @@ public class RestMessageController {
 		
 		logger.info("유저가 선택한 chat is "+chat);
 		
+		HttpSession session = request.getSession();
+        Member member = (Member)session.getAttribute("member");
 		
+		/*
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
 		Member member = new Member();
 		logger.info("유저가 선택한 chat.getMember() is "+chat.getMember());
@@ -102,6 +119,8 @@ public class RestMessageController {
 			//수강생이 방 생성 요청 시
 			int member_idx = 2;
 			member.setMember_idx(member_idx);
+			*/
+			
 			chat.setMember(member);
 			
 			logger.info("유저가 선택한  is "+chat);
@@ -118,7 +137,10 @@ public class RestMessageController {
 		
 		logger.info("유저가 선택한 chat is "+chat);
 		
+		HttpSession session = request.getSession();
+        Member member = (Member)session.getAttribute("member");
 		
+		/*
 		//로그인 하면 session에서 로그인 정보를 가져오므로 get으로 가져올 필요는 없음
 		Member member = new Member();
 		logger.info("유저가 선택한 chat.getMember() is "+chat.getMember());
@@ -126,6 +148,8 @@ public class RestMessageController {
 			//수강생이 방 생성 요청 시
 			int member_idx = 2;
 			member.setMember_idx(member_idx);
+			*/
+			
 			chat.setMember(member);
 			
 			logger.info("유저가 선택한  is "+chat);
