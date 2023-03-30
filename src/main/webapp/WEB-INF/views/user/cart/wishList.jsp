@@ -170,19 +170,6 @@ let wishApp;
 /*-------------------------------*/
 	let data=$("input[name=wish_idx]:checked").val();
 	
-	function test(){
-		let checkLng2=$("input[name='wish_idx']:checked").length;
-		let arr2=[];
-		let checkval2;
-		
-		for(let i=0;i<checkLng2;i++){
-			if($("input[name=wish_idx]").is(':checked')){
-				checkval2=$($("input[name='hidden_idx']")[i]).val();
-				console.log("checkval",checkval2);
-			}
-		}
-	}
-	
 	//선택 찜 비동기로 삭제
 	function delAsyncWish(){
 	let checkLng=$("input[name='wish_idx']:checked").length;
@@ -291,7 +278,6 @@ let wishApp;
 		});
 		$("#bt_cart").click(function(){
 			insertCart();
-			//test();
 		});
 		
 		$("#checkAll").click(function(){			
