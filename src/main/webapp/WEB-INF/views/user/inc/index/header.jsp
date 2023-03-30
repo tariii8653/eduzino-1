@@ -27,14 +27,9 @@
                                 <span></span>
                             </div><!-- .hamburger-menu -->
 							
+
                             <div class="header-bar-cart">
-                                <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="icon_bag_alt"></span></a>
-                            </div><!-- .header-bar-search -->
-                            <div class="header-bar-cart">
-                                <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="icon_bag_alt"></span></a>
-                            </div><!-- .header-bar-search -->
-                            <div class="header-bar-cart">
-                                <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="icon_bag_alt"></span></a>
+                                <a href="member/loginform" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="mdi mdi-lock-outline"></span></a>
                             </div><!-- .header-bar-search -->
                         </nav><!-- .site-navigation -->
                     </div><!-- .col -->

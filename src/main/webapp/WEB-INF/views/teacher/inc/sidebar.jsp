@@ -2,7 +2,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
 <ul class="nav">
   <li class="nav-item nav-profile border-bottom">
-      <a class="nav-link flex-column" href="/teacher/index">
+      <a class="nav-link flex-column" href="/teacher/salescaculate/sales">
       <div class="nav-logo-image">
         <img src="/resources/teacher/data/logo2.jpg" alt="logo" />
       </div>
