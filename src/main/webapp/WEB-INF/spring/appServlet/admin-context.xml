@@ -31,7 +31,7 @@
 	<!-- 관리자의 로그인 체크를 위한 빈 설정 -->
 	<beans:bean 
 		id="adminLoginCheckAdvice" 
-		class="com.edu.springshop.aop.AdminLoginCheckAdvice"/>
+		class="com.edu.zino.aop.AdminLoginCheckAdvice"/>
 	
 	<!-- 관점 등록 AOP 설정 -->
 	
