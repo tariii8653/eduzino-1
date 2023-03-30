@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -225,6 +226,7 @@ public class MemberController {
 				
 			} else{
 				member = new Member();
+				//member.setMember_idx(member_idx);   ------------------------------------------------
 				member.setMember_id(id);		//고유id 가져오기 
 				member.setMember_nickname(nickname);	//닉네임 가져오기 
 				
@@ -668,8 +670,6 @@ public class MemberController {
 			return mav;
 		}
 }
-
-
 
 
 

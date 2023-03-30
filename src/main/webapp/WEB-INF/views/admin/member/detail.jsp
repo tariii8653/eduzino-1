@@ -50,11 +50,10 @@
                         <!-- *** 프로필 사진 *** -->
                         <div class="col-md-3">
                             <div style="width:200px">
-                                <img class="card-img-center" src="/resources/admin/data/profile1.png"
+                                <img class="card-img-center" src="<%=member.getProfilePhoto().getProfile_photo() %>"
                                     alt="Card image" style="width:100%">
                             </div>
                         </div>
-                        
                         <!-- *** 상세정보 *** -->
                         <div class="col-md-9">
                             <div class="card">
@@ -73,9 +72,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">연령 : </label>
+                                            <label class="col-sm-2 col-form-label">가입형태 : </label>
                                             <div class="col-sm-9">
-                                                <input type="text" readonly class="form-control-plaintext" name="age" value="<%=member.getBirthday().getAge()%>">
+                                                <input type="text" readonly class="form-control-plaintext" name="age" value="<%=member.getSns().getSns_type()%>">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -86,10 +85,7 @@
                                         </div>
             <!-- * * * * * * * * * * * * * * * * * * * * * * * *  -->
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">회원상태</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" readonly class="form-control-plaintext" name="status" value="<%=member.getTeacher().getTeacher_idx()%>">
-                                            </div>
+                                            <label class="col-sm-2 col-form-label">회원상태 :</label>
                                             <div class="col-sm-6">
                                                  <button type="button" class="btn btn-outline-success btn-icon-text" id="bt_toteacher">
                                 					<i class="mdi mdi-account-convert btn-icon-sm"></i> 강사로 전환하기 </button>
@@ -97,10 +93,7 @@
                                         </div>
             <!-- * * * * * * * * * * * * * * * * * * * * * * * *  -->
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">회원정지</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" readonly class="form-control-plaintext" name="blacklist" value="정지일">
-                                            </div>
+                                            <label class="col-sm-2 col-form-label">회원정지 :</label>
                                             <div class="col-sm-6">
                                                 <button type="button" class="btn btn-outline-danger btn-icon-text" data-toggle="modal" data-target="#blackModal">
                                                 	<i class="mdi mdi-account-off"></i> 계정 정지하기 </button>
@@ -164,36 +157,60 @@
     <!-- End custom js for this page -->
 </body>
 <script type="text/javascript">
-$(function(){
-	//정지 사유 등록하기
-	 $("#bt_regist").click(function(){
-		 if(confirm("해당 사유로 계정을 정지하시겠어요?")){
-			$("#form1").attr({
-				// action:"/admin/member/{blacklist_idx}",
-				 method:"post"		
-			 });
-			 $("#form1").submit();	
-		}	
-	 });
-	 
-	//강사로 전환하기
-	 $("#bt_toteacher").click(function() {
-			if(confirm("해당 계정을 강사로 전환하시겠어요?")){
-				$("#form1").attr({
-					// action:"/admin/member/{blacklist_idx}",
-					 method:"put"		
-				 });
-				 $("#form1").submit();	
+let json;
+function toTeacher(){
+	if(confirm("해당 계정을 강사로 전환하시겠어요?")){
+	$.ajax({
+		method:"get",
+		url:"/admin/member/toteacher",
+		data:{
+			"member_idx":<%=member.getMember_idx()%>
+		},
+		success: function(data, status, xhr){
+			console.log(data);
+			
+			json=JSON.parse(data);
+			console.log(json);
+				
 			}
 		});
-	 
+	}
+}
+
+function toBlacklist(){
+	if(confirm("해당 계정을 정지하시겠어요?")){
+	$.ajax({
+		method:"post",
+		url:"/admin/member/blacklist",
+		data:{
+			"member_idx":<%=member.getMember_idx()%>
+			"blacklist_memo": 
+		},
+		success: function(data, status, xhr){
+			console.log(data);
+			
+			json=JSON.parse(data);
+			console.log(json);
+				
+			}
+		});
+	}
+}
+
+$(function(){
 	//회원 목록으로 
 	 $("#bt_list").click(function(){
 			location.href="/admin/member";
 	});
+	
+	 $("#bt_toteacher").click(function(){
+			 toTeacher();
+	});
+	 
+	 $("#bt_regist").click(function(){
+			 toBlacklist();
+	});
 });
-
-
 
 </script>
 

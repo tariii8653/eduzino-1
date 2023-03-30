@@ -123,7 +123,7 @@
 		FROM subject s
 		INNER JOIN sub_category sc ON s.sub_category_idx = sc.sub_category_idx
 		INNER JOIN mid_category mc ON sc.mid_category_idx = mc.mid_category_idx
-		WHERE mc.top_category_idx = #{top_category_idx}
+		WHERE mc.top_category_idx = #{top_category_idx} and s.subject_access = 1 and s.subject_permission = 2
 	</select>
 	
 </mapper>

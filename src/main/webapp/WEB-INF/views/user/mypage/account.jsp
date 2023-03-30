@@ -1,8 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@page import="com.edu.zino.domain.Member"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%
+	Member member = (Member)session.getAttribute("member");
+	out.print(member);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Hello World</title>
+    <title>내 계정</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -24,36 +29,76 @@
     <!-- hero-content end-->
 	
 	
+	
 	<div class="container">
 		<div class="row">
-		
 			<div class="col-md-3">
 				<!-- partial:partials/_sidebar.html -->
 				<jsp:include page="../inc/mypage/sidebar.jsp"></jsp:include>
 				 <!-- sidebar.html end  -->
 			</div>
-			
-			<div class="col-md-9">
-			
-				<div class="p-3 bg-primary">
-					<div class="card" style="width:400px">
-					  <img class="card-img-top" src="img_avatar1.png" alt="Card image">
-					  <div class="card-body">
-					    <h4 class="card-title">Name</h4>
-					    <p class="card-text">Some example text.</p>
-					    <a href="#" class="btn btn-primary">change photo</a>
-					  </div>
+		<!-- *********************회원 정보 시작************************** -->
+			<div class="col-md-9 mt-5">
+			<div class="card">
+            <div class="card-body">
+                <form class="forms-sample">
+                    <div class="form-group row">
+					    <div class="profile_photo col-sm-5">
+					        <img id="imgThumb" src="<%=member.getProfilePhoto().getProfile_photo() %>" width="200" height="200">
+					        <span class="mask"></span>
+					    </div>
+					    <div class="form-group col-sm-7">
+					        <label>File upload</label>
+					        <input type="file" name="img[]" class="file-upload-default">
+					        <div class="input-group col-xs-6">
+					            <input type="text" class="form-control file-upload-info" placeholder="선택된 사진 ">
+					            <span class="input-group-append">
+					                <button class="file-upload-browse btn btn-primary" type="button"> Upload </button>
+					            </span>
+					        </div>
+					    </div>
 					</div>
-				  <form class="form-inline" action="/action_page.php">
-				    <label for="email2" class="mb-2 mr-sm-2">Email:</label>
-				    <input type="text" class="form-control mb-2 mr-sm-8" id="email2" placeholder="Enter email" name="email">
-				    <label for="pwd2" class="mb-2 mr-sm-2">Password:</label>
-				    <input type="text" class="form-control mb-2 mr-sm-8" id="pwd2" placeholder="Enter password" name="pswd">
-				    
-				    <button type="submit" class="btn btn-primary mb-2">저장하기</button>
-				  </form>
-				</div>
-			
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">닉네임 :  </label>
+                        <div class="col-sm-9">
+                            <input type="text"class="form-control" name="nickname" value="<%=member.getMember_nickname() %>" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">이메일 :  </label>
+                        <div class="col-sm-9">
+                            <input type="email" readonly class="form-control-plaintext" name="email" value="<%=member.getEmail().getEmail_addr()%>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">가입형태 : </label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" name="age" value="<%=member.getSns().getSns_type()%>">
+                        </div>
+                    </div>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * 
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">회원상태</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="status" placeholder="회원상태">
+                        </div>
+                    </div>  -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * *  -->
+                   
+                    <div class="flex-wrap">
+                    	<div class="header-left">
+                    		<button type="submit" class="btn btn-primary mr-2"> 수정하기 </button>
+                    	</div>
+                    	 <div class="right d-flex flex-wrap mt-2 mt-sm-0">
+			        		<button type="submit" class="btn btn-light">탈퇴하기 </button>
+			        	</div>
+			        </div>
+                </form>
+            </div>
+        </div>
+
+			    
 			</div>
 		</div>	
 	</div>
@@ -71,4 +116,32 @@
 	<!-- footer_link end-->
 
 </body>
+<script type="text/javascript">
+$(function(){
+	//회원정보 수정하기 
+	 $("#bt_regist").click(function(){
+		 if(confirm("해당 닉네임으로 수정하시겠어요?")){
+			$("#form1").attr({
+				 //action:"/admin/member/{blacklist_idx}",
+				 method:"post"		
+			 });
+			 $("#form1").submit();	
+		}	
+	 });
+	 
+	//계정삭제하기
+	 $("#bt_toteacher").click(function() {
+			if(confirm("계정을 삭제하시겠습니까?")){
+				$("#form1").attr({
+					action:"/admin/member/{blacklist_idx}",
+					 method:"put"		
+				 });
+				 $("#form1").submit();	
+			}
+	});
+
+});
+
+</script>
+
 </html>
