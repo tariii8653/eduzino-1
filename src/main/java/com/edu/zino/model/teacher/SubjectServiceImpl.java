@@ -149,6 +149,9 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 	@Override
 	public void delete(int subject_idx) {
+		goalDAO.deleteBySubject(subject_idx);
+		requirementDAO.deleteBySubject(subject_idx);
+		sectionDAO.deleteBySubject(subject_idx);
 		subjectDAO.delete(subject_idx);
 	}
 	@Override
@@ -219,6 +222,10 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public List<Subject> selectAllByTopCategory(int top_category_idx) {
 		return subjectDAO.selectAllByTopCategory(top_category_idx);
+	}
+	@Override
+	public void updatePermissionReject(int subject_idx) {
+		subjectDAO.updatePermissionReject(subject_idx);
 	}
 	
 	

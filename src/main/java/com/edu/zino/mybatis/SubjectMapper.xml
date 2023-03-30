@@ -74,7 +74,7 @@
 	
 	<!-- null로되어있던 강의 업데이트 -->
 	<update id="updateAddFile" parameterType="Subject">
-		update subject set subject_title=#{subject_title}, subject_subTitle=#{subject_subTitle}, subject_pic=#{subject_pic}, subject_price=#{subject_price},
+		update subject set subject_title=#{subject_title}, subject_subTitle=#{subject_subTitle}, subject_pic=#{subject_pic, jdbcType=VARCHAR}, subject_price=#{subject_price},
 		 subject_detail=#{subject_detail}, sub_category_idx=#{sub_category.sub_category_idx} where subject_idx=#{subject_idx}
 	</update>
 	
@@ -116,6 +116,10 @@
 	
 	<update id="updatePermission" parameterType="int">
 		update subject set subject_permission=2 where subject_idx=#{subject_idx}
+	</update>
+	
+	<update id="updatePermissionReject" parameterType="int">
+		update subject set subject_permission=0 where subject_idx=#{subject_idx}
 	</update>
 	
 	<select id="selectAllByTopCategory" parameterType="int" resultMap="subjectTeacherMap">
