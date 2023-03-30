@@ -38,6 +38,10 @@ public class OrderController {
 	//회원별 주문내역 가져오기
 	@GetMapping("/order/orderlist")
 	public ModelAndView getOrderList(HttpServletRequest request, Member member) {
+		
+		//HttpSession session = request.getSession();
+		//Member member = (Member)session.getAttribute("member");
+		
 		//임시 member데이터
 		Member member1 = new Member();
 		member1.setMember_idx(2);

@@ -1,6 +1,7 @@
 package com.edu.zino.controller.user;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class PayController {
 	private OrderService orderService;
 	
 	@GetMapping("/order/paycomplete")
-	public ModelAndView payCom() {
+	public ModelAndView payCom(HttpServletRequest request) {
 		return new ModelAndView("/user/order/paycomplete");
 	}
 	
@@ -64,8 +65,11 @@ public class PayController {
 		logger.info("status "+state);
 		
 		//order_summary에 등록
-		Member member = new Member();
-		member.setMember_idx(2);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		//Member member = new Member();
+		//member.setMember_idx(2);
 		
 		//얘네는 나중에 서비스로 옮기기
 		Payment payment = new Payment();
