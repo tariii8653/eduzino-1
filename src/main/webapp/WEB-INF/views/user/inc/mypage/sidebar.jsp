@@ -33,7 +33,7 @@
       <div class="collapse show" id="ui-basic1">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
-            <a class="nav-link" href="/user/message">메세지</a>
+            <a class="nav-link" href="/user/chat/message">메세지</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="pages/ui-features/buttons.html">작성한 리뷰</a>
@@ -80,6 +80,14 @@
           </li>
         </ul>
       </div>
+      
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" href="/teacher/salescaculate/sales">
+        <i class="mdi mdi mdi-account-convert menu-icon"></i>
+        <span class="menu-title">강사페이지</span>
+      </a>
     </li>
   </ul>
 </nav>

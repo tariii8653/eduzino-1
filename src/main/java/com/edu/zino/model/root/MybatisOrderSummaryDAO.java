@@ -44,6 +44,24 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO {
 
 	}
 
+	//일별 매출
+	@Override
+	public List selectByDay(OrderSummary orderSummary) {
+		return sqlSessionTemplate.selectList("OrderSummary.selectByDay", orderSummary);
+	}
+
+	//월별 매출
+	@Override
+	public List selectByMonth(OrderSummary orderSummary) {
+		return sqlSessionTemplate.selectList("OrderSummary.selectByMonth", orderSummary);
+	}
+
+	//년별 매출
+	@Override
+	public List selectByYear(OrderSummary orderSummary) {
+		return sqlSessionTemplate.selectList("OrderSummary.selectByYear", orderSummary);
+	}
+
 	
 
 

@@ -45,13 +45,21 @@
                                 <span></span>
                                 <span></span>
                                 <span></span>
-                            </div><!-- .hamburger-menu -->
-							
-                            <div class="header-bar-cart">
-                                <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="icon_bag_alt"></span></a>
-                            </div><!-- .header-bar-search -->
-                            <div class="header-bar-cart">
-                                <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="icon_bag_alt"></span></a>
+                            </div>
+                            <div class="header-bar-cart" >
+                            </div>
+                            <!-- .hamburger-menu -->
+							<div class="header-bar-cart" style="margin-left:0px;">
+                                <a href="cart/list" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="mdi mdi-cart"></span></a>
+                            </div>
+                            <div class="header-bar-cart" style="margin-left:0px;">
+                                <a href="cart/wishlist" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="mdi mdi-heart"></span></a>
+                            </div>
+                            <div class="header-bar-cart" style="margin-left:0px;">
+                                <a href="user/mypage" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="mdi mdi-account-circle"></span></a>
+                            </div>
+                            <div class="header-bar-cart" style="margin-left:0px;">
+                                <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="mdi mdi-lock-open-outline"></span></a>
                             </div><!-- .header-bar-search -->
                         </nav><!-- .site-navigation -->
                     </div><!-- .col -->
