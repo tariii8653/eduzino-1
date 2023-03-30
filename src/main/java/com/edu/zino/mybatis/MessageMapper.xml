@@ -43,9 +43,9 @@
 	</insert>
 	
 	<!-- 채팅방 클릭시 message_check 0 -> 1로 바꾸기 -->
-	<update id="updateCheck" parameterType="Message">
-		update message set message_check = #{message_check}
-		where chat_idx = #{chat.chat_idx}
+	<update id="updateCheck" parameterType="Message" >
+		update message set message_check = 1
+		where message_idx = #{message_idx}
 	</update>
 
 	

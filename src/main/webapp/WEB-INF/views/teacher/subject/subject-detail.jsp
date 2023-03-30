@@ -1,5 +1,9 @@
+<%@page import="com.edu.zino.domain.Admin"%>
+<%@page import="com.edu.zino.domain.Teacher"%>
 <%@page import="com.edu.zino.domain.Subject"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%Teacher teacher = (Teacher)session.getAttribute("teacher"); %>
+<%Admin admin = (Admin)session.getAttribute("admin"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,97 +41,110 @@
     	<jsp:include page="../../user/inc/page/header_main.jsp"></jsp:include>
     </div>
     <!-- hero-content end-->
-	
 	<div class="container" id="subjectApp" v-if="Object.keys(subject).length > 0" >
-	        <div class="row">
-	            <div class="col-12 offset-lg-1 col-lg-10" >
-	                <div class="featured-image">
-	                    <img :src="imgurl" alt="" class="eduzino-subject-detail-pic">
-	                </div>
-	            </div><!-- .col -->
-	        </div><!-- .row -->
+		<div class="row">
+			<div class="col-12">
+			    <header class="entry-header">
+			        <h1 class="entry-title" style="text-align: center;">{{subject.subject_title}}</h1>
+			 	</header><!-- .entry-header -->
+			</div><!-- .col -->
+		</div>
+        <div class="row">
+            <div class="col-12 offset-lg-1 col-lg-10" >
+                <div class="featured-image">
+                    <img :src="imgurl" class="eduzino-subject-detail-pic">
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+        <div class="row">
+            <div class="col-12 offset-lg-1 col-lg-1">
+            </div><!-- .col -->
+
+            <div class="col-12 col-lg-8">
+                <div class="single-course-wrap">
+	                    <div class="course-info flex flex-wrap align-items-center">
+	                        <div class="course-author flex flex-wrap align-items-center mt-3">
+	                            <img src="/resources/user/images/course-author.jpg" alt="">
 	
-	        <div class="row">
-	            <div class="col-12 offset-lg-1 col-lg-1">
-	            </div><!-- .col -->
+	                            <div class="author-wrap">
+	                                <label class="m-0">Teacher</label>
+	                                <div class="author-name"><a href="#">{{subject.teacher.member.member_nickname}}</a></div>
+	                            </div><!-- .author-wrap -->
+	                        </div><!-- .course-author -->
 	
-	            <div class="col-12 col-lg-8">
-	                <div class="single-course-wrap">
-		                    <div class="course-info flex flex-wrap align-items-center">
-		                        <div class="course-author flex flex-wrap align-items-center mt-3">
-		                            <img src="/resources/user/images/course-author.jpg" alt="">
-		
-		                            <div class="author-wrap">
-		                                <label class="m-0">Teacher</label>
-		                                <div class="author-name"><a href="#">{{subject.teacher.member_nickname}}</a></div>
-		                            </div><!-- .author-wrap -->
-		                        </div><!-- .course-author -->
-		
-		                        <div class="course-cats mt-3">
-		                            <label class="m-0">Categories</label>
-		                            <div class="author-name"><a href="#">{{subject.sub_category.sub_name}}</a></div>
-		                        </div><!-- .course-cats -->
-		
-		                        <div class="course-students mt-3">
-		                            <label class="m-0">price</label>
-		                            <div class="author-name"><span>₩{{subject.subject_price.toLocaleString('ko-KR')}}</span></div>
-		                        </div><!-- .course-students -->
-		
-		                        <div class="buy-course mt-3">
-		                            <a class="btn" href="#">ADD to cart</a>
-		                        </div><!-- .buy-course -->
-		                        <div class="buy-course mt-3">
-		                            <a class="btn" href="#">ADD to wish</a>
-		                        </div><!-- .buy-course -->
-		                    </div><!-- .course-info -->
-		
-		                    <div class="single-course-cont-section">
-	                        <h2>학습목표</h2>
+	                        <div class="course-cats mt-3">
+	                            <label class="m-0">Categories</label>
+	                            <div class="author-name"><a href="#">{{subject.sub_category.sub_name}}</a></div>
+	                        </div><!-- .course-cats -->
 	
-	                        <ul class="p-0 m-0 green-ticked" v-for="goal in subject.goals">
-	                            <li>{{goal.goal_name}}</li>
-	                        </ul>
+	                        <div class="course-students mt-3">
+	                            <label class="m-0">price</label>
+	                            <div class="author-name"><span>₩{{subject.subject_price.toLocaleString('ko-KR')}}</span></div>
+	                        </div><!-- .course-students -->
 	
-	                        <h2>준비물</h2>
-	                        <ul class="p-0 m-0 black-doted"  v-for="requirement in subject.requirements">
-	                            <li>{{requirement.requirement_name}}</li>
-	                        </ul>
+	                        <div class="buy-course mt-3">
+	                            <a class="btn" href="#">ADD to cart</a>
+	                        </div><!-- .buy-course -->
+	                        <div class="buy-course mt-3">
+	                            <a class="btn" href="#">ADD to wish</a>
+	                        </div><!-- .buy-course -->
+	                    </div><!-- .course-info -->
 	
-	                        <h2>설명</h2>
-	                        {{detail}}
-	                    </div>
-	                    
+	                    <div class="single-course-cont-section">
+                        <h2>학습목표</h2>
+
+                        <ul class="p-0 m-0 green-ticked" v-for="goal in subject.goals">
+                            <li>{{goal.goal_name}}</li>
+                        </ul>
+
+                        <h2>준비물</h2>
+                        <ul class="p-0 m-0 black-doted"  v-for="requirement in subject.requirements">
+                            <li>{{requirement.requirement_name}}</li>
+                        </ul>
+
+                        <h2>설명</h2>
+                        <div v-html="detail"></div>
+                    </div>
+                    
+
+                    <div class="single-course-accordion-cont mt-3" id="test213">
+                        <header class="entry-header flex flex-wrap justify-content-between align-items-center">
+                            <h2>강의내용</h2>
+                        </header><!-- .entry-header -->
+
+                        <div class="entry-contents">
+                            <div class="accordion-wrap type-accordion" id="sectoin-content">
+                                <!-- 섹션 vue 올곳 -->
+								<template v-for="subject in subject.sectionList">
+									<section_item :key="subject.subject_idx" :item="subject" />
+								</template>
+								
 	
-	                    <div class="single-course-accordion-cont mt-3" id="test213">
-	                        <header class="entry-header flex flex-wrap justify-content-between align-items-center">
-	                            <h2>강의내용</h2>
-	                        </header><!-- .entry-header -->
-	
-	                        <div class="entry-contents">
-	                            <div class="accordion-wrap type-accordion" id="sectoin-content">
-	                                <!-- 섹션 vue 올곳 -->
-									<template v-for="subject in subject.sectionList">
-										<section_item :key="subject.subject_idx" :item="subject" />
-									</template>
-									
-		
-	                            </div>
-	                        </div><!-- .entry-contents -->
-	                    </div><!-- .single-course-accordion-cont  -->
-	
-	                    <div class="related-courses">
-	                        <header class="entry-heading flex flex-wrap justify-content-between align-items-center">
-	                            <h2 class="entry-title">수강평</h2>
-	                        </header><!-- .entry-heading -->
-	
-	                        <div class="row mx-m-25">
-	                        	<!-- 수강평올곳 -->
-	                        </div><!-- .row -->
-	                    </div><!-- .related-course -->
-	                </div><!-- .single-course-wrap -->
-	            </div><!-- .col -->
-	        </div><!-- .row -->
-        </div>
+                            </div>
+                        </div><!-- .entry-contents -->
+                    </div><!-- .single-course-accordion-cont  -->
+					<div class="mt-3">
+						<%if(teacher!=null){ %>
+							<button v-if="subject.teacher.teacher_idx == ${teacher.teacher_idx}" type="button" class="btn btn-primary" @click="update()">수정하기</button>
+						<%} %>
+						<%if(admin!=null){ %>
+							<button v-if="subject.subject_permission==1" type="button" class="btn btn-primary" @click="request()">승인하기</button>
+							<button v-if="subject.subject_permission==1" type="button" class="btn btn-primary" @click="reject()">거부하기</button>
+						<%} %>
+						
+					</div>
+                    <div class="related-courses">
+                        <header class="entry-heading flex flex-wrap justify-content-between align-items-center">
+                            <h2 class="entry-title">수강평</h2>
+                        </header><!-- .entry-heading -->
+
+                        <div class="row mx-m-25">
+                        	<!-- 수강평올곳 -->
+                        </div><!-- .row -->
+                    </div><!-- .related-course -->
+                </div><!-- .single-course-wrap -->
+            </div><!-- .col -->
+        </div><!-- .row -->
     </div>
 	
 	<!-- clients_logo -->
@@ -186,12 +203,35 @@ $(function(){
 			detail:""
 		},components:{
 			section_item	
+		},methods:{
+			update:function(){
+				console.log("실행");
+				location.href="/teacher/subject/regist/goal/${subject_idx}";
+			},request:function(){
+				$.ajax({
+					url:"/admin/rest/subject/request",
+					type:"post",
+					data:{
+						subject_idx:${subject_idx}	
+					},success:function(result){
+						alert("승인 완료");
+					}
+				});
+			},reject:function(){
+				$.ajax({
+					url:"/admin/rest/subject/reject",
+					type:"post",
+					data:{
+						subject_idx:${subject_idx}	
+					},success:function(result){
+						alert("거부완료");
+					}
+				});
+			}
 		},updated:function(){
 			this.imgurl="${imgUri}/"+this.subject.subject_pic;
 			this.detail = $(this.subject.subject_detail).html();
 		}
-	});
-	let testApp = new Vue({
 	});
 	init();
 });

@@ -26,4 +26,9 @@ public interface SubjectService {
 	public void delete(int subject_idx);
 	public void subjectRequest(int subject_idx);
 	public void updateAccess(Subject subject);
+	public Map<String, Object> selectAllAccessList(int page);
+	public Map<String, Object> selectAllPermissionRequestList(int page);
+	public void updatePermission(int subject_idx);
+	public List<Subject> selectAllByTopCategory(int top_category_idx);
+	public void updatePermissionReject(int subject_idx);
 }

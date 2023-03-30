@@ -69,7 +69,7 @@
                                 <!-- - - - -디비에 저장된 회원들이 출력 될 곳 - - - - - - -->
                                 <tbody>
                                 	<template v-for="member in memberList">
-                                		<row :key="member.member_idx" :member="member"/>
+                                		<row :key="member.member_idx" :member="member" :picture="member.ProfilePhoto.profile_photo"/>
                                 	</template>
                                 </tbody>
                             </table>
@@ -105,21 +105,20 @@ const row={
 	template:`
 	 <tr>
         <td class="py-1">
-            <img :src="'/resources/admin/data/admin.png'" alt="image">
+            <img :src="obj.getProfilePhoto().getProfile_photo()" alt="image">
         </td>
         <td @click="getDetail(obj.member_idx)"><a href="#">{{obj.member_nickname}}</a></td>
         <td>{{obj.sns.sns_type}}</td>
         <td>{{obj.email.email_addr}}</td>
         <td>
-            <label class="badge badge-info">일반회원</label>
+            <label class="badge badge-info">활동회원</label>
         </td>
     </tr>
 	`, 
 	props:['member'],
 	data(){
 		return {
-			obj:this.member
-			
+			obj:this.member,
 		};	
 		
 	}, 
@@ -130,6 +129,7 @@ const row={
 		}
 	}
 };
+
 
 
 //목록가져오기 
@@ -155,6 +155,7 @@ function init(){
 		}
 	});
 }
+
 
 $(function () {
 	init();

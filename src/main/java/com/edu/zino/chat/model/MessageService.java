@@ -10,5 +10,5 @@ public interface MessageService {
 	public List<Message> seleckByCheck(Message message);
 	public List<Message> selectChat(Message message);
 	public void insert(Message message);
-	public void updateCheck(Message message);
+	public void updateCheck(List<Message> messages);
 }

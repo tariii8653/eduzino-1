@@ -45,8 +45,10 @@ public class MessageServiceImpl implements MessageService {
 
 	//읽었는지 체크
 	@Override
-	public void updateCheck(Message message) throws MessageException {
-		messageDAO.updateCheck(message);
+	public void updateCheck(List<Message> messages) throws MessageException {
+		for(Message message : messages) {
+			messageDAO.updateCheck(message);			
+		}
 	}
 
 }
