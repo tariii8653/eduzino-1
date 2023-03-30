@@ -33,6 +33,7 @@
     border: 1px solid #ebebeb;
     border-top: 0;
     background: #fff;
+    height: 115px;
 }
 .zino-subject-list-item-body .zino-subject-list-item-title{
 	margin: 5px 0 0 0;
@@ -134,11 +135,11 @@ const subject_item ={
      			</figure>
  			</div>
  			<div class="zino-subject-list-item-body">
-			<div class="progress">
+			<div v-if="item.subject_permission != 2"  class="progress">
 				<div class="progress-bar bg-success" role="progressbar" v-bind:style="styleObject" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
  				<div>
-     				<h2 v-if="item.subject_permission == 1" class="zino-subject-list-item-title"><a :href="subjectDetailPage">{{item.subject_title}}</a></h2>
+     				<h2 v-if="item.subject_permission == 2" class="zino-subject-list-item-title"><a :href="subjectDetailPage">{{item.subject_title}}</a></h2>
      				<h2 v-else class="zino-subject-list-item-title">
      					<a v-if="item.subject_title !=null" :href="subjectEditPage">{{item.subject_title}}</a>
      					<a v-else :href="subjectEditPage">제목이 없습니다.</a>

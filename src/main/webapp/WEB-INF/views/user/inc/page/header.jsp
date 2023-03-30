@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-
 <header class="site-header">
     <header class="site-header">
         <div class="nav-bar">
@@ -14,6 +13,11 @@
                     <div class="col-3 col-lg-9 flex justify-content-end align-content-center" style="display: content;">
                         <nav class="site-navigation flex justify-content-end align-items-center">
                             <ul class="flex flex-column flex-lg-row justify-content-lg-end align-content-center">
+                                <li><a href="/subject/category/1">IT</a></li>
+                                <li><a href="/subject/category/2">디자인</a></li>
+                                <li><a href="/subject/category/3">마케팅</a></li>
+                                <li><a href="/subject/category/4">외국어</a></li>
+                                <li><a href="/subject/category/5">edu</a></li>
                             <!-- 
                                 <li>
                                 	<a href="#">IT</a>

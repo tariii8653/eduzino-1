@@ -216,6 +216,12 @@ public class SubjectServiceImpl implements SubjectService {
 	public void updatePermission(int subject_idx) {
 		subjectDAO.updatePermission(subject_idx);
 	}
+	@Override
+	public List<Subject> selectAllByTopCategory(int top_category_idx) {
+		return subjectDAO.selectAllByTopCategory(top_category_idx);
+	}
+	
+	
 	
 
 

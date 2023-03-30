@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/subject")
 public class SubjectController {
 	
-	@GetMapping("/category/{category_idx}")
-	public ModelAndView getSubjectPage(HttpServletRequest request,@PathVariable("category_idx")int category_idx) {
+	@GetMapping("/category/{top_category_idx}")
+	public ModelAndView getSubjectPage(HttpServletRequest request,@PathVariable("top_category_idx")int category_idx) {
 		return new ModelAndView("/user/subject/subject-list");
 	}
 	

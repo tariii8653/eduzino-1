@@ -101,6 +101,11 @@ public class MybatisSubjectDAO implements SubjectDAO {
 		sqlSessionTemplate.update("Subject.updatePermission", subject_idx);
 	}
 
+	@Override
+	public List<Subject> selectAllByTopCategory(int top_category_idx) {
+		return sqlSessionTemplate.selectList("Subject.selectAllByTopCategory",top_category_idx);
+	}
+
 
 
 }

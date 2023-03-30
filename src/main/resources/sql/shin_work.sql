@@ -168,6 +168,14 @@ select * from subject
 delete subject
 select * from video
 
+select * from TOP_CATEGORY
+select * from mid_category
+select * from subject where sub_category_idx = (select sub_category_idx from mid_category where mid_category_idx= (select mid_category_idx from mid_category where top_category_idx=1)) 
+
+
+
+
+select * from sub_category where mid_category_idx=
 
 select rowNum, subject_idx, subject_title, subject_subTitle, subject_pic, subject_price, subject_detail, teacher_idx, sub_category_idx
 		from (select * from subject where (subject_access = 0 or subject_access = 1) AND subject_permission = 1 order by subject_idx desc) 
