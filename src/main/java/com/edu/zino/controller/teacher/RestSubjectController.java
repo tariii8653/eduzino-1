@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.edu.zino.domain.Cart;
 import com.edu.zino.domain.Goal;
+import com.edu.zino.domain.Member;
 import com.edu.zino.domain.Requirement;
 import com.edu.zino.domain.Section;
 import com.edu.zino.domain.Subject;
+import com.edu.zino.domain.Wish;
 import com.edu.zino.model.teacher.SubjectService;
+import com.edu.zino.model.user.CartService;
+import com.edu.zino.model.user.WishService;
+import com.edu.zino.util.MessageUtil;
 
 @RestController
 @RequestMapping("/rest")
@@ -33,6 +40,11 @@ public class RestSubjectController {
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private SubjectService subjectService;
+	
+	@Autowired
+	private CartService cartService;
+	@Autowired
+	private WishService wishService;
 	
 	@PostMapping("/subject/{subject_idx}/goals-requirements")
 	public ResponseEntity<String> inserGoalAndRequirement(HttpServletRequest request,@PathVariable int subject_idx,String[] goals,String[] requirements){
@@ -143,8 +155,49 @@ public class RestSubjectController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	//기본 장바구니 추가
+		@PostMapping("/subject/addtocart")
+		public ResponseEntity<MessageUtil> registCart(HttpServletRequest request, Subject subject){	
+			
+			HttpSession session = request.getSession();
+			Member member = (Member)session.getAttribute("member");
+			
+			Cart cart = new Cart();
+			cart.setMember(member);
+			cart.setSubject(subject);
+			
+			//3단계
+			cartService.insert(cart);
+				
+			//4단계
+			MessageUtil msg = new MessageUtil();
+			msg.setMsg("장바구니 등록 성공");
+			
+			ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
+			return entity;
+		}	
+		
 	
-	
-	
+		//기본 찜 등록
+		@PostMapping("/subject/addtowish")
+		public ResponseEntity<MessageUtil> registWish(HttpServletRequest request,  Subject subject){	
+			
+			HttpSession session = request.getSession();
+			Member member = (Member)session.getAttribute("member");
+			
+			Wish wish = new Wish();
+			wish.setMember(member);
+			wish.setSubject(subject);
+			
+			//3단계
+			wishService.insert(wish);
+				
+			//4단계
+			MessageUtil msg = new MessageUtil();
+			msg.setMsg("찜 등록 성공");
+			
+			ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
+			return entity;
+		}	
 	
 }
