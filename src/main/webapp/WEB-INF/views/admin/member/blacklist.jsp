@@ -41,16 +41,12 @@
        <button type="button" class="btn btn-outline-primary btn-icon-text">
                             <i class="mdi mdi-email-variant btn-icon-prepend"></i> Send Mail </button>
         </div>
-        <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
-          <button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
-            <i class="mdi mdi-circle"></i> Add Prodcut </button>
-        </div>
       </div>
 	<!-- *********************상단 버튼들************************** -->
             
 	<!-- **********************회원 테이블************************** -->
 	
-	<div class="card-body">
+	<div class="card-body"  >
 		<h4 class="card-title">Striped Table</h4>
 		<div class="table-responsive">
 			<table class="table table-striped">
@@ -70,11 +66,20 @@
 						<td class="py-1">
 							<img src="../../assets/images/faces-clipart/pic-1.png" alt="image">
 						</td>
-						<td><a href="/admin/member/blackdetail"> Herman Beck</a></td>
-						<td>doky@eduzino.com</td>
-						<td>비방, 욕설</td>
-						<td> 23-03-23</td>
-					</tr>						
+						<td @click="getDetail(obj.member_idx)"><a href="#">doky</a></td>
+						<td>doky126@gmail.com</td>
+						<td>회원 비방</td>
+						<td>2023-03-29 02:58:17.0</td>
+					</tr>	
+					<tr>
+						<td class="py-1">
+							<img src="../../assets/images/faces-clipart/pic-1.png" alt="image">
+						</td>
+						<td @click="getDetail(obj.member_idx)"><a href="#">yuna</a></td>
+						<td>yuna0118@gmail.com</td>
+						<td>영업 시도</td>
+						<td>2023-03-28 07:44:42.0</td>
+					</tr>			
 				</tbody>
 			</table>
 		</div>
@@ -109,10 +114,10 @@ const row={
 		<td class="py-1">
 			<img src="../../assets/images/faces-clipart/pic-1.png" alt="image">
 		</td>
-		<td><a href="/admin/member/blackdetail"> Herman Beck</a></td>
-		<td>doky@eduzino.com</td>
-		<td>비방, 욕설</td>
-		<td> 23-03-23</td>
+		<td @click="getDetail(obj.member_idx)"><a href="#">{{obj.member_nickname}}</a></td>
+		<td>{{obj.email.email_addr}}</td>
+		<td>{{obj.blacklist.blacklist_memo}}</td>
+		<td> {{obj.blacklist.pause}}</td>
 	</tr>
 	`, 
 	props:['member'],
@@ -135,7 +140,7 @@ const row={
 //목록가져오기 
 function getList(){
 	$.ajax({
-		url:"/admin/rest/member",
+		url:"/admin/rest/member/blacklist",
 		type:"get",
 		success:function(result, status, xhr){
 			console.log("서버에서 전송된 결과 : ", result);

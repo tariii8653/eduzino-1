@@ -184,7 +184,7 @@ function toBlacklist(){
 		url:"/admin/member/blacklist",
 		data:{
 			"member_idx":<%=member.getMember_idx()%>
-			"blacklist_memo": 
+		
 		},
 		success: function(data, status, xhr){
 			console.log(data);

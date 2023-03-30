@@ -26,10 +26,8 @@ import com.edu.zino.domain.Email;
 import com.edu.zino.domain.Member;
 import com.edu.zino.domain.ProfilePhoto;
 import com.edu.zino.domain.Sns;
-import com.edu.zino.domain.Teacher;
 import com.edu.zino.model.member.MemberService;
 import com.edu.zino.model.member.SnsService;
-import com.edu.zino.model.teacher.TeacherService;
 import com.edu.zino.snslogin.GoogleLogin;
 import com.edu.zino.snslogin.GoogleOAuthToken;
 import com.edu.zino.snslogin.KaKaoLogin;
@@ -62,9 +60,6 @@ public class MemberController {
 	
 	@Autowired
 	private NaverLogin naverLogin;
-	
-	@Autowired
-	private TeacherService teacherService;
 	
 	//회원가입, 로그인 폼 요청처리
 	@GetMapping("/member/loginform")
@@ -225,46 +220,12 @@ public class MemberController {
 				memberService.insert(member);
 				
 			} else{
-				member = new Member();
-				//member.setMember_idx(member_idx);   ------------------------------------------------
-				member.setMember_id(id);		//고유id 가져오기 
-				member.setMember_nickname(nickname);	//닉네임 가져오기 
-				
-				//---여기서 넣어주려고 객체를 가지고 왔음---- 
-				Email email = new Email();
-				email.setEmail_addr((String)userMap.get("email"));	//메일 가져오기
-				
-				
-				ProfilePhoto profilePhoto = new ProfilePhoto();
-				profilePhoto.setProfile_photo(picture);		//프사 picture로 가져오기 
-				
-				
-				Sns sns = snsService.selectByIdx(1);
-				member.setSns(sns);		//sns유형 담기
-				member.setEmail(email);
-				member.setProfilePhoto(profilePhoto);
-				 
+				member=memberService.selectById(id);
 				//정보 출력해보기
-				logger.info("넣을 고유 id : " + id);
-				logger.info("넣을 nickname : " + nickname);
-				logger.info("넣을 메일주소 : " + email);
-				logger.info("넣을 프로필사진 : " + profilePhoto);
-				logger.info("넣을 sns_idx : "+sns);
 			}
 			
 			//세션에 담기 (자동 로그인 할 수 있게)
 			session.setAttribute("member", member);
-			logger.info("member : "+member);
-			Teacher teacher = teacherService.select(member.getMember_idx());
-			logger.info("member : "+teacher);
-			/*if(teacher != null) {
-				session.setAttribute("teacher", teacher);
-			}*/
-			//추후 지워야함
-			Teacher tempTeacher = new Teacher();
-			tempTeacher.setMember(member);
-			tempTeacher.setTeacher_idx(2);
-			session.setAttribute("teacher", tempTeacher);
 		
 			//완료하면 메인으로 돌아가기 
 			ModelAndView mav = new ModelAndView("redirect:/");
@@ -440,32 +401,7 @@ public class MemberController {
 				
 			} else{
 				
-				member = new Member();
-				member.setMember_id(id);		//고유id 가져오기 
-				member.setMember_nickname(nickname);	//닉네임 가져오기 
-				
-				Email email = new Email();
-				email.setEmail_addr((String)kakao_account.get("email"));	//메일 가져오기
-				
-				ProfilePhoto profilePhoto = new ProfilePhoto();
-				profilePhoto.setProfile_photo(profile_image);		//프사 picture로 가져오기 
-				
-				Birthday birthday = new Birthday();
-				birthday.setAge(age_range);			//연령대 (생일)가져오기
-				
-				Sns sns = snsService.selectByIdx(2);
-				member.setSns(sns);		//sns유형 담기
-				member.setEmail(email);
-				member.setProfilePhoto(profilePhoto);
-				member.setBirthday(birthday);
-				
-				//정보 출력해보기
-				logger.info("넣을 고유 id : " + id);
-				logger.info("넣을 nickname : " + nickname);
-				logger.info("넣을 메일주소 : " + email);
-				logger.info("넣을 프로필사진 : " + profilePhoto);
-				logger.info("넣을 연령대 : " + birthday);
-				logger.info("넣을 snsType: " + sns);
+				member = memberService.selectById(id);
 				
 			}
 			
@@ -670,6 +606,8 @@ public class MemberController {
 			return mav;
 		}
 }
+
+
 
 
 

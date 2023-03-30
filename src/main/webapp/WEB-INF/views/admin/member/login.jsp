@@ -4,40 +4,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Dashboard</title>
+<title>Admin Login</title>
 <%@ include file="../inc/header_link.jsp"%>
 </head>
-<body class="hold-transition">
-	<div class="wrapper p-5">
-		<!-- 로그인 폼  Card Begin -->
-		<div class="card card-info">
-		    <div class="card-header">
-		        <h3 class="card-title">관리자 로그인</h3>
-		    </div>
-		    <!-- /.card-header -->
-		    <!-- form start -->
-		    <form class="form-horizontal" id="form1">
-		        <div class="card-body">
-		            <div class="form-group row">
-		                <div class="col">
-		                    <input type="text" class="form-control" placeholder="관리자 ID" name="admin_id">
-		                </div>
-		            </div>
-		            <div class="form-group row">
-		                <div class="col">
-		                    <input type="password" class="form-control" placeholder="Password" name="admin_pass">
-		                </div>
-		            </div>
-		        </div>
-		        <!-- /.card-body -->
-		        <div class="card-footer">
-		            <button type="button" class="btn btn-info" id="bt_login">로그인</button>
-		            <button type="button" class="btn btn-default float-right">메인으로</button>
-		        </div>
-		        <!-- /.card-footer -->
-		    </form>
-		</div>		
-		<!-- 로그인 폼  Card End -->
+<body>
+	<div class="container p-5 mt-10">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<!-- 로그인 폼  Card Begin -->
+			<div class="col-md-9">
+			    <div class="card-header">
+			        <h3 class="card-title">관리자 로그인</h3>
+			    </div>
+			    <!-- /.card-header -->
+			    <!-- form start -->
+			    <form class="form-horizontal" id="form1">
+			        <div class="card-body">
+			            <div class="form-group row">
+			                <div class="col">
+			                    <input type="text" class="form-control" placeholder="관리자 ID" name="admin_id">
+			                </div>
+			            </div>
+			            <div class="form-group row">
+			                <div class="col">
+			                    <input type="password" class="form-control" placeholder="Password" name="admin_pass">
+			                </div>
+			            </div>
+			        </div>
+			        <!-- /.card-body -->
+			        <!-- **********************버튼************************** -->
+			        <div class="card-footer">
+			            <button type="button" class="btn btn-primary btn-rounded btn-fw"  id="bt_login"> 로그인 </button>
+						<button type="button" class="btn btn-success btn-rounded btn-fw float-right" id="bt_main"> 홈페이지 </button>
+			        </div>
+			        <!-- **********************버튼************************** -->
+			        <!-- /.card-footer -->
+			    </form>
+			</div>		
+			<!-- 로그인 폼  Card End -->
+			<div class="col-md-1"></div>
+		</div>
 	</div>
 	<!-- ./wrapper -->
 	<%@ include file="../inc/footer_link.jsp" %>
@@ -51,7 +57,7 @@ function login(){
 		data: formData,
 		success:function(result, status, xhr){
 			alert(result.msg);
-			location.href="/admin/main"
+			location.href="/admin/index"
 		},
 		
 		error:function(xhr, status, err){
@@ -65,7 +71,14 @@ $(function(){
 	$("#bt_login").click(function(){
 		login();		
 	});
+	
+	//정지회원 목록으로 
+	 $("#bt_main").click(function(){
+			location.href="/";
+	});
 });
+
+
 
 </script>
 </body>
