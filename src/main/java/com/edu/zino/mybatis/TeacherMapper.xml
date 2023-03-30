@@ -4,7 +4,7 @@
 	<resultMap type="Teacher" id="teacherMap">
 		<id column="teacher_idx" property="teacher_idx"/>
 		
-		<association property="member" column="member_idx" javaType="Member" select="Member.selectByTeacher"></association>
+		<association property="member" column="member_idx" javaType="Member" select="Member.selectByTeacher" />
 	</resultMap>
 
 	<!-- 강사 한명 조회하기 -->
