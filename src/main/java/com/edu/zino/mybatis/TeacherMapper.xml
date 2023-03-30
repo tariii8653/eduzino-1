@@ -34,6 +34,8 @@
         select * from teacher where teacher_idx=#{teacher_idx}
     </select>
     
+   
+    
     <!--수정할 필요 없음 -->
 
     <!--한 건 삭제하기 
