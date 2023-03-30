@@ -86,7 +86,7 @@
 	                            <a class="btn" onclick="addToCart()">ADD to cart</a>
 	                        </div><!-- .buy-course -->
 	                        <div class="buy-course mt-3">
-	                            <a class="btn" href="#">ADD to wish</a>
+	                            <a class="btn" onclick="addToWish()">ADD to wish</a>
 	                        </div><!-- .buy-course -->
 	                    </div><!-- .course-info -->
 	
@@ -185,18 +185,34 @@ const section_item ={
 	
 function addToCart(){
 		$.ajax({
-		url:"rest/cart/regist_cart",
+		url:"/teacher/rest/subject/addtocart",
 		type:"POST",
 		contentType:"application/json",
-		data:JSON.stringify(subjectApp.subject);
+		data:JSON.stringify(subjectApp.subject),
 		success:function(result,status,xhr){
 			console.log("장바구니에 담겼습니다.");
 			if(confirm("장바구니로 이동하시겠습니까?")){
-				location.href="/cart/list";
+				location.href="user/cart/list";
 			}
 		}
 	});
 	
+}
+
+function addToWish(){
+	$.ajax({
+	url:"/teacher/rest/subject/addtowish",
+	type:"POST",
+	contentType:"application/json",
+	data:JSON.stringify(subjectApp.subject),
+	success:function(result,status,xhr){
+		console.log("찜목록에 담겼습니다.");
+		if(confirm("찜으로 이동하시겠습니까?")){
+			location.href="/user/cart/wishlist";
+		}
+	}
+});
+
 }
 	
 

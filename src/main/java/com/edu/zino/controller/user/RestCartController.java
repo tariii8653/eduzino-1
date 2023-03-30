@@ -64,27 +64,6 @@ public class RestCartController {
 	}
 	
 	
-	//기본 장바구니 추가
-	@PostMapping("/cart/regist_cart")
-	public ResponseEntity<MessageUtil> registCart(HttpServletRequest request, Subject subject){	
-		
-		HttpSession session = request.getSession();
-		Member member = (Member)session.getAttribute("member");
-		
-		Cart cart = new Cart();
-		cart.setMember(member);
-		cart.setSubject(subject);
-		
-		//3단계
-		cartService.insert(cart);
-			
-		//4단계
-		MessageUtil msg = new MessageUtil();
-		msg.setMsg("장바구니 등록 성공");
-		
-		ResponseEntity entity = new ResponseEntity<MessageUtil>(msg,HttpStatus.OK);
-		return entity;
-	}	
 	
 	
 	//장바구니 삭제
