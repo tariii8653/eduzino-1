@@ -111,6 +111,7 @@ public class RestSubjectController {
 	@GetMapping("/subject/{subject_idx}")
 	public ResponseEntity<Subject> getSubject(@PathVariable("subject_idx") int subject_idx){
 		Subject subject = subjectService.select(subject_idx);
+		logger.info("여기인가? : "+subject);
 		ResponseEntity<Subject> entity = new ResponseEntity<Subject>(subject,HttpStatus.OK);
 		return entity;
 	}

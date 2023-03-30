@@ -1,5 +1,7 @@
 package com.edu.zino.controller.user;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -9,11 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.edu.zino.domain.TopCategory;
+import com.edu.zino.model.root.TopCategoryService;
 import com.edu.zino.model.member.MemberService;
 
 @Controller
 public class UserController {
 	
+	@Autowired
+	private TopCategoryService topCategoryService;
 	private Logger logger=LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
@@ -21,7 +27,9 @@ public class UserController {
 		
 	@GetMapping("/")
 	public ModelAndView getIndex(HttpServletRequest request) {
+		List<TopCategory> topCategoryList= topCategoryService.selectAll();
 		ModelAndView mav = new ModelAndView("index");
+		mav.addObject("topCategoryList",topCategoryList);
 		return mav;
 	}
 	

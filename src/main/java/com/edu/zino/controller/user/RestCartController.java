@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,18 +52,31 @@ public class RestCartController {
 	
 	//카트목록 비동기로 가져오기
 	@GetMapping("/cart/list")
-	public List<Cart> getCartList(){
-		Member member=new Member();
-		member.setMember_idx(2);
+	public List<Cart> getCartList(HttpServletRequest request){
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
+		//Member member=new Member();
+		//member.setMember_idx(2);
+		
 		return cartService.selectAll(member);
 	}
 	
 	
 	//기본 장바구니 추가
 	@PostMapping("/cart/regist_cart")
-	public ResponseEntity<MessageUtil> registCart(HttpServletRequest request,  Cart[] cartList){	
+	public ResponseEntity<MessageUtil> registCart(HttpServletRequest request, Subject subject){	
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
+		Cart cart = new Cart();
+		cart.setMember(member);
+		cart.setSubject(subject);
+		
 		//3단계
-		cartService.regist(cartList);
+		cartService.insert(cart);
 			
 		//4단계
 		MessageUtil msg = new MessageUtil();
@@ -102,7 +116,7 @@ public class RestCartController {
 	
 	//order_id 만들기
 	@GetMapping("/cart/orderid")
-	public ResponseEntity<String> getOrderId(){
+	public ResponseEntity<String> getOrderId(HttpServletRequest request){
 		String orderId=fileManager.getRealTime();
 		ResponseEntity entity = new ResponseEntity<String>(orderId,HttpStatus.OK);
 		return entity;
@@ -113,9 +127,13 @@ public class RestCartController {
 	//찜목록 비동기로 가져오기
 	@GetMapping("/cart/wishlist")
 	@ResponseBody
-	public List<Cart> getWishList(){
-		Member member=new Member();
-		member.setMember_idx(2);
+	public List<Cart> getWishList(HttpServletRequest request){
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
+		//Member member=new Member();
+		//member.setMember_idx(2);
 		return wishService.selectAll(member);
 	}
 	
@@ -138,9 +156,13 @@ public class RestCartController {
 	@ResponseBody
 	public ResponseEntity<String> toCart(HttpServletRequest request, @RequestBody Wish[] wishList){
 		Cart[] cartList=new Cart[wishList.length];
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
 		//임시데이터
-		Member member1=new Member();
-		member1.setMember_idx(2);
+		//Member member1=new Member();
+		//member1.setMember_idx(2);
 		
 		for(int i=0; i<wishList.length; i++) {
 			Wish wish = new Wish();
@@ -155,7 +177,7 @@ public class RestCartController {
 			
 			Cart cart = new Cart();
 			cart.setSubject(subject);
-			cart.setMember(member1);
+			cart.setMember(member);
 			
 			//logger.info("cart는 "+cart);
 			

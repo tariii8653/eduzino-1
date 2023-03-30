@@ -10,8 +10,6 @@ CREATE TABLE member (
 
 
 
-
-
 CREATE TABLE sns_name(
 	sns_name_idx number primary key,
 	sns_type varchar2(20) not null

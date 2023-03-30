@@ -14,7 +14,6 @@
       <!-- partial:partials/_sidebar.html -->
       <jsp:include page="./inc/sidebar.jsp"></jsp:include>
       <!-- sidebar.html end  -->
-      
       <!-- partial  -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_settings-panel.html -->

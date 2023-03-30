@@ -24,14 +24,14 @@ REFERENCES grade (
 	grade_idx
 );
 
-ALTER TABLE mid_category ADD CONSTRAINT FK_top_category_TO_mid_category_1 FOREIGN KEY (
+ALTER TABLE mid_category ADD CONSTRAINT FK_top_category_mid_category FOREIGN KEY (
 	top_category_idx
 )
 REFERENCES top_category (
 	top_category_idx
 );
 
-ALTER TABLE section ADD CONSTRAINT FK_subject_TO_section_1 FOREIGN KEY (
+ALTER TABLE section ADD CONSTRAINT FK_subject_section FOREIGN KEY (
 	subject_idx
 )
 REFERENCES subject (
@@ -45,42 +45,42 @@ REFERENCES section (
 	section_idx
 );
 
-ALTER TABLE sub_category ADD CONSTRAINT FK_mid_category_TO_sub_category_1 FOREIGN KEY (
+ALTER TABLE sub_category ADD CONSTRAINT FK_mid_category_sub_category FOREIGN KEY (
 	mid_category_idx
 )
 REFERENCES mid_category (
 	mid_category_idx
 );
 
-ALTER TABLE goal ADD CONSTRAINT FK_subject_TO_goal_1 FOREIGN KEY (
+ALTER TABLE goal ADD CONSTRAINT FK_subject_goal FOREIGN KEY (
 	subject_idx
 )
 REFERENCES subject (
 	subject_idx
 );
 
-ALTER TABLE requirement ADD CONSTRAINT FK_subject_TO_requirement_1 FOREIGN KEY (
+ALTER TABLE requirement ADD CONSTRAINT FK_subject_requirement FOREIGN KEY (
 	subject_idx
 )
 REFERENCES subject (
 	subject_idx
 );
 
-ALTER TABLE subject ADD CONSTRAINT FK_teacher_TO_subject_1 FOREIGN KEY (
+ALTER TABLE subject ADD CONSTRAINT FK_teacher_subject FOREIGN KEY (
 	teacher_idx
 )
 REFERENCES teacher (
 	teacher_idx
 );
 
-ALTER TABLE subject ADD CONSTRAINT FK_sub_category_TO_subject_1 FOREIGN KEY (
+ALTER TABLE subject ADD CONSTRAINT FK_sub_category_subject FOREIGN KEY (
 	sub_category_idx
 )
 REFERENCES sub_category (
 	sub_category_idx
 );
-
-ALTER TABLE cart ADD CONSTRAINT FK_member_TO_cart_1 FOREIGN KEY (
+--------------------------------------------------------------------안했음-----------------------------------------
+ALTER TABLE cart ADD CONSTRAINT FK_member_cart FOREIGN KEY (
 	member_idx
 )
 REFERENCES member (

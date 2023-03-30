@@ -32,7 +32,7 @@
       <div class="collapse" id="ui-basic1">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+            <a class="nav-link" href="#">Buttons</a>
           </li>
         </ul>
       </div>
@@ -46,10 +46,13 @@
       <div class="collapse" id="ui-basic2">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">강의등록</a>
+            <a class="nav-link" href="/admin/subject/list/1">강의목록</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">강의목록</a>
+            <a class="nav-link" href="/admin/subject/list/request/1">강의승인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages/ui-features/buttons.html">영상관리</a>
           </li>
         </ul>
       </div>

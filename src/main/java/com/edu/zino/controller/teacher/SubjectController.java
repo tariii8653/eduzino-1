@@ -36,9 +36,7 @@ public class SubjectController {
 	
 	@GetMapping("/regist")
 	public ModelAndView registStart(HttpServletRequest request) {
-		Teacher teacher = new Teacher();//향후 세션에서 가져올예정
-		teacher.setTeacher_idx(1);
-		
+		Teacher teacher = (Teacher)request.getSession().getAttribute("teacher");
 		Subject subject = new Subject();
 		subject.setTeacher(teacher);
 		

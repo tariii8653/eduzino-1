@@ -151,6 +151,9 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 	@Override
 	public void delete(int subject_idx) {
+		goalDAO.deleteBySubject(subject_idx);
+		requirementDAO.deleteBySubject(subject_idx);
+		sectionDAO.deleteBySubject(subject_idx);
 		subjectDAO.delete(subject_idx);
 	}
 	@Override
@@ -161,6 +164,73 @@ public class SubjectServiceImpl implements SubjectService {
 	public void updateAccess(Subject subject) {
 		subjectDAO.updateAccess(subject);
 	}
+	@Override
+	public Map<String, Object> selectAllAccessList(int page) {
+		int pageSize=10;
+		int blockSize=10;
+		int startRow = (page-1)*pageSize+1;
+		int lastRow = startRow+pageSize-1;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("startRow", startRow);
+		map.put("lastRow", lastRow);
+		
+		List<Subject> subjectList = subjectDAO.selectAllAccessList(map);
+		int totalRecoard = subjectDAO.selectAllAccessRecoard();
+		
+		int totalPage = (int)Math.ceil((float)totalRecoard/pageSize);
+		int firstPage = page - (page - 1) % blockSize;
+		int lastPage = totalPage;
+		if(totalPage>firstPage+blockSize-1) lastPage = firstPage+blockSize-1;
+		
+		
+		map.put("subjectList", subjectList);
+		map.put("totalRecoard",totalRecoard);
+		map.put("totalPage",totalPage);
+		map.put("firstPage",firstPage);
+		map.put("lastPage",lastPage);
+		return map;
+	}
+	@Override
+	public Map<String, Object> selectAllPermissionRequestList(int page) {
+		int pageSize=10;
+		int blockSize=10;
+		int startRow = (page-1)*pageSize+1;
+		int lastRow = startRow+pageSize-1;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("startRow", startRow);
+		map.put("lastRow", lastRow);
+		
+		List<Subject> subjectList = subjectDAO.selectAllPermissionRequestList(map);
+		logger.info("subjectList : "+subjectList);
+		int totalRecoard = subjectDAO.selectAllAccessRecoard();
+		
+		int totalPage = (int)Math.ceil((float)totalRecoard/pageSize);
+		int firstPage = page - (page - 1) % blockSize;
+		int lastPage = totalPage;
+		if(totalPage>firstPage+blockSize-1) lastPage = firstPage+blockSize-1;
+		
+		
+		map.put("subjectList", subjectList);
+		map.put("totalRecoard",totalRecoard);
+		map.put("totalPage",totalPage);
+		map.put("firstPage",firstPage);
+		map.put("lastPage",lastPage);
+		return map;
+	}
+	@Override
+	public void updatePermission(int subject_idx) {
+		subjectDAO.updatePermission(subject_idx);
+	}
+	@Override
+	public List<Subject> selectAllByTopCategory(int top_category_idx) {
+		return subjectDAO.selectAllByTopCategory(top_category_idx);
+	}
+	@Override
+	public void updatePermissionReject(int subject_idx) {
+		subjectDAO.updatePermissionReject(subject_idx);
+	}
+	
+	
 	
 
 
