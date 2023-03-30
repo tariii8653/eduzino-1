@@ -219,10 +219,10 @@
 	//일간 버튼 클릭시 현재날짜까지 총 12일 조회
 	function dayClickInput(){
 		
-		start_date = y+"-"+todayMonth+"-"+(d-11);
-		end_date = y+"-"+todayMonth+"-"+d;
+		start_date = y+todayMonth+(d-11);
+		end_date = y+todayMonth+d;
 		
-		$("input[name=startendDate]").val(start_date+" ~ "+end_date);
+		$("input[name=startendDate]").val(y+"-"+todayMonth+"-"+(d-11)+" ~ "+y+"-"+todayMonth+"-"+d);
 		
 		getSales(start_date, end_date); //매출테이블 반영
 	}
@@ -240,10 +240,10 @@
 		}
 		let last = new Date(y,todayMonth,0);
 		
-		start_date = first.getFullYear()+"-"+firstMonth;
-		end_date = y+"-"+todayMonth;
+		start_date = first.getFullYear()+firstMonth;
+		end_date = y+todayMonth;
 		
-		$("input[name=startendDate]").val(start_date+"-"+firstDay+" ~ "+end_date+"-"+last.getDate());
+		$("input[name=startendDate]").val(first.getFullYear()+"-"+firstMont+"-"+firstDay+" ~ "+y+"-"+todayMonth+"-"+last.getDate());
 		
 		getSales(start_date, end_date); //매출테이블 반영
 		

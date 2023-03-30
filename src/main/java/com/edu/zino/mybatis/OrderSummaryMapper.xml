@@ -6,6 +6,11 @@
 		
 		<id column="order_summary_idx" property="order_summary_idx"/>
 			<result column="order_summary_regdate" property="order_summary_regdate" />
+			<result column="total_buy" property="total_buy" />
+			<result column="total_pay" property="total_pay" />
+			<result column="order_id" property="order_id" />
+			<result column="start_date" property="start_date" />
+			<result column="end_date" property="end_date" />
 			
 			
 		<association 

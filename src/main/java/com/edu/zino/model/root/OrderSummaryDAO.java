@@ -17,4 +17,15 @@ public interface OrderSummaryDAO {
 	public void insert(OrderSummary orderSummary);
 
 	public List selectAllByMemberTeacher(int member_idx); //회원별 강사내역 가져오기
+	
+	
+	//매출조회 (일간)
+	public List selectByDay(OrderSummary orderSummary);
+	
+	//매출조회 (월간)
+	public List selectByMonth(OrderSummary orderSummary);
+	
+	//매출조회 (년간)
+	public List selectByYear(OrderSummary orderSummary);
+	
 }

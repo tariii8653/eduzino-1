@@ -125,6 +125,17 @@ public class OrderServiceImpl implements OrderService{
 			return orderSummaryDAO.selectAllByMemberTeacher(member_idx);
 		}
 		
+		//매출 조회
+		@Override
+		public List selectByDate(OrderSummary orderSummary) {
+			
+			List<OrderSummary> orderSummaryList = null;
+			
+			
+			
+			return orderSummaryList;
+		}
+		
 		
 		
 		
@@ -132,6 +143,7 @@ public class OrderServiceImpl implements OrderService{
 	public List selectAll(int order_summary_idx) {
 		return orderDetailDAO.selectAll(order_summary_idx);
 	}
+
 
 	
 

@@ -28,6 +28,8 @@ public interface OrderService {
 	//회원별 강사내역 가져오기
 	public List selectAllByMemberTeacher(int member_idx);
 	
+	//매출조회 ()
+	public List selectByDate(OrderSummary orderSummary);
 	
 	
 
