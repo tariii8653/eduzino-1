@@ -52,7 +52,7 @@
 	              <div class="input-group width: 40%;">
 		                <input type="text" class="form-control border-0" placeholder="이름을 입력해주세요" name="member_nickname">
 		                <div class="input-group-prepend" id="bt_search">
-		                  	<i class="input-group-text border-0 mdi mdi-magnify"></i>
+		                  <i class="input-group-text border-0 mdi mdi-magnify"></i>
 		                </div>
               		</div>
          	   </form>

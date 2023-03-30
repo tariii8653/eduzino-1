@@ -18,4 +18,8 @@ public class OrderSummary {
 	//이 주문 상세내역
 	private List<OrderDetail> orderDetailList;
 	
+	//매출조회를 위한
+	private String start_date; //시작 날짜
+	private String end_date; //끝나는 날짜
+	
 }

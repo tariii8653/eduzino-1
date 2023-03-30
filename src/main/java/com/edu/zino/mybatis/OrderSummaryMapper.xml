@@ -48,6 +48,22 @@
 	 	select * from order_summary where member_idx=#{member_idx}
 	 </select>
 	 
+	 <!-- 매출조회 (일간) -->
+	<select id="selectByDay">
+		select DISTINCT s.order_summary_idx as order_summary_idx,
+		 to_char(order_summary_regdate, 'YYYYMMDD') as order_summary_regdate, sum(total_buy) as total_buy
+		from order_summary s, order_detail d 
+		where s.order_summary_idx = d.order_summary_idx
+		and subject_idx in (
+		    select subject_idx from subject where teacher_idx=#{teacher_idx}
+		) AND order_summary_regdate BETWEEN to_char(#{start_date}, 'YYYYMMDD') AND TO_DATE(#{end_date}, 'YYYYMMDD')
+		group by to_char(order_summary_regdate, 'YYYYMMDD')
+		order by to_char(order_summary_regdate, 'YYYYMMDD') asc
+		
+	</select>
+	 <!-- 매출조회 (월간) -->
+
+	 <!-- 매출조회 (년간) -->
 	 
 	 
 	<!-- 주문 한건 가져오기 -->
@@ -125,4 +141,5 @@
 			</selectKey>
 		
 		 </insert>
+		 
 </mapper>

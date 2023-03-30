@@ -41,9 +41,6 @@
           <li class="nav-item">
             <a class="nav-link" href="/teacher/chat/message">메세지</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages/ui-features/buttons.html">수강생공지사항</a>
-          </li>
         </ul>
       </div>
     </li>

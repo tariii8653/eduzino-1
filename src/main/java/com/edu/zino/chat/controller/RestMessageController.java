@@ -111,8 +111,6 @@ public class RestMessageController {
 		return chatList;
 	}
 	
-	
-	
 	//유저가 채팅방 생성
 	@PostMapping("/user/chat/message")
 	public Chat insertMember(HttpServletRequest request, @RequestBody Chat chat){

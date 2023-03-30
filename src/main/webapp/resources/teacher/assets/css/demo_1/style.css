@@ -15261,12 +15261,12 @@ dl {
 }
 
 /*달력관련*/
-input[type="month"] {
+.typeDate {
     border: none;
     outline: none;
 }
 
-input[type="date"] {
+.typeDate {
 	border: 1px solid;
     font-size: 12px;
     font-family: "Open Sans", sans-serif;
