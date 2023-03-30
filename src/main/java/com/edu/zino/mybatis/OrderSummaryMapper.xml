@@ -49,22 +49,46 @@
 	 </select>
 	 
 	 <!-- 매출조회 (일간) -->
-	<select id="selectByDay">
+	<select id="selectByDay" parameterType="OrderSummary" resultMap="orderSummaryMap">
 		select DISTINCT s.order_summary_idx as order_summary_idx,
-		 to_char(order_summary_regdate, 'YYYYMMDD') as order_summary_regdate, sum(total_buy) as total_buy
+		 to_char(order_summary_regdate, 'DD') as order_summary_regdate, sum(total_buy) as total_buy
 		from order_summary s, order_detail d 
 		where s.order_summary_idx = d.order_summary_idx
 		and subject_idx in (
 		    select subject_idx from subject where teacher_idx=#{teacher_idx}
-		) AND order_summary_regdate BETWEEN to_char(#{start_date}, 'YYYYMMDD') AND TO_DATE(#{end_date}, 'YYYYMMDD')
-		group by to_char(order_summary_regdate, 'YYYYMMDD')
-		order by to_char(order_summary_regdate, 'YYYYMMDD') asc
+		) AND order_summary_regdate BETWEEN to_char(#{start_date}, 'YYYYMMDD') AND to_char(#{end_date}, 'YYYYMMDD')
+		group by to_char(order_summary_regdate, 'DD')
+		order by to_char(order_summary_regdate, 'DD') asc
 		
 	</select>
+	
 	 <!-- 매출조회 (월간) -->
+	 <select id="selectByMonth" parameterType="OrderSummary" resultMap="orderSummaryMap">
+		select DISTINCT s.order_summary_idx as order_summary_idx,
+		 to_char(order_summary_regdate, 'MM') as order_summary_regdate, sum(total_buy) as total_buy
+		from order_summary s, order_detail d 
+		where s.order_summary_idx = d.order_summary_idx
+		and subject_idx in (
+		    select subject_idx from subject where teacher_idx=#{teacher_idx}
+		) AND order_summary_regdate BETWEEN to_char(#{start_date}, 'YYYYMM') AND to_char(#{end_date}, 'YYYYMM')
+		group by to_char(order_summary_regdate, 'MM')
+		order by to_char(order_summary_regdate, 'MM') asc
+		
+	</select>
 
 	 <!-- 매출조회 (년간) -->
-	 
+	 <select id="selectByYear" parameterType="OrderSummary" resultMap="orderSummaryMap">
+		select DISTINCT s.order_summary_idx as order_summary_idx,
+		 to_char(order_summary_regdate, 'YYYY') as order_summary_regdate, sum(total_buy) as total_buy
+		from order_summary s, order_detail d 
+		where s.order_summary_idx = d.order_summary_idx
+		and subject_idx in (
+		    select subject_idx from subject where teacher_idx=#{teacher_idx}
+		) AND order_summary_regdate BETWEEN to_char(#{start_date}, 'YYYY') AND to_char(#{end_date}, 'YYYY')
+		group by to_char(order_summary_regdate, 'YYYY')
+		order by to_char(order_summary_regdate, 'YYYY') asc
+		
+	</select>
 	 
 	<!-- 주문 한건 가져오기 -->
 	<select id="select" parameterType="int" resultType="OrderSummary">
