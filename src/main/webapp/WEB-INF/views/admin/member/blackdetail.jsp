@@ -1,4 +1,8 @@
+<%@page import="com.edu.zino.domain.Member"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%
+	Member member = (Member)request.getAttribute("member");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -46,38 +50,37 @@
                         <!-- *** 프로필 사진 *** -->
                         <div class="col-md-3">
                             <div style="width:200px">
-                                <img class="card-img-center" src="/resources/admin/data/profile1.png"
+                                <img class="card-img-center" src="<%=member.getProfilePhoto().getProfile_photo() %>"
                                     alt="Card image" style="width:100%">
                             </div>
                         </div>
                         <!-- *** 상세정보 *** -->
                         <div class="col-md-9">
-                        	<form id="form1">
-	                            <div class="card">
-	                                <div class="card-body">
-	                                    <form class="forms-sample">
-	                                        <div class="form-group row">
-	                                            <label class="col-sm-2 col-form-label">닉네임</label>
-	                                            <div class="col-sm-7">
-	                                                <input type="text" class="form-control" id="nickname" placeholder="nickname">
-	                                            </div>
-	                                        </div>
-	                                        <div class="form-group row">
-	                                            <label class="col-sm-2 col-form-label">이메일</label>
-	                                            <div class="col-sm-7">
-	                                                <input type="email" class="form-control" id="email" placeholder="Email">
-	                                            </div>
-	                                        </div>
-	                                        <div class="form-group row">
-	                                            <label class="col-sm-2 col-form-label">회원상태 </label>
-	                                            <div class="col-sm-7">
-	                                                <input type="text" class="form-control" id="age" placeholder="수강생 / 강사">
-	                                            </div>
-	                                        </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="forms-sample" id="form1">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">닉네임 :  </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" readonly class="form-control-plaintext" name="nickname" value="<%=member.getMember_nickname() %>" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">이메일 :  </label>
+                                            <div class="col-sm-9">
+                                                <input type="email" readonly class="form-control-plaintext" name="email" value="<%=member.getEmail().getEmail_addr()%>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">가입형태 : </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" readonly class="form-control-plaintext" name="age" value="<%=member.getSns().getSns_type()%>">
+                                            </div>
+                                        </div>
 	                                        <div class="form-group row">
 	                                            <label class="col-sm-2 col-form-label">정지일</label>
 	                                            <div class="col-sm-7">
-	                                                <input type="text" class="form-control" id="regdate" placeholder="Regdate">
+	                                                <input type="text" class="form-control" id="regdate" value="<%=member.getBlacklist().getPause() %>">
 	                                            </div>
 	                                        </div>
 	
@@ -85,7 +88,7 @@
 	                                        <div class="form-group row">
 	                                            <label class="col-sm-2 col-form-label">정지사유</label>
 	                                            <div class="col-sm-7">
-	                                               <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+	                                            	<textarea class="form-control" id="memo" rows="4"><%= member.getBlacklist().getBlacklist_memo() %></textarea>
 	                                            </div>
 	                                            <div class="col-sm-3">
 	                                                <button type="button" class="btn btn-outline-danger btn-icon-text" data-toggle="modal" data-target="#blackModal">
