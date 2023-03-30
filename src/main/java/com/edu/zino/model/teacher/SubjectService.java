@@ -30,4 +30,5 @@ public interface SubjectService {
 	public Map<String, Object> selectAllPermissionRequestList(int page);
 	public void updatePermission(int subject_idx);
 	public List<Subject> selectAllByTopCategory(int top_category_idx);
+	public void updatePermissionReject(int subject_idx);
 }

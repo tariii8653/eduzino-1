@@ -118,6 +118,10 @@
 		update subject set subject_permission=2 where subject_idx=#{subject_idx}
 	</update>
 	
+	<update id="updatePermissionReject" parameterType="int">
+		update subject set subject_permission=0 where subject_idx=#{subject_idx}
+	</update>
+	
 	<select id="selectAllByTopCategory" parameterType="int" resultMap="subjectTeacherMap">
 		SELECT s.subject_idx, s.subject_title, s.subject_subTitle, s.subject_pic, s.subject_price, s.subject_access, s.subject_detail, s.subject_permission, s.teacher_idx, s.sub_category_idx
 		FROM subject s

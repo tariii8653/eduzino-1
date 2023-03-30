@@ -21,5 +21,10 @@ public class RestSubjectController {
 		subjectService.updatePermission(subject_idx);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	@PostMapping("/subject/reject")
+	public ResponseEntity<Void> updatePermissionReject(int subject_idx){
+		subjectService.updatePermissionReject(subject_idx);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 	
 }

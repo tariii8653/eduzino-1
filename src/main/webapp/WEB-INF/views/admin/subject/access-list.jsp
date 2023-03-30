@@ -104,7 +104,14 @@
 								<div class="zino-subject-list-item-body">
 									<div>
 										<h2 class="zino-subject-list-item-title">
-											<a href="/teacher/subject/detail/${item.subject_idx}">${item.subject_title}</a>
+										
+											<c:if test="${not empty item.subject_title}">
+												<a href="/teacher/subject/detail/${item.subject_idx}">${item.subject_title}</a>
+											</c:if>
+											<c:if test="${empty item.subject_title}">
+												<a href="/teacher/subject/detail/${item.subject_idx}">제목이없습니다.</a>
+											</c:if>
+											
 										</h2>
 									</div>
 									<div class="zino-subject-list-item-teacher">

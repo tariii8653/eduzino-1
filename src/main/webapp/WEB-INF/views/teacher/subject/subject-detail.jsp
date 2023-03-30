@@ -129,6 +129,7 @@
 						<%} %>
 						<%if(admin!=null){ %>
 							<button v-if="subject.subject_permission==1" type="button" class="btn btn-primary" @click="request()">승인하기</button>
+							<button v-if="subject.subject_permission==1" type="button" class="btn btn-primary" @click="reject()">거부하기</button>
 						<%} %>
 						
 					</div>
@@ -214,6 +215,16 @@ $(function(){
 						subject_idx:${subject_idx}	
 					},success:function(result){
 						alert("승인 완료");
+					}
+				});
+			},reject:function(){
+				$.ajax({
+					url:"/admin/rest/subject/reject",
+					type:"post",
+					data:{
+						subject_idx:${subject_idx}	
+					},success:function(result){
+						alert("거부완료");
 					}
 				});
 			}
