@@ -54,9 +54,14 @@ public class CartServiceImpl implements CartService{
 
 	//카트 한 건만 삭제
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void delOneCart(int cart_idx) {
+	public void delOneCart(int cart_idx) throws CartException {
 		cartDAO.delOneCart(cart_idx);
 		
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void insert(Cart cart) throws CartException{
+		cartDAO.Insert(cart);
 	}
 
 
